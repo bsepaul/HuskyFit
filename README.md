@@ -1,5 +1,32 @@
 # UConnFit
 
+Below are instructions on how to access, modify and test the application - for developers of UConnFit
+
+# Git
+
+## Clone the repository
+
+    git clone https://github.com/bsepaul/UConnFit.git
+    cd UConnFit
+
+## Setting up Git branch
+
+Naming convention: 3 initials and type of branch
+
+    git branch <branch_name>
+    git checkout <branch_name>
+    git push --set-upstream origin <branch_name>
+    git pull origin HEAD
+
+### Example: Bridget's front-end branch
+
+    git branch bms-front
+    git checkout bms-front
+    git push --set-upstream origin bms-front
+    git pull origin HEAD
+
+# Testing the app
+
 ## Install expo application from App Store on mobile device
 
 Android Device - [Android Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent)
@@ -45,21 +72,3 @@ Install ruby gem bundler
 Install cocoapods
 
     gem install cocoapods       # may need to use sudo or brew if this fails
-
-# Git
-
-## Setting up Git branch
-
-Naming convention: 3 initials and type of branch
-
-    git branch <branch_name>
-    git checkout <branch_name>
-    git push --set-upstream origin <branch_name>
-    git pull origin HEAD
-
-### Example: Bridget's front-end branch
-
-    git branch bms-front
-    git checkout bms-front
-    git push --set-upstream origin bms-front
-    git pull origin HEAD
