@@ -53,7 +53,7 @@ Ensure your device is running ruby 2.7.6
 
 Install [ruby manager](https://github.com/rbenv/rbenv) if your device is running an older version of ruby
 
-     brew install ruby-build
+     brew install rbenv ruby-build
      rbenv init                     # close current terminal window and open a new one for changes to take effect
      rbenv install -l               # to list latest stable versions of ruby
      rbenv install <version no>
@@ -67,7 +67,7 @@ Install [ruby manager](https://github.com/rbenv/rbenv) if your device is running
 
 Install ruby gem bundler
 
-    gem install bundler
+    gem install bundler         # may need to use sudo or brew if this fails
 
 Install cocoapods
 
@@ -83,7 +83,7 @@ Install cocoapods
 
 ### 3. Change type of device
 
-'File' -> 'Open Device' -> Choose whichever device you want
+'File' -> 'Open Simulator' -> Choose whichever device you want
 
 ### 4. Type 'i' into terminal
 
@@ -142,3 +142,9 @@ Back in terminal, in the UConnFit/UConnFitApp directory
 Type 'a' to start android simulation
 
     a
+
+# Publishing
+
+### App can be accessed at expo.io/@username/app
+
+    expo publish
