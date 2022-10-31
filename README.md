@@ -153,6 +153,7 @@ Type 'a' to start android simulation
 
     npm install @react-navigation/native
     npm install @react-navigation/bottom-tabs
+    npm install @expo/webpack-config
 
 # Publishing
 
