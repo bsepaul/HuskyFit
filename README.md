@@ -149,6 +149,11 @@ Type 'a' to start android simulation
 
     a
 
+# Install Dependencies
+
+    npm install @react-navigation/native
+    npm install @react-navigation/bottom-tabs
+
 # Publishing
 
 ### App can be accessed at expo.io/@username/app

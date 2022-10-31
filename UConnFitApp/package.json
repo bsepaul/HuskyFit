@@ -9,7 +9,12 @@
     "web": "expo start --web"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@expo/webpack-config": "^0.17.0",
+=======
+    "@react-navigation/bottom-tabs": "^6.4.0",
+    "@react-navigation/native": "^6.0.13",
+>>>>>>> bcde5a3d49100c79d541a1d4cf1756742cd5d27c
     "expo": "~46.0.9",
     "expo-status-bar": "~1.4.0",
     "react": "18.0.0",
