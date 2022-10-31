@@ -1,6 +1,6 @@
 # UConnFit
 
-Below are instructions on how to access, modify and test the application - for developers of UConnFit
+### Below are instructions on how to access, modify and test the application - for developers of UConnFit
 
 # Git
 
@@ -72,3 +72,73 @@ Install ruby gem bundler
 Install cocoapods
 
     gem install cocoapods       # may need to use sudo or brew if this fails
+
+# IOS Simulator
+
+### 1. Mac: Install Xcode from the app store - [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
+
+### 2. Open simulator
+
+'Xcode' -> 'Open Developer Tool' -> 'Simulator'
+
+### 3. Change type of device
+
+'File' -> 'Open Device' -> Choose whichever device you want
+
+### 4. Type 'i' into terminal
+
+Make sure you are in 'UConnFitApp' folder and have run:
+
+    npm start
+
+# Android Simulator
+
+[Follow instructions here](https://docs.expo.dev/workflow/android-studio-emulator/)
+
+### 1. Download Android Studio - [Android Studio](https://developer.android.com/studio)
+
+Choose 'Next' -> 'Standard' -> 'Next' -> 'Next' -> Accept all agreements -> 'Finish'
+
+### 2. Configure
+
+Choose 'More Actions' -> 'SDK Manager'
+
+Under 'SDK Tools' select:
+
+- Android SDK Build-Tools
+- Android Emulator
+- Android SDK Platform-Tools
+- Intel x86 Emulator Accelerator
+
+### 3. macOS or Linux - add environment variables
+
+Add environment variables to either .zshenv or .bash_profile depending on which shell you're using
+
+    [ -d "$HOME/Library/Android/sdk" ] && ANDROID_HOME=$HOME/Library/Android/sdk || ANDROID_HOME=$HOME/Android/Sdk
+    echo "export ANDROID_HOME=$ANDROID_HOME" >> ~/`[[ $SHELL == *"zsh" ]] && echo '.zshenv' || echo '.bash_profile'`
+
+macOS only - add platform tools path
+
+    echo "export PATH=$ANDROID_HOME/platform-tools:\$PATH" >> ~/`[[ $SHELL == *"zsh" ]] && echo '.zshenv' || echo '.bash_profile'`
+
+Reload environment variables
+
+    source ~/`[[ $SHELL == *"zsh" ]] && echo '.zshenv' || echo '.bash_profile'`
+
+### 4. Set up the simulator
+
+In Android Studio:
+
+Choose 'More Actions' -> 'Virtual Device Manager' -> 'Create Device'
+
+Click the play button to open the device simulator
+
+### 5. Run application on simulated device
+
+Back in terminal, in the UConnFit/UConnFitApp directory
+
+    npm start
+
+Type 'a' to start android simulation
+
+    a
