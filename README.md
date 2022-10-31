@@ -25,6 +25,12 @@ Naming convention: 3 initials and type of branch
     git push --set-upstream origin bms-front
     git pull origin HEAD
 
+# Install NPM
+
+    brew install node
+    node -v
+    sudo npm i -g expo-cli
+
 # Testing the app
 
 ## Install expo application from App Store on mobile device
