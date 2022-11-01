@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import DineScreen from './screens/DineScreen';
@@ -11,7 +11,7 @@ const Tabs = () => {
     return(
         <Tab.Navigator
             screenOptions={{
-                // tabBarShowLabel: false,
+                tabBarShowLabel: false,
                 tabBarStyle: {
                     position: 'absolute',
                     bottom: 25,
@@ -25,16 +25,73 @@ const Tabs = () => {
                 }
             }}
         >
-            <Tab.Screen name = "Home" component={HomeScreen}/>
-            <Tab.Screen name = "Dine" component={DineScreen}/>
-            <Tab.Screen name = "Rec" component={RecScreen}/>
+            <Tab.Screen name = "Rec" component={RecScreen} options={{
+                tabBarIcon: ({focused}) => (
+                    <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                        <Image
+                            source={require('../assets/icons/rec.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#0D223F' : '#748c94'
+                            }}
+                        />
+                        <Text style={{
+                            color: focused ? '#0D223F' : '#748c94', 
+                            fontSize: 11}}>
+                            REC
+                        </Text>
+                    </SafeAreaView>
+                )
+            }}/>
+            <Tab.Screen name = "Home" component={HomeScreen}options={{
+                tabBarIcon: ({focused}) => (
+                    <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                        <Image
+                            source={require('../assets/icons/home.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#0D223F' : '#748c94'
+                            }}
+                        />
+                        <Text style={{
+                            color: focused ? '#0D223F' : '#748c94', 
+                            fontSize: 11}}>
+                            HOME
+                        </Text>
+                    </SafeAreaView>
+                )
+            }}/>
+            <Tab.Screen name = "Dine" component={DineScreen}options={{
+                tabBarIcon: ({focused}) => (
+                    <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                        <Image
+                            source={require('../assets/icons/dine.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? '#0D223F' : '#748c94'
+                            }}
+                        />
+                        <Text style={{
+                            color: focused ? '#0D223F' : '#748c94', 
+                            fontSize: 11}}>
+                            DINE
+                        </Text>
+                    </SafeAreaView>
+                )
+            }}/>
         </Tab.Navigator>
     )
 }
 
 const style = StyleSheet.create({
     shadow: {
-        shadowColor: '#8A8A8A',
+        shadowColor: '#DEDEDE',
         shadowOffset: { 
             width: 0, 
             height: 10,
