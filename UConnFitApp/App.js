@@ -24,12 +24,18 @@
 
 import * as React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
+{/*import {createNativeStackNavigator} from '@react-navigation/native-stack';*/}
 import Tabs from './navigation/Main';
+import AuthStack from './navigation/screens/AuthStack';
+{/*import AppStack from './src/navigation/AppStack';*/}
+
 
 export default function App() {
   return(
     <NavigationContainer>
       <Tabs/>
+      {/* < AppStack />*/}
+      <AuthStack />
     </NavigationContainer>
   )
 }
