@@ -66,7 +66,7 @@ const LogIn = ({navigation}) => {
                     secureTextEntry={true} 
                     />
                     <TouchableOpacity onPress={() => {}}>
-                        <Text style = {{color: '#AD40AF', fontWeight: '700'}}> Forgot? </Text>
+                        <Text style = {{color: '#0D223F', fontWeight: '700'}}> Forgot? </Text>
                     </TouchableOpacity>
                 </View>
             */}

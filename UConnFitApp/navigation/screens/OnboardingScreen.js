@@ -28,7 +28,7 @@ const OnboardingScreen = ({navigation}) => {
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         </View>
         <TouchableOpacity
-        style={{backgroundColor: '#AD40AF',
+        style={{backgroundColor: '#0D223F',
         padding: 20,
         width: '90%',
         borderRadius: 10,
