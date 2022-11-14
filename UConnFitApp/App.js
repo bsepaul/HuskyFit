@@ -33,9 +33,9 @@ import AuthStack from './navigation/screens/AuthStack';
 export default function App() {
   return(
     <NavigationContainer>
-      <Tabs/>
+      <AuthStack/>
+        {/* <Tabs/> */}
       {/* < AppStack />*/}
-      <AuthStack />
     </NavigationContainer>
   )
 }

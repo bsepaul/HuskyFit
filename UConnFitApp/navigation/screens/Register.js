@@ -3,7 +3,8 @@ import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Image, ScrollView
 {/*import MaterialIcons from 'react-native-vector-icons/MaterialIcons';*/}
 {/*import MaterialIcons from 'react-native-vector-icons/Ionicons'*/}
 {/*import GooglePNG from './assets/icons/Google.png'; */}
-import inputfield from '../Components/inputfield'; 
+import InputField from '../../assets/Componenets/InputField';
+
 
 const Register = (navigation) => {
     return (
@@ -11,7 +12,7 @@ const Register = (navigation) => {
             <ScrollView showsVerticalScrollIndicator={false} style= {{paddingHorizontal:25}}>
             <View style = {{alignItems:'center'}}>
             </View>
-            <Text style = {{fontFamily: TimeNewRoman, fontSize:28, 
+            <Text style = {{fontFamily: 'TimesNewRoman', fontSize:28, 
                 fontWeight: '500', color: '#333', marginBottom:30}}> 
                 Register
                 </Text>
@@ -49,11 +50,11 @@ const Register = (navigation) => {
 
                 </View>
 
-                <inputfield label ={'Full Name'} />
-                <inputfield label ={'Email Address'} keyboardType = 'email-address' />
-                <inputfield label ={'Password'} inputType = 'password' />
-                <inputfield label ={'Confirm Password'} inputType = 'password' />
-                <inputfield label ={'Date of Birth'} 
+                <InputField label ={'Full Name'} />
+                <InputField label ={'Email Address'} keyboardType = 'email-address' />
+                <InputField label ={'Password'} inputType = 'password' />
+                <InputField label ={'Confirm Password'} inputType = 'password' />
+                <InputField label ={'Date of Birth'} 
                                 inputType = 'password' />
 
 

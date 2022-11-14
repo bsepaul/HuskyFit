@@ -1,11 +1,13 @@
 import React from 'react'
-import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Image} from 'react-native'
+import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Image} from 'react-native';
 import CustomButtton from '../../assets/Componenets/CustomButton';
-import CustomButttom from '../../assets/Componenets/CustomButton';
-{/*import MaterialIcons from 'react-native-vector-icons/MaterialIcons';*/}
-{/*import MaterialIcons from 'react-native-vector-icons/Ionicons'*/}
-{/*import GooglePNG from './assets/icons/Google.png'; */}
-import inputfield from '../Components/inputfield'; 
+// import CustomButttom from '../../assets/Componenets/CustomButton'
+// {/*import MaterialIcons from 'react-native-vector-icons/MaterialIcons';*/}
+// {/*import MaterialIcons from 'react-native-vector-icons/Ionicons'*/}
+// {/*import GooglePNG from './assets/icons/Google.png'; */}
+
+
+import InputField from '../../assets/Componenets/InputField';
 
 
 const LogIn = ({navigation}) => {
@@ -14,13 +16,13 @@ const LogIn = ({navigation}) => {
             <View style= {{paddingHorizontal:25}}>
             <View style = {{alignItems:'center'}}>
             </View>
-            <Text style = {{fontFamily: TimeNewRoman, fontSize:28, 
+            <Text style = {{fontFamily: 'TimesNewRoman', fontSize:28, 
                 fontWeight: '500', color: '#333', marginBottom:30}}> 
                 Login
                 </Text>
 
-                <inputfield label ={'Email Address'} keyboardType = 'email-address' />
-                <inputfield label ={'Password'} inputType = 'password' 
+                <InputField label ={'Email Address'} keyboardType = 'email-address' />
+                <InputField label ={'Password'} inputType = 'password' 
                 fieldButtonLabel = {'Forgot?'}
                 fieldButtonFunction = {() => {}}
                 />
