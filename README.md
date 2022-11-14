@@ -25,6 +25,21 @@ Naming convention: 3 initials and type of branch
     git push --set-upstream origin bms-front
     git pull origin HEAD
 
+## Pushing your changes
+
+Make sure you are on your branch
+
+    git add .
+    git commit -m "Type a description of changes here"
+    git push
+
+Merge with main branch so everyone can pull changes
+
+    git checkout main
+    git merge <name of your branch>
+    # Example: git merge bms-front
+    git push
+
 # Install NPM
 
     brew install node
@@ -154,6 +169,7 @@ Type 'a' to start android simulation
     npm install @react-navigation/native
     npm install @react-navigation/bottom-tabs
     npm install @expo/webpack-config
+    npm install @react-navigation/native-stack
 
 # Publishing
 
