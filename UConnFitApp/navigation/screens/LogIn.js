@@ -1,13 +1,13 @@
 import React from 'react'
 import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Image} from 'react-native';
-import CustomButtton from '../../assets/Componenets/CustomButton';
-// import CustomButttom from '../../assets/Componenets/CustomButton'
+import CustomButtton from '../../assets/Components/CustomButton';
+// import CustomButttom from '../../assets/Components/CustomButton'
 // {/*import MaterialIcons from 'react-native-vector-icons/MaterialIcons';*/}
 // {/*import MaterialIcons from 'react-native-vector-icons/Ionicons'*/}
-// {/*import GooglePNG from './assets/icons/Google.png'; */}
+// import GooglePNG from '../../assets/icons/Google';
 
 
-import InputField from '../../assets/Componenets/InputField';
+import InputField from '../../assets/Components/InputField';
 
 
 const LogIn = ({navigation}) => {
@@ -85,8 +85,15 @@ const LogIn = ({navigation}) => {
                     paddingVertical: 10,
             }}> 
 
-                {/* <GooglePNG height={24} width={24} />  */}
-                <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Google </Text>
+                        {/* <GooglePNG height={24} width={24} />  */}
+                        <Image
+                            source={require('../../assets/icons/Google.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25
+                            }} />
+                {/* <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Google </Text> */}
                 </TouchableOpacity>
                 </View> 
 

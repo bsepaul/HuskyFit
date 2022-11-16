@@ -3,7 +3,7 @@ import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Image, ScrollView
 {/*import MaterialIcons from 'react-native-vector-icons/MaterialIcons';*/}
 {/*import MaterialIcons from 'react-native-vector-icons/Ionicons'*/}
 {/*import GooglePNG from './assets/icons/Google.png'; */}
-import InputField from '../../assets/Componenets/InputField';
+import InputField from '../../assets/Components/InputField';
 
 
 const Register = (navigation) => {
