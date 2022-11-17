@@ -23,19 +23,62 @@
 // });
 
 import * as React from 'react';
+//import type {Node} from 'react';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+} from 'react-native'; 
 import { NavigationContainer } from '@react-navigation/native';
-{/*import {createNativeStackNavigator} from '@react-navigation/native-stack';*/}
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Tabs from './navigation/Main';
 import AuthStack from './navigation/screens/AuthStack';
 {/*import AppStack from './src/navigation/AppStack';*/}
+//import MaterialIcons from 'react-native-vecot-icons/MaterialIcons'; 
 
-
-export default function App() {
-  return(
+const Stack = createNativeStackNavigator(); 
+const App = () => {
+  return (
     <NavigationContainer>
-      <AuthStack/>
-        {/* <Tabs/> */}
-      {/* < AppStack />*/}
+      <Stack.Navigator>
+        <Stack.Screen component ={Main} name = "Main" options={{headerShown:false}}/>
+        <Stack.Screen component ={Home} name = "Home"/>
+      </Stack.Navigator>
     </NavigationContainer>
   )
+}
+
+const Main = (navigation) => {
+  return (
+    <SafeAreaView style = {{
+      flex:1, 
+      justifyContent:'center', 
+      allignItems:'center', 
+      backgroundColor: '#fff',}}>
+    <View>
+      <Text syle={{fontSize:30, fontWeigh: 'bold', color: '#20315f'}}> 
+        HuskyFit 
+        </Text>
+    </View>
+    </SafeAreaView>
+  );
+    } 
+
+//export default function App() {
+  //return(
+    //<NavigationContainer>
+      //<AuthStack/>
+        //{/* <Tabs/> */}
+      //{/* < AppStack />*/}
+    //</NavigationContainer>
+  //)
+//}
+
+const Home = () => {
+  return (
+    <View style = {{flex:1, justifyContent:'center', allignItems:'center', }}>
+      <Text></Text>
+    </View>
+  );
 }
