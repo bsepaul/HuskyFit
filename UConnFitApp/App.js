@@ -31,7 +31,7 @@ import {
   TouchableOpacity,
 } from 'react-native'; 
 import { NavigationContainer } from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Tabs from './navigation/Main';
 import AuthStack from './navigation/screens/AuthStack';
 {/*import AppStack from './src/navigation/AppStack';*/}
