@@ -6,7 +6,10 @@ import CustomButton from '../../assets/Components/CustomButton';
 import InputField from '../../assets/Components/InputField';
 import { myColors } from '../../assets/colors/ColorPalette';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
+    const handleLogin = () => {
+        navigation.navigate('Main')
+    }
     return (
         <SafeAreaView style={{flex:1, justifyContent:'center',alignItems:'center'}}>
             <View style= {{paddingHorizontal:25}}>
@@ -21,7 +24,7 @@ const Login = ({navigation}) => {
                 fieldButtonFunction = {() => {}}
                 />
 
-                <CustomButton label={'Login'} onPress={() => { navigation.navigate('Main') }} />
+                <CustomButton label={'Login'} onPress = {handleLogin}/>
                 <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
                     <Text style={{ color:myColors.navy}}> New to the App? </Text>
                     <TouchableOpacity onPress={() => navigation.navigate('Register')}>

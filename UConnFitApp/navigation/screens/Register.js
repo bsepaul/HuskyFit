@@ -9,6 +9,10 @@ import { myColors } from '../../assets/colors/ColorPalette';
 
 
 const Register = ({ navigation }) => {
+    const handleRegister = () => {
+        navigation.navigate('Main')
+        console.log("Email is: ")
+    }
     return (
         <SafeAreaView style={{flex:1, justifyContent:'center',alignItems:'center'}}>
             <ScrollView showsVerticalScrollIndicator={false} style= {{paddingHorizontal:25}}>
@@ -37,7 +41,7 @@ const Register = ({ navigation }) => {
                 <InputField label ={'Date of Birth'} 
                                 inputType = 'password' />
 
-                <CustomButton label={'Register'} onPress={() => {navigation.navigate('Main')}} /> 
+                <CustomButton label={'Register'} onPress={handleRegister} /> 
 
                 <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
                     <Text style={{ color:myColors.navy}}> Already Registered? </Text>
