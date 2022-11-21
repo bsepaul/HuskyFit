@@ -4,50 +4,30 @@ import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Image, ScrollView
 {/*import MaterialIcons from 'react-native-vector-icons/Ionicons'*/}
 {/*import GooglePNG from './assets/icons/Google.png'; */}
 import InputField from '../../assets/Components/InputField';
+import CustomButton from '../../assets/Components/CustomButton';
+import { myColors } from '../../assets/colors/ColorPalette';
 
 
-const Register = (navigation) => {
+const Register = ({ navigation }) => {
     return (
         <SafeAreaView style={{flex:1, justifyContent:'center',alignItems:'center'}}>
             <ScrollView showsVerticalScrollIndicator={false} style= {{paddingHorizontal:25}}>
-            <View style = {{alignItems:'center'}}>
-            </View>
-            <Text style = {{fontFamily: 'TimesNewRoman', fontSize:28, 
-                fontWeight: '500', color: '#333', marginBottom:30}}> 
-                Register
+                <Text
+                    style={{
+                        fontFamily: 'System',
+                        fontSize: 28, 
+                        fontWeight: '500',
+                        color: myColors.navy,
+                        marginTop: 100,
+                        marginBottom: 1
+                    }}> 
+                    Register
                 </Text>
-                <View style={{
-                    flexDirection:'row', 
-                    borderBottomColor: '#ccc', 
-                    borderBottomWidth:1, 
-                    paddingBottom: 25, 
-                    marginBottom:25, 
-                    }}>
-<View>
-                <TouchableOpacity onPress={() => {}} 
-                style={{
-                    borderColor:'#ddd', 
-                    borderWidth:2, 
-                    borderRadius:10, 
-                    paddingHorizontal:30, 
-                    paddingVertical: 10,
-            }}> 
-            
-            <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Google </Text>
-                </TouchableOpacity>
-                </View> 
-                        
-                   {/* <MaterialIcons 
-                    name='alternative-email' 
-                    size={20} 
-                    color='#666' 
-                    style={{marginRight: 5}} 
-                /> */}
-                   {/*} <TextInput placeholder = 'Email ID' 
-                    style={{flex:1, paddingVertical:0}} 
-                    keyboardType = "email-address"
-            /> */}
-
+                <View
+                    style={{
+                        flexDirection:'row',
+                        marginBottom:25, 
+                        }}>
                 </View>
 
                 <InputField label ={'Full Name'} />
@@ -57,55 +37,18 @@ const Register = (navigation) => {
                 <InputField label ={'Date of Birth'} 
                                 inputType = 'password' />
 
+                <CustomButton label={'Register'} onPress={() => {navigation.navigate('Main')}} /> 
 
-                {/* <View style={{
-                    flexDirection:'row', 
-                    borderBottomColor: '#ccc', 
-                    borderBottomWidth:1, 
-                    paddingBottom: 25, 
-                    marginBottom:25, 
-                    }}>
-                    {/*<MaterialIcons
-                    name='alternative-email' 
-                    size={20} 
-                    color='#666' 
-                    style={{marginRight: 5}} 
-                />*/}
-                  {/*}  <TextInput placeholder = "Password" 
-                    style={{flex:1, paddingVertical:0}}
-                    secureTextEntry={true} 
-                    />
-                    <TouchableOpacity onPress={() => {}}>
-                        <Text style = {{color: '#0D223F', fontWeight: '700'}}> Forgot? </Text>
-                    </TouchableOpacity>
-            </View>  */}
-
-            <CustomButton label={'Register'} onPress={() => {}} /> 
-
-              <Text style = {{textAllign: 'center', color: '#666', marginbottom: 30 }}> 
-                Or, Register with ... 
-        </Text>  
-                {/* <View>
-                <TouchableOpacity onPress={() => {}} 
-                style={{
-                    borderColor:'#ddd', 
-                    borderWidth:2, 
-                    borderRadius:10, 
-                    paddingHorizontal:30, 
-                    paddingVertical: 10,
-            }}> 
-
-                {/* <GooglePNG height={24} width={24} />  */}
-               {/* <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Google </Text>
-                </TouchableOpacity>
-                </View> 
-*/}
                 <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
-                <Text> Already Registered? </Text>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Login </Text>
-                </TouchableOpacity>
+                    <Text style={{ color:myColors.navy}}> Already Registered? </Text>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Text style={{ color:myColors.navy, fontWeight:'700'}}>  Login </Text>
+                    </TouchableOpacity>
                 </View>
+
+                {/* <Text style = {{textAllign: 'center', color: '#666', marginbottom: 30 }}> 
+                    Or, Register with ... 
+                </Text>   */}
 
             </ScrollView>
         </SafeAreaView>

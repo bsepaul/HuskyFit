@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import DineScreen from './screens/DineScreen';
 import RecScreen from './screens/RecScreen';
+import { myColors } from '../assets/colors/ColorPalette';
 
 const Tab = createBottomTabNavigator();
 
@@ -18,7 +19,7 @@ const Tabs = () => {
                     left: 20, 
                     right: 20, 
                     elevation: 5, 
-                    backgroundColor: '#ffffff', 
+                    backgroundColor: myColors.white, 
                     borderRadius: 40, 
                     height: 90,
                     ...style.shadow
@@ -34,13 +35,13 @@ const Tabs = () => {
                             style={{
                                 width: 25,
                                 height: 25,
-                                tintColor: focused ? '#0D223F' : '#748c94'
+                                tintColor: focused ? myColors.navy : myColors.grey
                             }}
                         />
                         <Text style={{
-                            color: focused ? '#0D223F' : '#748c94', 
+                            color: focused ? myColors.navy : myColors.grey, 
                             fontSize: 11}}>
-                            REC
+                            Rec
                         </Text>
                     </SafeAreaView>
                 )
@@ -54,13 +55,13 @@ const Tabs = () => {
                             style={{
                                 width: 25,
                                 height: 25,
-                                tintColor: focused ? '#0D223F' : '#748c94'
+                                tintColor: focused ? myColors.navy : myColors.grey
                             }}
                         />
                         <Text style={{
-                            color: focused ? '#0D223F' : '#748c94', 
+                            color: focused ? myColors.navy : myColors.grey, 
                             fontSize: 11}}>
-                            HOME
+                            Home
                         </Text>
                     </SafeAreaView>
                 )
@@ -74,13 +75,13 @@ const Tabs = () => {
                             style={{
                                 width: 25,
                                 height: 25,
-                                tintColor: focused ? '#0D223F' : '#748c94'
+                                tintColor: focused ? myColors.navy : myColors.grey
                             }}
                         />
                         <Text style={{
-                            color: focused ? '#0D223F' : '#748c94', 
+                            color: focused ? myColors.navy : myColors.grey, 
                             fontSize: 11}}>
-                            DINE
+                            Dine
                         </Text>
                     </SafeAreaView>
                 )
@@ -91,7 +92,7 @@ const Tabs = () => {
 
 const style = StyleSheet.create({
     shadow: {
-        shadowColor: '#DEDEDE',
+        shadowColor: myColors.grey,
         shadowOffset: { 
             width: 0, 
             height: 10,

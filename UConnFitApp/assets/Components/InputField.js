@@ -1,13 +1,14 @@
 import {View, Text, TouchableOpacity, TextInput} from 'react-native'
 import React from 'react'
+import { myColors } from '../colors/ColorPalette';
 
 export default function InputField({label, icon, inputType, keyboardType, fieldButtonLabel, fieldButtonFunction}) {
     return (
         <View style={{
             flexDirection:'row', 
-            borderBottomColor: '#ccc', 
+            borderBottomColor: myColors.grey, 
             borderBottomWidth:1, 
-            paddingBottom: 25, 
+            paddingBottom: 12, 
             marginBottom:25, 
             }}>
         
@@ -24,12 +25,12 @@ export default function InputField({label, icon, inputType, keyboardType, fieldB
             <TextInput 
             placeholder = {label}
             keyboardType={keyboardType}
-            secureTextEntry={true} 
+            secureTextEntry={false} 
             />
         )}
 
             <TouchableOpacity onPress={({fieldButtonFunction}) => {}}>
-                <Text style = {{color: '#0D223F', fontWeight: '700'}}> {fieldButtonLabel}</Text>
+                <Text style = {{color: myColors.navy, fontWeight: '700'}}> {fieldButtonLabel}</Text>
             </TouchableOpacity>
         </View>
     )

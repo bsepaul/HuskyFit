@@ -1,7 +1,6 @@
 import React from 'react'
 import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
-
-{/*import MaterialIcons from 'react-native-vector-icons/MatterialIcons'; */}
+import { myColors } from '../../assets/colors/ColorPalette';
 
 const OnboardingScreen = ({navigation}) => {
     return (
@@ -10,25 +9,12 @@ const OnboardingScreen = ({navigation}) => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: '#fff',
+            backgroundColor: myColors.white,
         }}>
-        {/*<View style={{marginTop: 20}}>
-            <Text
-            style = {{ marginTop: 20}} >
-                <Text 
-                style={{
-                    fontFamily: 'Inter-Bold',
-                    fontWeight:'bold',
-                    fontSize: 30,
-                    color: '#20315f',
-                }}>
-                GAMEON
-            </Text> 
-            </View> */}
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         </View>
         <TouchableOpacity
-        style={{backgroundColor: '#0D223F',
+        style={{backgroundColor: myColors.navy,
         padding: 20,
         width: '90%',
         borderRadius: 10,
@@ -39,11 +25,11 @@ const OnboardingScreen = ({navigation}) => {
     onPress={() => navigation.navigate('Login')}>
     <Text
         style={{
-            color: 'white',
+            color: myColors.white,
             fontSize: 18,
             textAllign: 'center',
             fontWeight: 'bold',
-            fontFamily: 'Roboto-MediumItalic',
+            fontFamily: 'System',
         }}>
           Let's Begin  
         </Text>
