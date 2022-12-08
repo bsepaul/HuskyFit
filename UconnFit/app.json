@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "UconnFit",
+    "slug": "UconnFit",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "UconnFit"
+}
