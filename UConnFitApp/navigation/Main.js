@@ -4,6 +4,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import DineScreen from './screens/DineScreen';
 import RecScreen from './screens/RecScreen';
+import ProfileScreen from './screens/ProfileScreen';
 import { myColors } from '../assets/colors/ColorPalette';
 
 const Tab = createBottomTabNavigator();
@@ -46,6 +47,26 @@ const Tabs = () => {
                     </SafeAreaView>
                 )
             }}/>
+            <Tab.Screen name = "Dine" component={DineScreen}options={{
+                tabBarIcon: ({focused}) => (
+                    <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                        <Image
+                            source={require('../assets/icons/dine.png')}
+                            resizeMode='contain'
+                            style={{
+                                width: 25,
+                                height: 25,
+                                tintColor: focused ? myColors.navy : myColors.grey
+                            }}
+                        />
+                        <Text style={{
+                            color: focused ? myColors.navy : myColors.grey, 
+                            fontSize: 11}}>
+                            Dine
+                        </Text>
+                    </SafeAreaView>
+                )
+            }} />
             <Tab.Screen name = "Home" component={HomeScreen}options={{
                 tabBarIcon: ({focused}) => (
                     <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
@@ -66,11 +87,11 @@ const Tabs = () => {
                     </SafeAreaView>
                 )
             }}/>
-            <Tab.Screen name = "Dine" component={DineScreen}options={{
+            <Tab.Screen name = "Profile" component={ProfileScreen}options={{
                 tabBarIcon: ({focused}) => (
                     <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
                         <Image
-                            source={require('../assets/icons/dine.png')}
+                            source={require('../assets/icons/user.png')}
                             resizeMode='contain'
                             style={{
                                 width: 25,
@@ -81,7 +102,7 @@ const Tabs = () => {
                         <Text style={{
                             color: focused ? myColors.navy : myColors.grey, 
                             fontSize: 11}}>
-                            Dine
+                            Profile
                         </Text>
                     </SafeAreaView>
                 )
