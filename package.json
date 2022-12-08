@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "@expo/webpack-config": "^0.17.3",
+    "@react-navigation/bottom-tabs": "^6.5.0",
+    "@react-navigation/native": "^6.1.0",
+    "@react-navigation/native-stack": "^6.9.5"
+  }
+}
