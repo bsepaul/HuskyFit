@@ -6,6 +6,7 @@ import OnboardingScreen from './navigation/screens/OnboardingScreen';
 import Login from './navigation/screens/LogIn';
 import Register from './navigation/screens/Register';
 import MealScreen from './navigation/screens/MealScreen';
+import DineScreen from './navigation/screens/DineScreen';
 
 const Stack = createNativeStackNavigator(); 
 export default function App() {
@@ -17,6 +18,7 @@ export default function App() {
         <Stack.Screen component={Register} name="Register" options={{headerShown: false}}/>
         <Stack.Screen component ={Tabs} name = "Main" options={{headerShown:false}}/>
         <Stack.Screen component={MealScreen} name="MealScreen" options={{headerShown: false}}/>
+        <Stack.Screen component={DineScreen} name="DineScreen" options={{headerShown: false}}/>
       </Stack.Navigator>
     </NavigationContainer>
   )

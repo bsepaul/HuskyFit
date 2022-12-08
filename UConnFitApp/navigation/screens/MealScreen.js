@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, SafeAreaView,} from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text} from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
 import CustomDiningButtton from '../../assets/Components/CustomDiningButton'; 
 
@@ -13,6 +13,12 @@ const MealScreen = ({navigation}) => {
 <CustomDiningButtton label={'Breakfast'} onPress = {() => {}} />
 <CustomDiningButtton label={'Lunch'} onPress = {() => {}} />
 <CustomDiningButtton label={'Dinner'} onPress = {() => {}} />
+
+    <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
+                <TouchableOpacity onPress={() => navigation.navigate('DineScreen')}>
+                <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Back </Text>
+                </TouchableOpacity>
+                </View>
            
                 </View>
         </SafeAreaView>       
