@@ -10,6 +10,7 @@ const DineScreen = ({navigation}) => {
     <View style = {{alignItems:'center'}}>
     </View>
 
+<CustomDiningButtton label={'Buckley'} onPress={() => navigation.navigate('MealScreen')} />
 <CustomDiningButtton label={'Putnam'} onPress={() => navigation.navigate('MealScreen')} />
 <CustomDiningButtton label={'Whitney'} onPress={() => navigation.navigate('MealScreen')}/>
 <CustomDiningButtton label={'Gelfenbien'} onPress={() => navigation.navigate('MealScreen')}/>
