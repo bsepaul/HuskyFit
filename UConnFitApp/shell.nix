@@ -22,3 +22,4 @@ in
       #   ]))
     ];
   }
+# ln -s /nix/store/85g2scxv2d41n7vsp5vrqak5j6nkd9a6-android-tools-31.0.3p1/bin/adb /home/morp/Android/Sdk/platform-tools/adb

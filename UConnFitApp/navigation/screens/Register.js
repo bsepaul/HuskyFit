@@ -1,4 +1,6 @@
-import React from 'react'
+// import React from 'react'
+import React, { useState } from 'react'
+import fetch from 'node-fetch'
 import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Image, ScrollView} from 'react-native'
 {/*import MaterialIcons from 'react-native-vector-icons/MaterialIcons';*/}
 {/*import MaterialIcons from 'react-native-vector-icons/Ionicons'*/}
@@ -9,9 +11,44 @@ import { myColors } from '../../assets/colors/ColorPalette';
 
 
 const Register = ({ navigation }) => {
+  const [fullName, setFullName] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+  const [dob, setDob] = useState('')
+
     const handleRegister = () => {
+        (async () => {
+            var raw = JSON.stringify({
+                // "name": "hello world",
+                // "email": "test6@test6.com",
+                // "password": "Password!1",
+                // "birthdate": "12-12-1971"
+                "name": fullName,
+                "email": email,
+                "password": password,
+                "birthdate": dob
+              });
+
+
+            var requestOptions = {
+            method: 'POST',
+            headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+                      "Content-Type": "application/json"},
+            body: raw,
+            redirect: 'follow'
+            };
+
+
+            fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/auth/signup", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+
+
+        })()
+
         navigation.navigate('Main')
-        console.log("Email is: ")
     }
     return (
         <SafeAreaView style={{flex:1, justifyContent:'center',alignItems:'center'}}>
@@ -38,8 +75,7 @@ const Register = ({ navigation }) => {
                 <InputField label ={'Email Address'} keyboardType = 'email-address' />
                 <InputField label ={'Password'} inputType = 'password' />
                 <InputField label ={'Confirm Password'} inputType = 'password' />
-                <InputField label ={'Date of Birth'} 
-                                inputType = 'password' />
+                <InputField label ={'Date of Birth'} inputType = 'date' />
 
                 <CustomButton label={'Register'} onPress={handleRegister} /> 
 

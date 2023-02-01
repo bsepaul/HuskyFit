@@ -1,13 +1,44 @@
 import { useNavigation } from '@react-navigation/native';
-import React from 'react'
+// import React from 'react'
+import React, { useState } from 'react'
 import {View, Text, SafeAreaView, TextInput, TouchableOpacity, Image} from 'react-native';
 import CustomButton from '../../assets/Components/CustomButton';
+import fetch from 'node-fetch'
 
 import InputField from '../../assets/Components/InputField';
 import { myColors } from '../../assets/colors/ColorPalette';
 
 const Login = ({ navigation }) => {
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+
     const handleLogin = () => {
+        (async () => {
+            var raw = JSON.stringify({
+
+                // "name": "hello world",
+                // "email": "test6@test6.com",
+                // "password": "Password!1",
+                // "birthdate": "12-12-1971"
+                "email": "test2@test2.com",
+                "password": "Password!1",
+                // "email": email,
+                // "password": password,
+              });
+
+
+            var requestOptions = {
+            method: 'POST',
+            headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+                      "Content-Type": "application/json"},
+            body: raw,
+            redirect: 'follow'
+            };
+            fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/auth/login", requestOptions)
+            .then(response => response.text())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+        })()
         navigation.navigate('Main')
     }
     return (

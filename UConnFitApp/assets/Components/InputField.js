@@ -8,6 +8,7 @@ export default function InputField({ label, icon, inputType, keyboardType, field
 
     handleEmail = (text) => {
         setEmail(text)
+        console.log(email)
     }
     handlePassword = (text) => {
         setPassword(text)
