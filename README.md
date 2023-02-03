@@ -94,9 +94,6 @@ Install cocoapods
 
     gem install cocoapods       # may need to use sudo or brew if this fails
 
-Install DropDown option
-    npm install react-native-element-dropdown --save   
-
 # IOS Simulator
 
 ### 1. Mac: Install Xcode from the app store - [Xcode](https://apps.apple.com/us/app/xcode/id497799835?mt=12)
@@ -173,6 +170,7 @@ Type 'a' to start android simulation
     npm install @react-navigation/bottom-tabs
     npm install @expo/webpack-config
     npm install @react-navigation/native-stack
+    npm install react-native-element-dropdown --save
 
 # Publishing
 
