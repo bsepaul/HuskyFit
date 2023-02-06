@@ -109,6 +109,7 @@ const Register = ({ navigation }) => {
           <TextInput
             placeholder="Full Name"
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             onChangeText={(fullName) => setFullName(fullName)}
           />
         </View>
@@ -117,6 +118,7 @@ const Register = ({ navigation }) => {
           <TextInput
             placeholder="Email"
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             onChangeText={(email) => setEmail(email)}
           />
         </View>
@@ -125,6 +127,7 @@ const Register = ({ navigation }) => {
           <TextInput
             placeholder="Password"
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={(password) => setPassword(password)}
           />
@@ -134,6 +137,7 @@ const Register = ({ navigation }) => {
           <TextInput
             placeholder="Confirm Password"
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={(confirmPassword) =>
               setConfirmPassword(confirmPassword)
@@ -145,6 +149,7 @@ const Register = ({ navigation }) => {
           <TextInput
             placeholder="Date of Birth"
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             onChangeText={(dob) => setDob(dob)}
           />
         </View>

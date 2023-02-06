@@ -83,6 +83,7 @@ const Login = ({ navigation }) => {
           <TextInput
             placeholder="Email"
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             onChangeText={(email) => setEmail(email)}
           />
         </View>
@@ -90,6 +91,7 @@ const Login = ({ navigation }) => {
           <TextInput
             placeholder="Password"
             placeholderTextColor="#003f5c"
+            autoCapitalize="none"
             secureTextEntry={true}
             onChangeText={(password) => setPassword(password)}
           />

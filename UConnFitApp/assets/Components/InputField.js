@@ -16,7 +16,8 @@ export default function InputField({ label, icon, inputType, keyboardType, field
             {inputType =='password' ? (
                 <TextInput
                     placeholder = {label}
-                    keyboardType ={keyboardType}
+                    keyboardType={keyboardType}
+                    autoCapitalize="none"
                     style={{flex: 1, paddingVertical: 0}}
                     secureTextEntry={true}
                 />
@@ -24,6 +25,7 @@ export default function InputField({ label, icon, inputType, keyboardType, field
                 <TextInput 
                     placeholder = {label}
                     keyboardType={keyboardType}
+                    autoCapitalize="none"
                     secureTextEntry={false}
                 />
             )}
