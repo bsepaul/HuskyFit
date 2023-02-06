@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "UConnFitApp",
-    "slug": "UConnFitApp",
+    "name": "HuskyFit",
+    "slug": "husky-fit",
+    "description": "Health and wellness application for students at the University of Connecticut.",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
