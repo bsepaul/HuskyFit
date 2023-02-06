@@ -12,6 +12,7 @@ const Tab = createBottomTabNavigator();
 const Tabs = () => {
     return(
         <Tab.Navigator
+            initialRouteName='Home'
             screenOptions={{
                 tabBarShowLabel: false,
                 tabBarStyle: {
@@ -25,8 +26,7 @@ const Tabs = () => {
                     height: 90,
                     ...style.shadow
                 }
-            }}
-        >
+            }} >
             <Tab.Screen name = "Rec" component={RecScreen} options={{
                 tabBarIcon: ({focused}) => (
                     <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
@@ -46,7 +46,8 @@ const Tabs = () => {
                         </Text>
                     </SafeAreaView>
                 )
-            }}/>
+            }} />
+            
             <Tab.Screen name = "Dine" component={DineScreen}options={{
                 tabBarIcon: ({focused}) => (
                     <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
@@ -67,6 +68,7 @@ const Tabs = () => {
                     </SafeAreaView>
                 )
             }} />
+            
             <Tab.Screen name = "Home" component={HomeScreen}options={{
                 tabBarIcon: ({focused}) => (
                     <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
@@ -86,7 +88,8 @@ const Tabs = () => {
                         </Text>
                     </SafeAreaView>
                 )
-            }}/>
+            }} />
+            
             <Tab.Screen name = "Profile" component={ProfileScreen}options={{
                 tabBarIcon: ({focused}) => (
                     <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
@@ -106,7 +109,8 @@ const Tabs = () => {
                         </Text>
                     </SafeAreaView>
                 )
-            }}/>
+            }} />
+            
         </Tab.Navigator>
     )
 }

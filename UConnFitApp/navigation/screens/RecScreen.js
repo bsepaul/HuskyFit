@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
-const App = () => {
+const App = ({navigation}) => {
   const [WorkoutTypeData, setWorkoutTypeData] = useState([]);
   const [WorkoutType, setWorkoutType] = useState([]);
   const [TimeElapsedData, setTimeElapsedData] = useState([]);
@@ -106,7 +106,7 @@ const App = () => {
             borderRadius: 15,
             alignItems: 'center',
           }}
-          onPress={() => navigation.navigate('Main')
+          onPress={() => navigation.navigate('Tabs')
              
           }>
           <Text

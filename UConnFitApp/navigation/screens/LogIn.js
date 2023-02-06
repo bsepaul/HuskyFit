@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
         console.log()
         console.log(token)
         
-        navigation.navigate("Main");
+        navigation.navigate("Tabs");
       })
       .catch(error => console.log('error', error));
     })();
