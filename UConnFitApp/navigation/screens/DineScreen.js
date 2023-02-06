@@ -1,27 +1,21 @@
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, View, SafeAreaView,} from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
 import CustomDiningButtton from '../../assets/Components/CustomDiningButton'; 
+import DiningHalls from './DiningHalls';
+import MealScreen from './MealScreen';
 
-const DineScreen = ({navigation}) => {
+const Stack = createNativeStackNavigator();
+
+const DineScreen = () => {
   return (
-    <SafeAreaView style={{flex:1, justifyContent:'center',alignItems:'center'}}>
-    <View style= {{paddingHorizontal:25}}>
-    <View style = {{alignItems:'center'}}>
-    </View>
-
-<CustomDiningButtton label={'Buckley'} onPress={() => navigation.navigate('MealScreen')} />
-<CustomDiningButtton label={'Putnam'} onPress={() => navigation.navigate('MealScreen')} />
-<CustomDiningButtton label={'Whitney'} onPress={() => navigation.navigate('MealScreen')}/>
-<CustomDiningButtton label={'Gelfenbien'} onPress={() => navigation.navigate('MealScreen')}/>
-<CustomDiningButtton label={'McMahon'} onPress={() => navigation.navigate('MealScreen')}/>
-<CustomDiningButtton label={'North'} onPress={() => navigation.navigate('MealScreen')}/>
-<CustomDiningButtton label={'Northwest'} onPress={() => navigation.navigate('MealScreen')}/>
-<CustomDiningButtton label={'South'} onPress={() => navigation.navigate('MealScreen')}/>
-           
-                </View>
-        </SafeAreaView>       
-);
+      <Stack.Navigator>
+        <Stack.Screen component = {DiningHalls} name = "DiningHalls" options={{headerShown:false}}/>
+        <Stack.Screen component = {MealScreen}  name = "MealScreen" options={{ headerShown: false }} />
+      </Stack.Navigator>
+  )
 };
 export default DineScreen
 

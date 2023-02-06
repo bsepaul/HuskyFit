@@ -5,8 +5,6 @@ import Tabs from './navigation/Tabs';
 import OnboardingScreen from './navigation/screens/OnboardingScreen';
 import Login from './navigation/screens/LogIn';
 import Register from './navigation/screens/Register';
-import MealScreen from './navigation/screens/MealScreen';
-import DineScreen from './navigation/screens/DineScreen';
 
 const Stack = createNativeStackNavigator(); 
 export default function App() {
