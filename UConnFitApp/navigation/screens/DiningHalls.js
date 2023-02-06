@@ -5,7 +5,7 @@ import CustomDiningButtton from '../../assets/Components/CustomDiningButton';
 
 const DiningHalls = ({navigation}) => {
   return (
-    <SafeAreaView style={{flex:1, justifyContent:'center',alignItems:'center'}}>
+    <SafeAreaView style={{flex:.9, justifyContent:'center',alignItems:'center'}}>
       <View style= {{paddingHorizontal:25}}>
         <View style = {{alignItems:'center'}}></View>
 
