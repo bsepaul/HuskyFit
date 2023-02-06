@@ -40,6 +40,15 @@ Merge with main branch so everyone can pull changes
     # Example: git merge bms-front
     git push
 
+## Pulling new changes
+
+    git checkout bms-front
+    git pull origin HEAD
+    git checkout main
+    git pull
+    git checkout bms-front
+    git push
+
 # Install NPM
 
     brew install node
