@@ -13,7 +13,7 @@ const DineScreen = () => {
   return (
       <Stack.Navigator>
         <Stack.Screen component = {DiningHalls} name = "DiningHalls" options={{headerShown:false}}/>
-        <Stack.Screen component = {MealScreen}  name = "MealScreen" options={{ headerShown: false }} />
+        <Stack.Screen component = {MealScreen}  name = "MealScreen" options={{headerShown: false}} />
       </Stack.Navigator>
   )
 };
