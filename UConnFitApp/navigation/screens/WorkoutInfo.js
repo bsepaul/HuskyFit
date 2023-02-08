@@ -4,7 +4,7 @@ import InputField from '../../assets/Components/InputField';
 import { myColors } from '../../assets/colors/ColorPalette';
 import { NavigationHelpersContext } from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
-import { TextInput } from 'react-native';
+import { ScrollView, TextInput } from 'react-native';
 import {
   Alert,
   StatusBar,
@@ -14,6 +14,7 @@ import {
   View 
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
+
 
 const WorkoutTypeData = [
   { label: 'High Intensity Interval Training', value: '1' },
@@ -71,19 +72,20 @@ const App = ({navigation}) => {
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
-      <View style={{backgroundColor: '#fff', padding: 20, borderRadius: 15}}>
+      <View style={{backgroundColor: '#F6F6F6', padding: 20, borderRadius: 15}}>
         <Dropdown
           style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
           placeholderStyle={styles.placeholderStyle}
           selectedTextStyle={styles.selectedTextStyle}
           inputSearchStyle={styles.inputSearchStyle}
           iconStyle={styles.iconStyle}
-          data={WorkoutTypeData}
+          data={WorkoutTypeData} 
           search
           maxHeight={300}
+          //scroll = {true}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select Workout Type' : '...'}
+          placeholder={'Select Workout Type'}
           searchPlaceholder="Select One"
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
@@ -93,6 +95,7 @@ const App = ({navigation}) => {
             setIsFocus(false);
           }}
         />
+      
         <Dropdown
           style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
           placeholderStyle={styles.placeholderStyle}
@@ -104,7 +107,7 @@ const App = ({navigation}) => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select Time Elapsed' : '...'}
+          placeholder={'Select Time Elapsed'}
           searchPlaceholder="Search..."
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
@@ -125,7 +128,7 @@ const App = ({navigation}) => {
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder={!isFocus ? 'Select Workout Intensity' : '...'}
+          placeholder={'Select Workout Intensity'}
           searchPlaceholder="Search..."
           onFocus={() => setIsFocus(true)}
           onBlur={() => setIsFocus(false)}
@@ -142,7 +145,7 @@ const App = ({navigation}) => {
 
         <TouchableOpacity
           style={{
-            backgroundColor: '#0F3460',
+            backgroundColor: myColors.grey,
             padding: 20,
             borderRadius: 15,
             alignItems: 'center',
@@ -151,7 +154,7 @@ const App = ({navigation}) => {
 
           <Text
             style={{
-              color: '#fff',
+              color: '#F6F6F6',
               textTransform: 'uppercase',
               fontWeight: '600',
             }}>
@@ -168,25 +171,27 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#F6F6F6',
     padding: 16,
     justifyContent: 'center',
     alignContent: 'center',
+    scroll: true,
   },
   dropdown: {
     height: 50,
-    borderColor: 'gray',
+    borderColor: myColors.grey,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 10,
+    scroll: true,
   },
   icon: {
     marginRight: 5,
   },
   label: {
     position: 'absolute',
-    backgroundColor: 'white',
+    backgroundColor: myColors.white,
     left: 22,
     top: 8,
     zIndex: 999,
