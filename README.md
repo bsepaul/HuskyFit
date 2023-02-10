@@ -180,6 +180,7 @@ Type 'a' to start android simulation
     npm install @expo/webpack-config
     npm install @react-navigation/native-stack
     npm install react-native-element-dropdown --save
+    npm install react-native-chart-kit
 
 # Publishing
 
