@@ -1,22 +1,18 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, SafeAreaView, Platform } from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
+import UserProfile from './UserProfile';
+import Settings from './Settings'
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-export default function App() {
+const Stack = createNativeStackNavigator();
+
+const ProfileScreen = () => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Profile Screen!</Text>
-      <StatusBar style="auto" />
-    </SafeAreaView>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: myColors.lightGrey,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-});
+      <Stack.Navigator screenOptions={{headerShown: false}}>
+        <Stack.Screen component = {UserProfile} name = "UserProfile" options={{headerShown:false}}/>
+        <Stack.Screen component = {Settings}  name = "Settings" options={{headerShown: false}} />
+      </Stack.Navigator>
+  )
+};
+export default ProfileScreen

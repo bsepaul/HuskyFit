@@ -11,24 +11,10 @@ const Stack = createNativeStackNavigator();
 
 const DineScreen = () => {
   return (
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{headerShown: false}}>
         <Stack.Screen component = {DiningHalls} name = "DiningHalls" options={{headerShown:false}}/>
         <Stack.Screen component = {MealScreen}  name = "MealScreen" options={{headerShown: false}} />
       </Stack.Navigator>
   )
 };
 export default DineScreen
-
-//const styles = StyleSheet.create({
-  //container: {
-    //flex: 1,
-    //backgroundColor: myColors.lightGrey,
-    //alignItems: 'center',
-    //justifyContent: 'center',
-    //paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  //},
-  //top: {
-
-  //}
-
-//});

@@ -14,6 +14,7 @@ const Tabs = () => {
         <Tab.Navigator
             initialRouteName='Home'
             screenOptions={{
+                headerShown: false,
                 tabBarShowLabel: false,
                 tabBarStyle: {
                     position: 'absolute',
