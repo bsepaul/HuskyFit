@@ -55,8 +55,10 @@ const Login = ({ navigation }) => {
         console.log(message)
         console.log()
         console.log(token)
-        
-        navigation.navigate("Tabs");
+
+        if (message != "Invalid input") {
+          navigation.navigate("Tabs");
+        }
       })
       .catch(error => console.log('error', error));
     })();
