@@ -70,7 +70,7 @@ const App = ({navigation}) => {
 
 
   return (
-    <View style={styles.container}>
+    <View style={styles.container}>10
       <StatusBar barStyle="light-content" />
       <View style={{backgroundColor: '#F6F6F6', padding: 20, borderRadius: 15}}>
         <Dropdown
