@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
         console.log()
         console.log(token)
 
-        if (message != "Invalid input") {
+        if ((message != "Invalid input") && (message != "User does not exist.")) {
           navigation.navigate("Tabs");
         }
       })
