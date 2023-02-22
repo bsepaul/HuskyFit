@@ -33,8 +33,8 @@ greetingsText: {
     height: 50,
     paddingVertical: 20,
     paddingHorizontal: 20,
-    alignItems: 'left',
-    justifyContent: 'left',
+    alignItems: 'center',
+    justifyContent: 'center',
     fontWeight: 'bold',
     fontSize: 25
 }
