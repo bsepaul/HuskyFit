@@ -181,6 +181,7 @@ Type 'a' to start android simulation
     npm install @react-navigation/native-stack
     npm install react-native-element-dropdown --save
     npm install react-native-chart-kit
+    npm install react-native-feather
 
 # Publishing
 
