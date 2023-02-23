@@ -1,33 +1,52 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, SafeAreaView,} from 'react-native';
-import { isEnabled } from 'react-native/Libraries/Performance/Systrace';
+import { Text, View, SafeAreaView, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
-import CustomDiningButtton from '../../assets/Components/CustomDiningButton'; 
+import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
+
+// Get screen dimensions
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const DiningHalls = ({ navigation }) => {
   
   const date = new Date();
   const day = date.getDay();
-  // const day = 3;
   const isWeekend = day === 6 || day === 0;
-  console.log(isWeekend)
 
   return (
-    <SafeAreaView style={{flex:.88, justifyContent:'center',alignItems:'center'}}>
-      <View style= {{paddingHorizontal:25}}>
-        <View style = {{alignItems:'center'}}></View>
-
-        {isWeekend ? <View></View> : <CustomDiningButtton label={'Buckley'} onPress={() => navigation.navigate('MealScreen', { dininghall: 'buckley' })} />}
-        <CustomDiningButtton label={'Gelfenbien'} onPress={() => navigation.navigate('MealScreen', { dininghall : 'gelfenbien' })}/>
-        <CustomDiningButtton label={'McMahon'}    onPress={() => navigation.navigate('MealScreen', { dininghall : 'mcmahon' })}/>
-        <CustomDiningButtton label={'North'}      onPress={() => navigation.navigate('MealScreen', { dininghall : 'north' })}/>
-        <CustomDiningButtton label={'Northwest'}  onPress={() => navigation.navigate('MealScreen', { dininghall : 'northwest' })}/>
-        <CustomDiningButtton label={'Putnam'}     onPress={() => navigation.navigate('MealScreen', { dininghall : 'putnam' })} />
-        <CustomDiningButtton label={'South'}      onPress={() => navigation.navigate('MealScreen', { dininghall : 'south' })}/>
-        <CustomDiningButtton label={'Whitney'}    onPress={() => navigation.navigate('MealScreen', { dininghall : 'whitney' })}/>
-        
-      </View>
+    <SafeAreaView style={styles.screen}>
+      <ScrollView contentContainerStyle={styles.content}>
+        <Text style={styles.title}>{'Dining Halls'}</Text>
+        {isWeekend ? <View></View> : <CustomDiningButton label={'Buckley'} arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall: 'buckley' })} />}
+        <CustomDiningButton label={'Gelfenbien'} arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall : 'gelfenbien' })}/>
+        <CustomDiningButton label={'McMahon'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall : 'mcmahon' })}/>
+        <CustomDiningButton label={'North'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall : 'north' })}/>
+        <CustomDiningButton label={'Northwest'}  arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall : 'northwest' })}/>
+        <CustomDiningButton label={'Putnam'}     arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall : 'putnam' })} />
+        <CustomDiningButton label={'South'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall : 'south' })}/>
+        <CustomDiningButton label={'Whitney'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall : 'whitney' })}/>
+      </ScrollView>
     </SafeAreaView>       
 );
 };
+
+const styles = StyleSheet.create({
+  screen: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {
+    alignItems: 'center',
+    marginHorizontal: windowWidth * 0.125,
+    paddingTop: windowHeight * 0.04,
+    paddingBottom: windowHeight * 0.05
+  },
+  title: {
+    fontFamily: "System",
+    fontSize: 30,
+    fontWeight: "500",
+    color: myColors.navy,
+  }
+});
+
 export default DiningHalls

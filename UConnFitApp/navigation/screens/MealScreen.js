@@ -1,9 +1,13 @@
 import { useRoute } from '@react-navigation/native';
-import React, { useState } from "react";
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, FlatList, ScrollView, LogBox } from 'react-native';
+import React from 'react';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, ScrollView, Dimensions, useEffect } from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
-import CustomDiningButtton from '../../assets/Components/CustomDiningButton'; 
+import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
+import CustomFoodItemButton from '../../assets/Components/CustomFoodItemButton';
+
+// Get screen dimensions
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const MealScreen = ({ navigation }) => {
 
@@ -21,22 +25,26 @@ const MealScreen = ({ navigation }) => {
   // Set state variables for condition of showing menus (hide menu if false, show if true)
   const [showBreakfast, setBreakfast] = React.useState(false)
   const [showLunch, setLunch]         = React.useState(false)
-  const [showDinner, setDinner] = React.useState(false)
+  const [showDinner, setDinner]       = React.useState(false)
   
   // Set state variables for the list of foods collected from api call
   const [breakfastFoods, setBreakfastFoods] = React.useState([])
   const [lunchFoods, setLunchFoods]         = React.useState([])
   const [dinnerFoods, setDinnerFoods]       = React.useState([])
+  const [allFoods, setAllFoods]             = React.useState([])
+
+  var i = 0
 
   // Set the specific list based on the json data from API call and the certain button pressed
   const setFoods = (json, meal) => {
-
+    
     // Temporary list of foods
     const temp_foods = []
-
     // Iterate through json data and add all food items onto the temporary list
     json.forEach(element => {
-      temp_foods.push(element.Food_Item)
+      element["id"] = i;
+      i += 1;
+      temp_foods.push(element);
     });
 
     // Update the correct foods list based on the meal button clicked
@@ -48,27 +56,29 @@ const MealScreen = ({ navigation }) => {
       setDinnerFoods(temp_foods);
     }
   }
-  
-  // Get the meal data from API
+
   const getMeal = (meal) => {
+    (async () => {
+      // Make API call based on dining hall name and meal selected
+      var fetch_str = "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/" + route.params.dininghall + "/" + meal;
+      var requestOptions = {
+        method: 'GET',
+        headers: { "x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj" },
+        redirect: 'follow'
+      };
 
-    // Make API call based on dining hall name and meal selected
-    var fetch_str = "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/" + route.params.dininghall + "/" + meal;
-    var requestOptions = {
-      method: 'GET',
-      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj"},
-      redirect: 'follow'
-    };
+      // fetch the data
+      fetch(fetch_str, requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          var json = JSON.parse(result);
+          setFoods(json, meal); // set the food list based on the json data and the meal type
+        })
+        .catch(error => console.log('error', error));
+    })()
+  }
 
-    // fetch the data
-    fetch(fetch_str, requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        var json = JSON.parse(result);
-        setFoods(json, meal); // set the food list based on the json data and the meal type
-      })
-      .catch(error => console.log('error', error));
-
+  const showMeal = (meal) => {
     // Determine which meal was selected, and set the show condition to the opposite of what it was before
     // If the button was clicked and the menu is currently showing, the variable will be set to false so that the menu goes back to hidden
     if (meal === "breakfast") {
@@ -78,57 +88,85 @@ const MealScreen = ({ navigation }) => {
     } else if (meal === "dinner") {
       if (showDinner) { setDinner(false); } else { setDinner(true); }
     }
-
   }
+
+  // Automatically get all meals from API on screen load
+  React.useEffect(() => {
+    getMeal('breakfast');
+    getMeal('lunch');
+    getMeal('dinner');
+  }, []);
 
   return (
     <SafeAreaView style={styles.screen}>
-      <Text style={styles.title}>{diningHallName}</Text>
-      {isWeekend ? <View></View> : <CustomDiningButtton label={'Breakfast'} onPress={() => getMeal('breakfast')} />}
-      <View>
-        {showBreakfast ?
-          <View style={styles.list}>
-            <FlatList
-              data={breakfastFoods}
-              renderItem={({ item }) => (<Text style={styles.item}>{item}</Text>)}
-            />
-          </View> :
-          <Text></Text>
-        }
-      </View>
-  
-      <CustomDiningButtton label={isWeekend ? 'Brunch' : 'Lunch'} onPress={() => getMeal('lunch')} />
-      <View>
-        {showLunch ?
-          <View style={styles.list}>
-            <FlatList
-              data={lunchFoods}
-              renderItem={({ item }) => (<Text style={styles.item}>{item}</Text>)}
-            />
-          </View> :
-          <Text></Text>
-        }
-      </View>
-      
-      <CustomDiningButtton label={'Dinner'} onPress={() => getMeal('dinner')} />
+      <ScrollView contentContainerStyle={styles.content }>
+        <Text style={styles.title}>{diningHallName}</Text>
+        {isWeekend ? <View></View> : <CustomDiningButton label={'Breakfast'} arrow={showBreakfast ? "up" : "down"} onPress={() => showMeal('breakfast')} />}
         <View>
-          {showDinner ?
+          {showBreakfast ?
             <View style={styles.list}>
-              <FlatList
-                data={dinnerFoods}
-                renderItem={({ item }) => (<Text style={styles.item}>{item}</Text>)}
-              />
+              <ScrollView>
+                {breakfastFoods.map((food) => {
+                  return (
+                    <CustomFoodItemButton
+                      key={food.id}
+                      label={food["Food Item"]}
+                      infoOnPress={() => navigation.navigate('NutritionScreen', { food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })}
+                      addOnPress={() => { }}
+                    />);
+                })}
+              </ScrollView>
             </View> :
             <Text></Text>
           }
         </View>
-
-        <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
-          <TouchableOpacity onPress={() => navigation.navigate('DiningHalls')}>
-            <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Back </Text>
-          </TouchableOpacity>
+    
+        <CustomDiningButton label={isWeekend ? 'Brunch' : 'Lunch'} arrow={showLunch ? "up" : "down"} onPress={() => showMeal('lunch')} />
+        <View>
+          {showLunch ?
+            <View style={styles.list}>
+              <ScrollView>
+                {lunchFoods.map((food) => {
+                  return (
+                    <CustomFoodItemButton
+                      key={food.id}
+                      label={food["Food Item"]}
+                      infoOnPress={() => navigation.navigate('NutritionScreen', { food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName})}
+                      addOnPress={() => { }}
+                    />);
+                })}
+              </ScrollView>
+            </View> :
+            <Text></Text>
+          }
         </View>
-          
+        
+        <CustomDiningButton label={'Dinner'} arrow={showDinner ? "up" : "down"} onPress={() => showMeal('dinner')} />
+          <View>
+            {showDinner ?
+              <View style={styles.list}>
+                <ScrollView>
+                {dinnerFoods.map((food) => {
+                  return (
+                    <CustomFoodItemButton
+                      key={food.id}
+                      label={food["Food Item"]}
+                      infoOnPress={() => navigation.navigate('NutritionScreen', { food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })}
+                      addOnPress={() => { }}
+                    />);
+                })}
+              </ScrollView>
+              </View> :
+              <Text></Text>
+            }
+          </View>
+
+          <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
+            <TouchableOpacity onPress={() => navigation.navigate('DiningHalls')}>
+              <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Back </Text>
+            </TouchableOpacity>
+          </View>
+        </ScrollView>
       </SafeAreaView>
   );
 };
@@ -140,7 +178,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   content: {
-    width: 400,
+    alignItems: 'center',
+    marginHorizontal: windowWidth * 0.125,
+    paddingTop: windowHeight * 0.15,
+    paddingBottom: windowHeight * 0.1
   },
   title: {
     fontFamily: "System",
@@ -151,9 +192,10 @@ const styles = StyleSheet.create({
   },
   list: {
     minHeight: 0,
-    maxHeight: 200,
-    width: 275,
+    maxHeight: 250,
+    width: windowWidth*0.75,
     marginBottom: 15,
+    paddingTop: 8,
     backgroundColor: myColors.lightGrey,
     borderRadius: 10,
   },
