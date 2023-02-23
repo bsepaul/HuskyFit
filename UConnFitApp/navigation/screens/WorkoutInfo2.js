@@ -5,6 +5,7 @@ import { myColors } from '../../assets/colors/ColorPalette';
 import { NavigationHelpersContext } from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import { TextInput } from 'react-native';
+import CustomRecButton from '../../assets/Components/CustomRecButton';
 import {
   Alert,
   StatusBar,
@@ -96,28 +97,12 @@ const App = ({navigation}) => {
           }}
         />
  
- <InputField label ={'Calories Burned (Optional)'} inputType = 'calories-burned' 
-                fieldButtonFunction = {() => {}}
-                /> 
-
-        <TouchableOpacity
-          style={{
-            backgroundColor: '#0F3460',
-            padding: 20,
-            borderRadius: 15,
-            alignItems: 'center',
-          }}
-          onPress={() => navigation.navigate('WorkoutScreen')}>
-
-          <Text
-            style={{
-              color: '#fff',
-              textTransform: 'uppercase',
-              fontWeight: '600',
-            }}>
-            Submit
-          </Text>
-        </TouchableOpacity>
+        <InputField
+          label={'Calories Burned (Optional)'}
+          inputType='calories-burned'
+          fieldButtonFunction={() => { }}
+        /> 
+        <CustomRecButton label={'Submit'} onPress={() => {navigation.navigate('WorkoutScreen')}} />
       </View>
     </View>
   );
@@ -128,25 +113,27 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: myColors.white,
     padding: 16,
     justifyContent: 'center',
     alignContent: 'center',
+    scroll: true,
   },
   dropdown: {
     height: 50,
-    borderColor: 'gray',
+    borderColor: myColors.grey,
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 10,
+    scroll: true,
   },
   icon: {
     marginRight: 5,
   },
   label: {
     position: 'absolute',
-    backgroundColor: 'white',
+    backgroundColor: myColors.white,
     left: 22,
     top: 8,
     zIndex: 999,

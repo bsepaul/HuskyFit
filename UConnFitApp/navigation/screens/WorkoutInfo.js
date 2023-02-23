@@ -5,6 +5,7 @@ import { myColors } from '../../assets/colors/ColorPalette';
 import { NavigationHelpersContext } from '@react-navigation/native';
 import React, {useEffect, useState} from 'react';
 import { ScrollView, TextInput } from 'react-native';
+import CustomRecButton from '../../assets/Components/CustomRecButton';
 import {
   Alert,
   StatusBar,
@@ -70,7 +71,7 @@ const App = ({navigation}) => {
 
 
   return (
-    <View style={styles.container}>10
+    <View style={styles.container}>
       <StatusBar barStyle="light-content" />
       <View style={{backgroundColor: '#F6F6F6', padding: 20, borderRadius: 15}}>
         <Dropdown
@@ -91,7 +92,7 @@ const App = ({navigation}) => {
           onBlur={() => setIsFocus(false)}
           onChange={item => {
             setWorkoutTypeData(item.value);
-            setWokrkoutType(item.label);
+            setWorkoutType(item.label);
             setIsFocus(false);
           }}
         />
@@ -139,28 +140,12 @@ const App = ({navigation}) => {
           }}
         />
  
- <InputField label ={'Calories Burned (Optional)'} inputType = 'calories-burned' 
-                fieldButtonFunction = {() => {}}
-                /> 
-
-        <TouchableOpacity
-          style={{
-            backgroundColor: myColors.grey,
-            padding: 20,
-            borderRadius: 15,
-            alignItems: 'center',
-          }}
-          onPress={() => navigation.navigate('WorkoutScreen')}>
-
-          <Text
-            style={{
-              color: '#F6F6F6',
-              textTransform: 'uppercase',
-              fontWeight: '600',
-            }}>
-            Submit
-          </Text>
-        </TouchableOpacity>
+        <InputField
+          label={'Calories Burned (Optional)'}
+          inputType='calories-burned'
+          fieldButtonFunction={() => { }}
+        /> 
+        <CustomRecButton label={'Submit'} onPress={() => {navigation.navigate('WorkoutScreen')}} />
       </View>
     </View>
   );
@@ -171,7 +156,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F6F6',
+    backgroundColor: myColors.white,
     padding: 16,
     justifyContent: 'center',
     alignContent: 'center',
