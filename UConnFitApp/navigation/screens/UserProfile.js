@@ -1,14 +1,20 @@
+import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, SafeAreaView, Platform } from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
 import CustomButton from "../../assets/Components/CustomButton";
 
 const UserProfile = ({ navigation }) => {
+
+  // Get token from route
+  const route = useRoute();
+  const token = route.params.token;
+
   return (
     <SafeAreaView style={styles.container}>
       <Text>Profile Screen!</Text>
       <StatusBar style="auto" />
-      <CustomButton label={"Settings"} onPress={() => navigation.navigate('Settings')}></CustomButton>
+      <CustomButton label={"Settings"} onPress={() => navigation.navigate('Settings', {token:token})}></CustomButton>
     </SafeAreaView>
   );
 }

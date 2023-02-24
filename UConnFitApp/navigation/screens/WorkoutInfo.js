@@ -1,23 +1,22 @@
-import { useNavigation } from '@react-navigation/native';
-import CustomButton from '../../assets/Components/CustomButton';
+import { useRoute } from '@react-navigation/native';
 import InputField from '../../assets/Components/InputField';
 import { myColors } from '../../assets/colors/ColorPalette';
-import { NavigationHelpersContext } from '@react-navigation/native';
-import React, {useEffect, useState} from 'react';
-import { ScrollView, TextInput } from 'react-native';
+import React, { useState } from 'react';
 import CustomRecButton from '../../assets/Components/CustomRecButton';
+import fetch from 'node-fetch'
 import {
-  Alert,
   StatusBar,
   StyleSheet,
   Text,
-  TouchableOpacity,
-  View 
+  View,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
 
-const WorkoutTypeData = [
+const allWorkoutTypeData = [
   { label: 'High Intensity Interval Training', value: '1' },
   { label: 'Stair Stepper', value: '2' },
   { label: 'Jump Rope', value: '3' },
@@ -33,7 +32,7 @@ const WorkoutTypeData = [
   { label: 'Raquetball', value: '13' },
 ];
 
-const TimeElapsedData = [
+const allTimeElapsedData = [
   { label: '0-10 minutes', value: '1' },
   { label: '10-20 minutes', value: '2' },
   { label: '20-30 minutes', value: '3' },
@@ -48,110 +47,154 @@ const TimeElapsedData = [
   { label: '110-120 minutes', value: '12' },
 ];
 
-const WorkoutIntensityData = [
+const allWorkoutIntensityData = [
   { label: 'Low', value: '1' },
   { label: 'Medium', value: '2' },
   { label: 'High', value: '3' },
 ];
 
-const App = ({navigation}) => {
-  //const [WorkoutTypeData, setWorkoutTypeData] = useState([]);
-  const [WorkoutType, setWorkoutType] = useState([]);
-  //const [TimeElapsedData, setTimeElapsedData] = useState([]);
-  const [TimeElapsed, setTimeElapsed] = useState([]);
-  //const [WorkoutIntensityData, setWorkoutIntensityData] = useState([]);
-  const [WorkoutIntensity, setWorkoutIntensity] = useState([]);
-  const [CalorieData, setSetCalorieData] = useState(null);
-  const [Calorie, setSetCalorie] = useState(null);
-  const [CaloriesBurned, setCaloriesBurned] = React.useState("");
+const WorkoutInfo = ({ navigation }) => {
+
+  // Get token and workoutType from route
+  const route = useRoute();
+  const token = route.params.token;
+  const workoutType = route.params.workoutType;
+
+  // If user selected other workout on previous page, set otherWorkout to true
+  // using this boolean to hide/show other workout dropdown
+  var otherWorkout = (workoutType === '') ? true : false;
+
+  const [WorkoutType, setWorkoutType] = useState(workoutType);
+  const [TimeElapsed, setTimeElapsed] = useState('');
+  const [WorkoutIntensity, setWorkoutIntensity] = useState('');
+
+  // const [WorkoutTypeData, setWorkoutTypeData] = useState('');
+  // const [TimeElapsedData, setTimeElapsedData] = useState('');
+  // const [WorkoutIntensityData, setWorkoutIntensityData] = useState('');
+  // const [CalorieData, setSetCalorieData] = useState(null);
+  // const [Calories, setCalorie] = useState(null);
+  const [CaloriesBurned, setCaloriesBurned] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const handleCaloriesBurned = (text) => {
     setCaloriesBurned(text);
   };
 
+  const addWorkout = () => {
+    (async () => {
+      // Add as many or as little attributes as you want!
+      var raw = JSON.stringify({
+              "WorkoutType": WorkoutType,
+              "TimeElapsed": TimeElapsed,
+              "CaloriesBurned": CaloriesBurned,
+              "WorkoutIntensity": WorkoutIntensity
+          });
+
+
+      var requestOptions = {
+        method: 'PUT',
+        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+                  "Authorization": token},
+        body: raw,
+        redirect: 'follow'
+      };
+
+
+      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+
+  })()
+  navigation.navigate('WorkoutScreen', {token: token})
+  }
 
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="light-content" />
-      <View style={{backgroundColor: '#F6F6F6', padding: 20, borderRadius: 15}}>
-        <Dropdown
-          style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
-          data={WorkoutTypeData} 
-          search
-          maxHeight={300}
-          //scroll = {true}
-          labelField="label"
-          valueField="value"
-          placeholder={'Select Workout Type'}
-          searchPlaceholder="Select One"
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={item => {
-            setWorkoutTypeData(item.value);
-            setWorkoutType(item.label);
-            setIsFocus(false);
-          }}
-        />
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <Text style={styles.title}>Enter {otherWorkout ? 'other' : workoutType.toLowerCase()} workout</Text>
+        <View style={{backgroundColor: '#F6F6F6', padding: 20, borderRadius: 15}}>
+          { otherWorkout ? <Dropdown
+            style={[styles.dropdown, isFocus && { borderColor: myColors.navy }]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={allWorkoutTypeData}
+            search
+            maxHeight={300}
+            //scroll = {true}
+            labelField="label"
+            valueField="value"
+            placeholder={'Select Workout Type'}
+            searchPlaceholder="Select One"
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              // setWorkoutTypeData(item.value);
+              setWorkoutType(item.label);
+              setIsFocus(false);
+            }}
+          /> : <View></View> }
       
-        <Dropdown
-          style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
-          data={TimeElapsedData}
-          search
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={'Select Time Elapsed'}
-          searchPlaceholder="Search..."
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={item => {
-            setTimeElapsedData(item.value);
-            setTimeElapsed(item.label);
-            setIsFocus(false);
-          }}
-        />
-        <Dropdown
-          style={[styles.dropdown, isFocus && {borderColor: 'blue'}]}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
-          iconStyle={styles.iconStyle}
-          data={WorkoutIntensityData}
-          search
-          maxHeight={300}
-          labelField="label"
-          valueField="value"
-          placeholder={'Select Workout Intensity'}
-          searchPlaceholder="Search..."
-          onFocus={() => setIsFocus(true)}
-          onBlur={() => setIsFocus(false)}
-          onChange={item => {
-            setWorkoutIntensityData(item.value);
-            setWorkoutIntensity(item.label);
-            setIsFocus(false);
-          }}
-        />
- 
-        <InputField
-          label={'Calories Burned (Optional)'}
-          inputType='calories-burned'
-          fieldButtonFunction={() => { }}
-        /> 
-        <CustomRecButton label={'Submit'} onPress={() => {navigation.navigate('WorkoutScreen')}} />
+          <Dropdown
+            style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={allTimeElapsedData}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={'Select Time Elapsed'}
+            searchPlaceholder="Search..."
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              // setTimeElapsedData(item.value);
+              setTimeElapsed(item.label);
+              setIsFocus(false);
+            }}
+          />
+          <Dropdown
+            style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
+            placeholderStyle={styles.placeholderStyle}
+            selectedTextStyle={styles.selectedTextStyle}
+            inputSearchStyle={styles.inputSearchStyle}
+            iconStyle={styles.iconStyle}
+            data={allWorkoutIntensityData}
+            search
+            maxHeight={300}
+            labelField="label"
+            valueField="value"
+            placeholder={'Select Workout Intensity'}
+            searchPlaceholder="Search..."
+            onFocus={() => setIsFocus(true)}
+            onBlur={() => setIsFocus(false)}
+            onChange={item => {
+              // setWorkoutIntensityData(item.value);
+              setWorkoutIntensity(item.label);
+              setIsFocus(false);
+            }}
+          />
+          <TextInput
+            placeholder="Calories Burned (Optional)"
+            placeholderTextColor={myColors.darkGrey}
+            style={styles.calorieInput}
+            keyboardType='number-pad'
+            onChangeText={(calories) => setCaloriesBurned(calories)}
+          />
+          <CustomRecButton label={'Submit'} onPress={addWorkout} />
+        </View>
       </View>
-    </View>
+    </TouchableWithoutFeedback>
   );
 };
 
-export default App;
+export default WorkoutInfo;
 
 const styles = StyleSheet.create({
   container: {
@@ -173,6 +216,19 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginRight: 5,
+  },
+  title: {
+    paddingHorizontal: 20,
+    fontFamily: 'System',
+    fontSize: 30,
+    fontWeight: '600',
+    color: myColors.navy,
+  },
+  calorieInput: {
+    borderBottomWidth: 1,
+    borderBottomColor: myColors.lightGrey,
+    paddingBottom: 5,
+    marginBottom: 10,
   },
   label: {
     position: 'absolute',

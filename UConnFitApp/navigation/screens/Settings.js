@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import {
   StyleSheet,
@@ -34,6 +35,11 @@ const SECTIONS = [
 
 
 export default function Example() {
+
+  // Get token from route
+  const route = useRoute();
+  const token = route.params.token;
+
   const [form, setForm] = useState({
     language: 'English',
     darkMode: true,

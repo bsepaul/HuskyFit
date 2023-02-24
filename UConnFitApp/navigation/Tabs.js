@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -10,6 +11,11 @@ import { myColors } from '../assets/colors/ColorPalette';
 const Tab = createBottomTabNavigator();
 
 const Tabs = () => {
+
+    // Get token from route
+    const route = useRoute();
+    const token = route.params.token
+
     return(
         <Tab.Navigator
             initialRouteName='Home'
@@ -28,89 +34,109 @@ const Tabs = () => {
                     ...style.shadow
                 }
             }} >
-            <Tab.Screen name = "Rec" component={RecScreen} options={{
-                tabBarIcon: ({focused}) => (
-                    <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
-                        <Image
-                            source={require('../assets/icons/rec.png')}
-                            resizeMode='contain'
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? myColors.navy : myColors.grey
-                            }}
-                        />
-                        <Text style={{
-                            color: focused ? myColors.navy : myColors.grey, 
-                            fontSize: 11}}>
-                            Rec
-                        </Text>
-                    </SafeAreaView>
-                )
-            }} />
+            <Tab.Screen
+                name="Rec"
+                component={RecScreen}
+                initialParams={{token: token}}
+                options={{
+                    tabBarIcon: ({focused}) => (
+                        <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                            <Image
+                                source={require('../assets/icons/rec.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? myColors.navy : myColors.grey
+                                }}
+                            />
+                            <Text style={{
+                                color: focused ? myColors.navy : myColors.grey, 
+                                fontSize: 11}}>
+                                Rec
+                            </Text>
+                        </SafeAreaView>
+                    )
+                }}
+            />
             
-            <Tab.Screen name = "Dine" component={DineScreen}options={{
-                tabBarIcon: ({focused}) => (
-                    <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
-                        <Image
-                            source={require('../assets/icons/dine.png')}
-                            resizeMode='contain'
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? myColors.navy : myColors.grey
-                            }}
-                        />
-                        <Text style={{
-                            color: focused ? myColors.navy : myColors.grey, 
-                            fontSize: 11}}>
-                            Dine
-                        </Text>
-                    </SafeAreaView>
-                )
-            }} />
+            <Tab.Screen
+                name="Dine"
+                component={DineScreen}
+                initialParams={{token: token}}
+                options={{
+                    tabBarIcon: ({focused}) => (
+                        <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                            <Image
+                                source={require('../assets/icons/dine.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? myColors.navy : myColors.grey
+                                }}
+                            />
+                            <Text style={{
+                                color: focused ? myColors.navy : myColors.grey, 
+                                fontSize: 11}}>
+                                Dine
+                            </Text>
+                        </SafeAreaView>
+                    )
+                }}
+            />
             
-            <Tab.Screen name = "Home" component={HomeScreen}options={{
-                tabBarIcon: ({focused}) => (
-                    <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
-                        <Image
-                            source={require('../assets/icons/home.png')}
-                            resizeMode='contain'
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? myColors.navy : myColors.grey
-                            }}
-                        />
-                        <Text style={{
-                            color: focused ? myColors.navy : myColors.grey, 
-                            fontSize: 11}}>
-                            Home
-                        </Text>
-                    </SafeAreaView>
-                )
-            }} />
+            <Tab.Screen
+                name="Home"
+                component={HomeScreen}
+                initialParams={{token: token}}
+                options={{
+                    tabBarIcon: ({focused}) => (
+                        <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                            <Image
+                                source={require('../assets/icons/home.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? myColors.navy : myColors.grey
+                                }}
+                            />
+                            <Text style={{
+                                color: focused ? myColors.navy : myColors.grey, 
+                                fontSize: 11}}>
+                                Home
+                            </Text>
+                        </SafeAreaView>
+                    )
+                }}
+            />
             
-            <Tab.Screen name = "Profile" component={ProfileScreen}options={{
-                tabBarIcon: ({focused}) => (
-                    <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
-                        <Image
-                            source={require('../assets/icons/user.png')}
-                            resizeMode='contain'
-                            style={{
-                                width: 25,
-                                height: 25,
-                                tintColor: focused ? myColors.navy : myColors.grey
-                            }}
-                        />
-                        <Text style={{
-                            color: focused ? myColors.navy : myColors.grey, 
-                            fontSize: 11}}>
-                            Profile
-                        </Text>
-                    </SafeAreaView>
-                )
-            }} />
+            <Tab.Screen
+                name="Profile"
+                component={ProfileScreen}
+                initialParams={{token: token}}
+                options={{
+                    tabBarIcon: ({focused}) => (
+                        <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                            <Image
+                                source={require('../assets/icons/user.png')}
+                                resizeMode='contain'
+                                style={{
+                                    width: 25,
+                                    height: 25,
+                                    tintColor: focused ? myColors.navy : myColors.grey
+                                }}
+                            />
+                            <Text style={{
+                                color: focused ? myColors.navy : myColors.grey, 
+                                fontSize: 11}}>
+                                Profile
+                            </Text>
+                        </SafeAreaView>
+                    )
+                }}
+            />
             
         </Tab.Navigator>
     )

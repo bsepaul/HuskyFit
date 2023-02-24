@@ -1,20 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, View, SafeAreaView,} from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
-import CustomRecButton from '../../assets/Components/CustomRecButton'; 
+import { useRoute } from '@react-navigation/native';
 import WorkoutScreen from './WorkoutScreen';
 import WorkoutInfo from './WorkoutInfo';
-import WorkoutInfo2 from './WorkoutInfo2';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const Stack = createNativeStackNavigator();
 
 const RecScreen = () => {
+  const route = useRoute();
+  const token = route.params.token;
   return (
-      <Stack.Navigator>
-        <Stack.Screen component = {WorkoutScreen} name = "WorkoutScreen" options={{headerShown:false}}/>
-        <Stack.Screen component = {WorkoutInfo}  name = "WorkoutInfo" options={{ headerShown: false }}/>
-        <Stack.Screen component = {WorkoutInfo2}  name = "WorkoutInfo2" options={{ headerShown: false }}/>
+      <Stack.Navigator initialRouteName='WorkoutScreen'>
+        <Stack.Screen component = {WorkoutScreen} initialParams={{token:token}} name = "WorkoutScreen" options={{ headerShown:false }}/>
+        <Stack.Screen component = {WorkoutInfo}   initialParams={{token:token}} name = "WorkoutInfo"   options={{ headerShown:false }}/>
       </Stack.Navigator>
   )
 };

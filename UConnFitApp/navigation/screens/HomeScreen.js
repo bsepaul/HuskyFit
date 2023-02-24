@@ -1,3 +1,4 @@
+import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, SafeAreaView, Platform, ScrollView, Dimensions } from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
@@ -7,7 +8,12 @@ import React from 'react'
 
 
 
-export default function App() {
+export default function HomeScreen() {
+
+    // Get token from route
+    const route = useRoute();
+    const token = route.params.token;
+
     // Get the day of the week
     const date = new Date();
     

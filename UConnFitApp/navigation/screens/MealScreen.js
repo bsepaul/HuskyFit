@@ -18,9 +18,11 @@ const MealScreen = ({ navigation }) => {
   // Determine if it is a weekend or not
   const isWeekend = day === 6 || day === 0;
 
-  // Get the dining hall name from dining hall page and capitalize the first letter
+  // Get the token and dining hall name from dining hall page and capitalize the first letter
   const route = useRoute();
+  const token = route.params.token;
   const diningHallName = route.params.dininghall.charAt(0).toUpperCase() + route.params.dininghall.slice(1)
+  
 
   // Set state variables for condition of showing menus (hide menu if false, show if true)
   const [showBreakfast, setBreakfast] = React.useState(false)
@@ -111,7 +113,7 @@ const MealScreen = ({ navigation }) => {
                     <CustomFoodItemButton
                       key={food.id}
                       label={food["Food Item"]}
-                      infoOnPress={() => navigation.navigate('NutritionScreen', { food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })}
+                      infoOnPress={() => navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })}
                       addOnPress={() => { }}
                     />);
                 })}
@@ -131,7 +133,7 @@ const MealScreen = ({ navigation }) => {
                     <CustomFoodItemButton
                       key={food.id}
                       label={food["Food Item"]}
-                      infoOnPress={() => navigation.navigate('NutritionScreen', { food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName})}
+                      infoOnPress={() => navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName})}
                       addOnPress={() => { }}
                     />);
                 })}
@@ -151,7 +153,7 @@ const MealScreen = ({ navigation }) => {
                     <CustomFoodItemButton
                       key={food.id}
                       label={food["Food Item"]}
-                      infoOnPress={() => navigation.navigate('NutritionScreen', { food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })}
+                      infoOnPress={() => navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })}
                       addOnPress={() => { }}
                     />);
                 })}
@@ -162,7 +164,7 @@ const MealScreen = ({ navigation }) => {
           </View>
 
           <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
-            <TouchableOpacity onPress={() => navigation.navigate('DiningHalls')}>
+            <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
               <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Back </Text>
             </TouchableOpacity>
           </View>

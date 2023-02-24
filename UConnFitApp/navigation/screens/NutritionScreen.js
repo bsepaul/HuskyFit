@@ -16,8 +16,10 @@ const NutritionScreen = ({ navigation }) => {
     // Determine if it is a weekend or not
     const isWeekend = day === 6 || day === 0;
 
-    // Get the dining hall name from dining hall page and capitalize the first letter
+    // Get token from route
     const route = useRoute();
+    const token = route.params.token
+
     const breakfastFoods = route.params.breakfastFoods;
     const lunchFoods = route.params.lunchFoods;
     const dinnerFoods = route.params.dinnerFoods;
@@ -107,7 +109,7 @@ const NutritionScreen = ({ navigation }) => {
             </View>
 
             <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
-                <TouchableOpacity onPress={() => navigation.navigate('DiningHalls')}>
+                <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
                 <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Back </Text>
                 </TouchableOpacity>
             </View>

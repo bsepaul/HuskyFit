@@ -1,32 +1,35 @@
-import { StatusBar } from 'expo-status-bar';
+import { useRoute } from '@react-navigation/native';
 import { StyleSheet, View, SafeAreaView, Text, Dimensions } from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
 import CustomRecButton from '../../assets/Components/CustomRecButton';
 import CustomRecIconButton from '../../assets/Components/CustomRecIconButton';
-import CustomButton from '../../assets/Components/CustomButton';
-import WorkoutInfo2 from './WorkoutInfo2'
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 
-const RecScreen = ({navigation}) => {
+const RecScreen = ({ navigation }) => {
+
+  // Get token from route
+  const route = useRoute();
+  const token = route.params.token;
+
   return (
     <SafeAreaView style={{ flex: 1, flexDirection: 'center', justifyContent: 'center', alignContent: 'center' }}>
       <Text style= {styles.title}>Workouts</Text>
       <View style= {styles.buttonRow}>
-        <CustomRecIconButton label={'Walking '} icon={require('../../assets/icons/rec/walk.png')}   onPress={() => navigation.navigate('WorkoutInfo2')}/> 
-        <CustomRecIconButton label={'Running '} icon={require('../../assets/icons/rec/run.png')} onPress={() => navigation.navigate('WorkoutInfo2')} />
+        <CustomRecIconButton label={'Walking '} icon={require('../../assets/icons/rec/walk.png')} onPress={() => navigation.navigate('WorkoutInfo', { token:token, workoutType: 'Walk' })}/> 
+        <CustomRecIconButton label={'Running '} icon={require('../../assets/icons/rec/run.png')}  onPress={() => navigation.navigate('WorkoutInfo', { workoutType: 'Run' })} />
       </View>
       <View style= {styles.buttonRow}>
-        <CustomRecIconButton label={'Weights '} icon={require('../../assets/icons/rec/weight.png')} onPress={() => navigation.navigate('WorkoutInfo2')}/>
-        <CustomRecIconButton label={'Yoga    '} icon={require('../../assets/icons/rec/yoga.png')}   onPress={() => navigation.navigate('WorkoutInfo2')}/>
+        <CustomRecIconButton label={'Weights '} icon={require('../../assets/icons/rec/weight.png')} onPress={() => navigation.navigate('WorkoutInfo', { workoutType: 'Weights' })}/>
+        <CustomRecIconButton label={'Yoga    '} icon={require('../../assets/icons/rec/yoga.png')}   onPress={() => navigation.navigate('WorkoutInfo', { workoutType: 'Yoga' })}/>
       </View>
       <View style= {styles.buttonRow}>
-        <CustomRecIconButton label={'Swimming'} icon={require('../../assets/icons/rec/swim.png')} onPress={() => navigation.navigate('WorkoutInfo2')} />
-        <CustomRecIconButton label={'Biking  '} icon={require('../../assets/icons/rec/biking.png')} onPress={() => navigation.navigate('WorkoutInfo2')}/>   
+        <CustomRecIconButton label={'Swimming'} icon={require('../../assets/icons/rec/swim.png')}   onPress={() => navigation.navigate('WorkoutInfo', { workoutType: 'Swimming' })} />
+        <CustomRecIconButton label={'Biking  '} icon={require('../../assets/icons/rec/biking.png')} onPress={() => navigation.navigate('WorkoutInfo', { workoutType: 'Biking' })}/>   
       </View>
       <View>
-        <CustomRecButton label={'Other Workouts'} onPress={() => navigation.navigate('WorkoutInfo')}/>  
+        <CustomRecButton label={'Other Workouts'} onPress={() => navigation.navigate('WorkoutInfo', { workoutType: '' })}/>  
       </View>
     </SafeAreaView>
         

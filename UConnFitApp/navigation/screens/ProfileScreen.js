@@ -1,6 +1,4 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, SafeAreaView, Platform } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { useRoute } from '@react-navigation/native';
 import UserProfile from './UserProfile';
 import Settings from './Settings'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -8,10 +6,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const Stack = createNativeStackNavigator();
 
 const ProfileScreen = () => {
+  const route = useRoute();
+  const token = route.params.token;
   return (
-      <Stack.Navigator screenOptions={{headerShown: false}}>
-        <Stack.Screen component = {UserProfile} name = "UserProfile" options={{headerShown:false}}/>
-        <Stack.Screen component = {Settings}  name = "Settings" options={{headerShown: false}} />
+    <Stack.Navigator initialRouteName='UserProfile' screenOptions={{headerShown: false}}>
+        <Stack.Screen component = {UserProfile} initialParams={{token:token}} name = "UserProfile" options={{headerShown:false}}/>
+        <Stack.Screen component = {Settings}    initialParams={{token:token}} name = "Settings" options={{headerShown: false}} />
       </Stack.Navigator>
   )
 };
