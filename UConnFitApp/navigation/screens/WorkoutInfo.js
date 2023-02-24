@@ -114,7 +114,7 @@ const WorkoutInfo = ({ navigation }) => {
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
         <Text style={styles.title}>Enter {otherWorkout ? 'other' : workoutType.toLowerCase()} workout</Text>
-        <View style={{backgroundColor: '#F6F6F6', padding: 20, borderRadius: 15}}>
+        <View style={{padding: 20, borderRadius: 15}}>
           { otherWorkout ? <Dropdown
             style={[styles.dropdown, isFocus && { borderColor: myColors.navy }]}
             placeholderStyle={styles.placeholderStyle}
@@ -199,7 +199,6 @@ export default WorkoutInfo;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: myColors.white,
     padding: 16,
     justifyContent: 'center',
     alignContent: 'center',
@@ -232,7 +231,6 @@ const styles = StyleSheet.create({
   },
   label: {
     position: 'absolute',
-    backgroundColor: myColors.white,
     left: 22,
     top: 8,
     zIndex: 999,
