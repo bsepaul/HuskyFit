@@ -28,10 +28,10 @@ export default function CustomDiningButton({ label, onPress, arrow, inverse = fa
                 backgroundColor: inverse ? myColors.white : myColors.navy, 
                 borderColor: inverse ? myColors.navy : null,
                 borderWidth: inverse ? 5 : null,
-                padding: 22,
+                padding: 21,
                 width: windowWidth*.75,
                 borderRadius: 20,
-                marginTop:12,
+                marginTop:10,
             }}>
             <Text 
                 style= {{
