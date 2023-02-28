@@ -1,8 +1,11 @@
 import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, SafeAreaView, Platform } from 'react-native';
+import { StyleSheet, Text, View, Image, SafeAreaView, Platform, Dimensions} from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
 import CustomButton from "../../assets/Components/CustomButton";
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const UserProfile = ({ navigation }) => {
 
@@ -12,20 +15,31 @@ const UserProfile = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text>Profile Screen!</Text>
+     <Text style= {styles.title}>Profile</Text>
       <StatusBar style="auto" />
+
+      <CustomButton label={"Food Log"} onPress={() => navigation.navigate('Foodlog', {token:token})}></CustomButton>
+      <CustomButton label={"Workout Log"} onPress={() => navigation.navigate('Workoutlog', {token:token})}></CustomButton>
+      <CustomButton label={"Personal Survey"} onPress={() => navigation.navigate('Survey', {token:token})}></CustomButton>
       <CustomButton label={"Settings"} onPress={() => navigation.navigate('Settings', {token:token})}></CustomButton>
+
     </SafeAreaView>
   );
-}
+};
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: myColors.lightGrey,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+  buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    paddingHorizontal: windowWidth*0.15,
   },
+  title: {
+    fontFamily: "System",
+    fontSize: 30,
+    fontWeight: "500",
+    color: myColors.navy,
+    paddingHorizontal: windowWidth * 0.15,
+    paddingVertical: 15,
+  }
 });
 export default UserProfile;

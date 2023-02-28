@@ -47,6 +47,7 @@ const Login = ({ navigation }) => {
       )
       .then(response => response.text())
       .then((result) => {
+        // Do stuff here
         var json = JSON.parse(result);
         var message = json.message // "message": "Success"
         var token = json.token     // "token": "..."
@@ -55,9 +56,11 @@ const Login = ({ navigation }) => {
         console.log()
         console.log(token)
 
-        if ((message != "Invalid input") && (message != "User does not exist.")) {
-          navigation.navigate("Tabs", {token: token});
-        }
+        navigation.navigate("Tabs", {token: token});
+        
+        //if ((message != "Invalid input") && (message != "User does not exist.")) {
+          //navigation.navigate("Tabs");
+       //}
       })
       .catch(error => console.log('error', error));
     })();
