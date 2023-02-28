@@ -33,7 +33,6 @@ const MealScreen = ({ navigation }) => {
   const [breakfastFoods, setBreakfastFoods] = React.useState([])
   const [lunchFoods, setLunchFoods]         = React.useState([])
   const [dinnerFoods, setDinnerFoods]       = React.useState([])
-  const [allFoods, setAllFoods]             = React.useState([])
 
   var i = 0
 
@@ -49,7 +48,6 @@ const MealScreen = ({ navigation }) => {
       temp_foods.push(element);
     });
 
-    // Update the correct foods list based on the meal button clicked
     if (meal === "breakfast") {
       setBreakfastFoods(temp_foods);
     } else if (meal === "lunch") {
@@ -59,26 +57,24 @@ const MealScreen = ({ navigation }) => {
     }
   }
 
-  const getMeal = (meal) => {
-    (async () => {
-      // Make API call based on dining hall name and meal selected
-      var fetch_str = "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/" + route.params.dininghall + "/" + meal;
-      var requestOptions = {
-        method: 'GET',
-        headers: { "x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj" },
-        redirect: 'follow'
-      };
+  const getMeal = async (meal) => {
+    // Make API call based on dining hall name and meal selected
+    var fetch_str = "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/" + route.params.dininghall + "/" + meal;
+    var requestOptions = {
+      method: 'GET',
+      headers: { "x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj" },
+      redirect: 'follow'
+    };
 
-      // fetch the data
-      fetch(fetch_str, requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          var json = JSON.parse(result);
-          setFoods(json, meal); // set the food list based on the json data and the meal type
-        })
-        .catch(error => console.log('error', error));
-    })()
-  }
+    // fetch the data
+    fetch(fetch_str, requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        var json = JSON.parse(result);
+        setFoods(json, meal); // set the food list based on the json data and the meal type
+      })
+      .catch(error => console.log('error', error));
+  };
 
   const showMeal = (meal) => {
     // Determine which meal was selected, and set the show condition to the opposite of what it was before
@@ -90,6 +86,10 @@ const MealScreen = ({ navigation }) => {
     } else if (meal === "dinner") {
       if (showDinner) { setDinner(false); } else { setDinner(true); }
     }
+  }
+
+  const goToNutrition = (food) => {
+    navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })
   }
 
   // Automatically get all meals from API on screen load
@@ -113,7 +113,7 @@ const MealScreen = ({ navigation }) => {
                     <CustomFoodItemButton
                       key={food.id}
                       label={food["Food Item"]}
-                      infoOnPress={() => navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })}
+                      infoOnPress={() => goToNutrition(food)}
                       addOnPress={() => { }}
                     />);
                 })}
@@ -165,7 +165,7 @@ const MealScreen = ({ navigation }) => {
 
           <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
             <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
-              <Text style={{ color:'#AD40F', fontWeight:'700'}}>  Back </Text>
+              <Text style={{ color:myColors.navy, fontWeight:'700'}}>Back</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
