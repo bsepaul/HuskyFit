@@ -5,7 +5,11 @@ import { myColors } from '../../assets/colors/ColorPalette';
 import { ProgressChart, BarChart } from 'react-native-chart-kit';
 import React from 'react'
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
+
 export default function HomeScreen() {
+
 
     // Get token from route
     const route = useRoute();
@@ -15,30 +19,40 @@ export default function HomeScreen() {
     const date = new Date();
     // convert to weekday, month ## format
     const days = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+    const daysAbbrev = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
     const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
     const currentWeekDay = String(days[date.getDay()])
     const currentMonth = String(months[date.getMonth()])
     const currentDate = String(date.getDate())
     
-    // dummy data
+    // data
     // for progress ring
-    const ringData = {
+    const ringData = {                  // take from user data, last 3 workouts performed?
       labels: ["Bike", "Run", "Lift"],
-      data: [0.4, 0.6, 0.8]
+      data: [0.4, 0.6, 0.8]             // can set default goal calories to 100 per exercise?
     };
     // for calorie bars
+    // only show data for days we've already seen this week
+    const barLabels = []
+    console.log(String(date.getDay()))
+    for (let i=0; i <= date.getDay(); i++) {
+      barLabels.push(String(daysAbbrev[i]))
+    }
+      // dummy data
+    const calData = [1750, 1712, 1679, 1712, 1679, 1599, 1650] // change to user data set, exclude 0's for days with no data
+
     const barData = {
-    labels: ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"],
+    labels: barLabels,
     datasets: [{
-    data: [1750, 1712, 1679, 1712, 1679, 1599, 1650]
+    data: calData.slice(date.getDay())  // only show cal data since last Sunday
     }]
     }
       
   return (
   <SafeAreaView style={styles.container}>
       <View style={styles.greetingsContainer}>
-        <Text style={styles.greetingsText}>Hello, Jonathan!</Text>
-          <Text style={{fontSize: 18, paddingVertical: 10, paddingHorizontal: 20}}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
+        <Text style={styles.title}>Hello, Jonathan!</Text>
+          <Text style={{fontSize: 20, paddingVertical: 0, paddingHorizontal: 20, color: myColors.navy}}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
       </View>
           <View style={styles.chartContainer}>
           
@@ -46,7 +60,7 @@ export default function HomeScreen() {
           
           <ProgressChart        // ring chart
             data={ringData}
-            width={Dimensions.get('window').width-50}
+            width={Dimensions.get('window').width*.80}
             height={220}
             strokeWidth={16}    // ring thickness, should decrease with more rings
             radius={32}         // default 32
@@ -58,8 +72,8 @@ export default function HomeScreen() {
           
           <BarChart                       // calorie bar chart
             data={barData}
-            width={Dimensions.get('window').width-25}
-            height={200}
+            width={Dimensions.get('window').width*.95}
+            height={250}
             fromZero={false}              // let 0 always be bottom of chart
             withHorizontalLabels={false}  // show calorie labels on left side of chart
             showValuesOnTopOfBars={true}  // show calories above bars
@@ -80,23 +94,21 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: myColors.lightGrey,
+    backgroundColor: myColors.white,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
   },
 greetingsContainer: {
-    flex: .1,
+    flex: .12,
     padding: 10,
     borderRadius: 4,
 },
-greetingsText: {
-    width: '100%',
-    height: 50,
-    paddingVertical: 25,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    fontSize: 25
+title: {
+  fontFamily: "System",
+  fontSize: 30,
+  fontWeight: "500",
+  color: myColors.navy,
+  paddingHorizontal: windowWidth * 0.05,
+  paddingVertical: 10,
 },
 chartContainer: {
     flex: 1,
@@ -105,7 +117,9 @@ chartContainer: {
 },
 chartLabel: {
     height: 50,
-    paddingVertical: 20,
+    fontWeight: "500",
+    color: myColors.navy,
+    paddingVertical: 25,
     paddingHorizontal: 50,
     alignItems: 'center',
     fontSize: 18
@@ -113,14 +127,14 @@ chartLabel: {
 });
 
 const barChartConfig = {
-    backgroundGradientFrom: "#E7E7E7",  // our background color
-    backgroundGradientTo: "#E7E7E7",
+    backgroundGradientFrom: myColors.white,  // our background color
+    backgroundGradientTo: myColors.white,
     color: (opacity = 3) => `rgba(13, 34, 63, ${opacity})`,
     strokeWidth: 2,     // optional, default 3
     decimalPlaces: 0,
 }
 const ringConfig = {
-    backgroundGradientFrom: "#E7E7E7",
-    backgroundGradientTo: "#E7E7E7",
+    backgroundGradientFrom: myColors.white,
+    backgroundGradientTo: myColors.white,
     color: (opacity = 3) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
 }
