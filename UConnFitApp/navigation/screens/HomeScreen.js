@@ -37,7 +37,6 @@ export default function HomeScreen() {
   // for calorie bars
   // only show data for days we've already seen this week
   const barLabels = []
-  console.log(String(date.getDay()))
   for (let i=0; i <= date.getDay(); i++) {
     barLabels.push(String(daysAbbrev[i]))
   }
@@ -47,7 +46,7 @@ export default function HomeScreen() {
   const barData = {
     labels: barLabels,
     datasets: [{
-      data: calData.slice(date.getDay())  // only show cal data since last Sunday
+      data: calData.slice(0, date.getDay()+1)  // only show cal data since last Sunday
     }]
   }
   
