@@ -132,7 +132,6 @@ const MealScreen = ({ navigation }) => {
   }
 
   const updateFood = (selection, date) => {
-
     if (selection === "yesterday") {
       setIsYesterday(true);
       setIsToday(false);
@@ -146,8 +145,6 @@ const MealScreen = ({ navigation }) => {
       setIsToday(false);
       setIsTomorrow(true);
     }
-    console.log("in updateFood");
-    console.log(date);
     getMeal('breakfast', date);
     getMeal('lunch', date);
     getMeal('dinner', date);
