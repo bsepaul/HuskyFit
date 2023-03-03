@@ -17,6 +17,10 @@ export default function HomeScreen() {
   
   // Set variable to store the user's name once fetched from API
   const [name, setName] = React.useState('');
+  const [workouts, setWorkouts] = React.useState([]);
+  const [lowIntensity, setLowIntensity] = React.useState(0);
+  const [midIntensity, setMidIntensity] = React.useState(0);
+  const [highIntensity, setHighIntensity] = React.useState(0);
 
   // get the day of the week
   const date = new Date();
@@ -49,71 +53,146 @@ export default function HomeScreen() {
       data: calData.slice(0, date.getDay()+1)  // only show cal data since last Sunday
     }]
   }
-  
-  const getUserInfo = () => {
-    (async () => {
-      var raw = ""
+
+  // Convert the date format from dd/mm/yyyy --> mm/dd/yyyy for the API call to work
+  const convertDate = (date) => {
+    let convertedDate = date.slice(3, 5) + '/' + date.slice(0, 2) + date.slice(5, 10)
+    return convertedDate
+  }
+
+  const getUserInfo = async () => {
+    var raw = ""
+    var requestOptions = {
+      method: 'GET',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+                "Authorization": token},
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/profile", requestOptions)
+      .then(response => response.text())
+      .then((result) => {
+        var json = JSON.parse(result);
+        setName(json.Name.split(' ')[0])
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  // Get the list of dates of the week from Sunday to the current day
+  const getWeekDays = () => {
+    let date = new Date();
+    let dayNum = date.getDay();
+    let dateStr = date.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
+    const daysWeek = [];
+    daysWeek.push(convertDate(dateStr));
+    while (dayNum >= 1) {
+      date.setDate(date.getDate() - 1);
+      let dateStr = date.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
+      daysWeek.push(convertDate(dateStr));
+      dayNum -= 1;
+    }
+    return daysWeek;
+  }
+
+  const getUserWorkoutInfo = (week) => {
+    const temp_workouts = [];
+    week.forEach(day => {
+      var raw = JSON.stringify({
+        "Date": day // mm/dd/yyyy
+      });
       var requestOptions = {
-        method: 'GET',
+        method: 'POST',
         headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
                   "Authorization": token},
         body: raw,
         redirect: 'follow'
       };
-      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/profile", requestOptions)
-      .then(response => response.text())
-        .then((result) => {
-          var json = JSON.parse(result);
-          setName(json.Name.split(' ')[0])
+      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          if (result != '') {
+            const json = JSON.parse(result);
+            temp_workouts.push(json)
+          }
+        })
+        .catch(error => console.log('error', error));
+    })
+    setWorkouts(temp_workouts);
+  }
+
+  const extractUserWorkoutInfo = () => {
+    var low_intensity = 0;
+    var mid_intensity = 0;
+    var high_intensity = 0;
+    workouts.forEach(dayData => {
+      const dayWorkouts = dayData.Workouts;
+      dayWorkouts.forEach(workout => {
+        let intensity = workout.WorkoutIntensity;
+        if (intensity === 'Low') {
+          low_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
+        } else if (intensity === 'Medium') {
+          mid_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
+        } else if (intensity === 'High') {
+          high_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
+        }
       })
-      .catch(error => console.log('error', error));
-    })()
+    })
+    setLowIntensity(low_intensity);
+    setMidIntensity(mid_intensity);
+    setHighIntensity(high_intensity);
+  }
+
+  const getAllUserInfo = () => {
+    getUserInfo();
+    const daysOfWeek = getWeekDays();
+    console.log("Getting data for days since Sunday:")
+    console.log(daysOfWeek);
+    getUserWorkoutInfo(daysOfWeek);
+    console.log("WORKOUTS")
+    console.log(workouts);
+    extractUserWorkoutInfo();
   }
 
   // Automatically get all meals for today from API on screen load
   React.useEffect(() => {
-    getUserInfo();
+    getAllUserInfo();
   }, []);
       
   return (
-  <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.greetingsContainer}>
         <Text style={styles.title}>Hello, {name}</Text>
-          <Text style={{fontSize: 20, paddingVertical: 0, paddingHorizontal: 20, color: myColors.navy}}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
+        <Text style={{ fontSize: 20, paddingVertical: 0, paddingHorizontal: 20, color: myColors.navy }}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
       </View>
-          <View style={styles.chartContainer}>
-          
-          <Text style={styles.chartLabel}>Activity This Week</Text>
-          
-          <ProgressChart        // ring chart
-            data={ringData}
-            width={Dimensions.get('window').width*.80}
-            height={220}
-            strokeWidth={16}    // ring thickness, should decrease with more rings
-            radius={32}         // default 32
-            chartConfig={ringConfig}
-            hideLegend={false}
-          />
-          
-          <Text style={styles.chartLabel}>Calorie Goals</Text>
-          
-          <BarChart                       // calorie bar chart
-            data={barData}
-            width={Dimensions.get('window').width*.95}
-            height={250}
-            fromZero={false}              // let 0 always be bottom of chart
-            withHorizontalLabels={false}  // show calorie labels on left side of chart
-            showValuesOnTopOfBars={true}  // show calories above bars
-            chartConfig={barChartConfig}
-            withInnerLines={true}         // show dotted/segmented lines
-            segments={3}                  // number of dotted/segmented lines
-            style={{
-              paddingRight: 0,
-              padding: 5
-          }}
-          />
-          </View>
-  </SafeAreaView>
+      <View style={styles.chartContainer}>
+        <Text style={styles.chartLabel}>Activity This Week</Text>
+        <ProgressChart        // ring chart
+          data={ringData}
+          width={Dimensions.get('window').width*.80}
+          height={220}
+          strokeWidth={16}    // ring thickness, should decrease with more rings
+          radius={32}         // default 32
+          chartConfig={ringConfig}
+          hideLegend={false}
+        />
+        <Text style={styles.chartLabel}>Calorie Goals</Text>
+        <BarChart                       // calorie bar chart
+          data={barData}
+          width={Dimensions.get('window').width*.95}
+          height={250}
+          fromZero={false}              // let 0 always be bottom of chart
+          withHorizontalLabels={false}  // show calorie labels on left side of chart
+          showValuesOnTopOfBars={true}  // show calories above bars
+          chartConfig={barChartConfig}
+          withInnerLines={true}         // show dotted/segmented lines
+          segments={3}                  // number of dotted/segmented lines
+          style={{
+            paddingRight: 0,
+            padding: 5
+        }}
+        />
+      </View>
+    </SafeAreaView>
   );
 
 }
@@ -123,6 +202,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: myColors.white,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingHorizontal: 60,
   },
 greetingsContainer: {
     flex: .12,
