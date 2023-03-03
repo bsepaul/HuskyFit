@@ -8,10 +8,12 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  StatusBar
 } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import { myColors } from "../../assets/colors/ColorPalette";
 import {Dropdown} from 'react-native-element-dropdown';
+import { MultiSelect } from 'react-native-element-dropdown';
 
 let styles = {
   flexDirection: "row",
@@ -31,11 +33,35 @@ const allDietaryRestrictionsData = [
   ];
 
 
+  //Fish, Soybeans, Wheat, Gluten, Milk, Tree Nuts, Eggs, Sesame, Crustacean Shellfish
+const allAllerginsData = [
+    { label: 'Fish', value: '1' },
+    { label: 'Soybeans', value: '2' },
+    { label: 'Wheat', value: '3' },
+    { label: 'Gluten', value: '4' },
+    { label: 'Milk', value: '5' },
+    { label: 'Tree Nuts', value: '6' },
+    { label: 'Eggs', value: '7' },
+    { label: 'Sesame', value: '8' },
+    { label: 'Crustacean Shellfish', value: '9' },
+  ];
+
+
 const Survey = ({ navigation }) => {
   const [Height, setHeight] = useState("");
   const [Weight, setWeight] = useState("");
   const [Allergies, setAllergies] = useState("");
   const [DietaryRestrictions, setDietaryRestrictions] = useState('');
+
+  const [selected, setSelected] = React.useState([]);
+
+  const renderDataItem = (item) => {
+    return (
+        <View style={styles.item}>
+            <Text style={styles.selectedTextStyle}>{item.label}</Text>
+        </View>
+    );
+};
 
   const handleHeight = (text) => {
     setHeight(text);
@@ -132,14 +158,34 @@ const Survey = ({ navigation }) => {
           />
         </View>
 
-        <View style={styles}>
-          <TextInput
-            placeholder="Allergies"
-            placeholderTextColor="#003f5c"
-            autoCapitalize="none"
-            secureTextEntry={true}
-            onChangeText={(Allergies) => setAllergies(Allergies)}
-          />
+        <View style={styles.container}>
+            <MultiSelect
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={allAllerginsData}
+                labelField="label"
+                valueField="value"
+                placeholder="Multi Select item"
+                value={selected}
+                search
+                searchPlaceholder="Search..."
+                onChange={item => {
+                    setSelected(item);
+                }}
+                
+                renderItem={renderDataItem}
+                renderSelectedItem={(item, unSelect) => (
+                    <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                        <View style={styles.selectedStyle}>
+                            <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
+            />
+            <StatusBar />
         </View>
 
         <Dropdown
