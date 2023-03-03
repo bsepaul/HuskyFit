@@ -67,21 +67,15 @@ const Login = ({ navigation }) => {
         console.log(token)
 
         //If you want to bypass the login credentials, uncomment this
-        navigation.navigate("Tabs", {token: token});
+        // navigation.navigate("Tabs", {token: token});
         
         // If you want to test the login credentials or need the token for testing something, uncomment this
-<<<<<<< HEAD
-       // if ((message != "Invalid input") && (message != "User does not exist.")) {
-          //navigation.navigate("Tabs", {token: token});
-        //}
-=======
         if ((message != "Invalid input") && (message != "User does not exist.")) {
           navigation.navigate("Tabs", {token: token});
         }
         else {
           alertFailure();
         }
->>>>>>> d2f84140573c978a2a1f18d2f828bd5e2e92962e
         
       })
       .catch(error => console.log('error', error));
