@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  Alert
 } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import { myColors } from "../../assets/colors/ColorPalette";
@@ -26,6 +27,25 @@ const Register = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [dob, setDob] = useState("");
+
+  const alertSuccess = () => {
+    const title = 'User registration sucessful';
+    const message = 'Please log in with your email and password.';
+    const emptyArrayButtons = [];
+    const alertOptions = {
+      cancelable: true,
+    };
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+  };
+  const alertFailure = () => {
+    const title = 'Registration Error';
+    const message = 'Please make sure you enter information for all specified fields.';
+    const emptyArrayButtons = [];
+    const alertOptions = {
+      cancelable: true,
+    };
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+  };
 
   const handleFullName = (text) => {
     setFullName(text);
@@ -52,6 +72,13 @@ const Register = ({ navigation }) => {
         birthdate: dob,
       });
 
+      // Make sure user isn't leaving any required fields empty
+      if( !fullName || !email || !password || !dob ) { 
+        alertFailure();
+        console.log("fail");
+        return; // Don't do API call if invalid data
+      }
+
       var requestOptions = {
         method: "POST",
         headers: {
@@ -72,7 +99,7 @@ const Register = ({ navigation }) => {
         var json = JSON.parse(result);
         var message = json.message
         console.log(message) // "User registration succesful"
-        
+        alertSuccess();
         navigation.navigate("Login");
       })
       .catch(error => console.log('error', error));
