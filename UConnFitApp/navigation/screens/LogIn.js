@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from "react";
-import { View, Text, SafeAreaView, TextInput, TouchableOpacity} from "react-native";
+import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Alert } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import fetch from "node-fetch";
 import { myColors } from "../../assets/colors/ColorPalette";
@@ -16,6 +16,16 @@ let styles = {
 const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
   const [password, setPassword] = React.useState("");
+
+  const alertFailure = () => {
+    const title = 'Login Error';
+    const message = 'Incorrect email or password. Try again.';
+    const emptyArrayButtons = [];
+    const alertOptions = {
+      cancelable: true,
+    };
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+  };
 
   const handleEmail = (text) => {
     setEmail(text);
@@ -62,6 +72,9 @@ const Login = ({ navigation }) => {
         // If you want to test the login credentials or need the token for testing something, uncomment this
         if ((message != "Invalid input") && (message != "User does not exist.")) {
           navigation.navigate("Tabs", {token: token});
+        }
+        else {
+          alertFailure();
         }
         
       })
