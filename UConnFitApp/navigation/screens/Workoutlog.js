@@ -1,33 +1,132 @@
-import { useRoute } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, SafeAreaView, Platform } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
-import CustomButton from "../../assets/Components/CustomButton";
+import React, { useState, useContext } from 'react';
+import { View, Text, StyleSheet, Button } from 'react-native';
+import { Feather } from '@expo/vector-icons';
+import themeContext from '../../config/themeContext';
 
-const Workoutlog = ({ navigation }) => {
+const WorkoutLog = ({ navigation, route }) => {
+  const { weight, time, WorkoutIntensity, caloriesBurned } = route.params;
+  const [workouts, setWorkouts] = useState([{ weight, time, WorkoutIntensity, caloriesBurned }]);
 
-  // Get token from route
-  const route = useRoute();
-  const token = route.params.token;
+  const addWorkout = () => {
+    setWorkouts(prevWorkouts => [
+      ...prevWorkouts,
+      { weight, time, WorkoutIntensity, caloriesBurned }
+    ]);
+    navigation.navigate('WorkoutScreen');
+  };
+
+  const theme = useContext(themeContext);
 
   return (
-    <SafeAreaView style={styles.container}>
-      <Text>Profile Screen!</Text>
-      <StatusBar style="auto" />
-      <CustomButton label={"Settings"} onPress={() => navigation.navigate('Settings', {token:token})}></CustomButton>
-      <CustomButton label={"Foodlog"} onPress={() => navigation.navigate('Foodlog', {token:token})}></CustomButton>
-      <CustomButton label={"Workoutlog"} onPress={() => navigation.navigate('Workoutlog', {token:token})}></CustomButton>
-    </SafeAreaView>
+    <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+      {workouts.map((workout, index) => (
+        <View key={index} style={styles.workoutContainer}>
+          <View style={styles.dateContainer}>
+            <Text style={[styles.month, { color: theme.color }]}>Feb</Text>
+            <Text style={[styles.day, { color: theme.color }]}>28</Text>
+          </View>
+          <View style={styles.bubble}>
+            <Feather name="bar-chart-2" size={24} color="white" style={{ marginTop: 10, marginRight: 10 }} />
+            <Text style={styles.bubbleText}>{`WorkoutIntensity: ${workout.WorkoutIntensity}`}</Text>
+            <Feather name="clock" size={24} color="white" style={{ marginTop: 10, marginRight: 10 }} />
+            <Text style={styles.bubbleText}>{`Time: ${workout.time}`}</Text>
+            <Feather name="target" size={24} color="white" style={{ marginTop: 10, marginRight: 10 }} />
+            <Text style={styles.bubbleText}>{`Weight: ${workout.weight}`}</Text>
+            <Feather name="zap" size={24} color="white" style={{ marginTop: 10, marginRight: 10 }} />
+            <Text style={styles.bubbleText}>{`Calories Burned: ${workout.caloriesBurned}`}</Text>
+          </View>
+        </View>
+      ))}
+      <View style={styles.buttonContainer}>
+        <Button title="Add Another Workout" onPress={addWorkout} />
+      </View>
+    </View>
   );
-}
+};
+
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: myColors.lightGrey,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-  },
-});
-export default Workoutlog;
+    container: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    header: {
+      fontSize: 24,
+      fontWeight: 'bold',
+      marginBottom: 20,
+    },
+    dateContainer: {
+      backgroundColor: '#3b5998',
+      marginLeft: 10,
+      marginTop: 10,
+      width: 65,
+      height: 65,
+      borderRadius: 15,
+      alignItems: 'center',
+      justifyContent: 'center',
+      zIndex: 1,
+    },
+    month: {
+      fontFamily: 'System',
+      fontSize: 16,
+      color: 'white',
+    },
+    day: {
+      fontFamily: 'System',
+      fontSize: 28,
+      color: 'white',
+      fontWeight: '600',
+    },
+    workoutContainer: {
+      backgroundColor: '#3b5998',
+      padding: 10,
+      marginTop: 10,
+      borderRadius: 15,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    intensityContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 5,
+    },
+    workoutText: {
+      color: 'white',
+      fontSize: 16,
+      marginLeft: 5,
+    },
+    bubble: {
+      backgroundColor: '#3b5998',
+      padding: 15,
+      width: '80%',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    bubbleText: {
+      color: 'white',
+      fontSize: 16,
+      marginBottom: 5,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    buttonContainer: {
+      marginTop: 20,
+      marginBottom: 20,
+    },
+    featherIcon: {
+      fontSize: 16,
+      marginLeft: 5,
+    },
+  });
+  
+  
+  
+  
+
+  
+
+export default WorkoutLog;
+
