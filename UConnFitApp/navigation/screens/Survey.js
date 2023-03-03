@@ -8,20 +8,21 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
-  StatusBar
+  StatusBar,
+  StyleSheet
 } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import { myColors } from "../../assets/colors/ColorPalette";
 import {Dropdown} from 'react-native-element-dropdown';
 import { MultiSelect } from 'react-native-element-dropdown';
 
-let styles = {
-  flexDirection: "row",
-  borderBottomColor: myColors.grey,
-  borderBottomWidth: 1,
-  paddingBottom: 12,
-  marginBottom: 25,
-};
+// let styles = {
+//   flexDirection: "row",
+//   borderBottomColor: myColors.grey,
+//   borderBottomWidth: 1,
+//   paddingBottom: 12,
+//   marginBottom: 25,
+// };
 
 const allDietaryRestrictionsData = [
     { label: 'Vegetarian', value: '1' },
@@ -34,7 +35,7 @@ const allDietaryRestrictionsData = [
 
 
   //Fish, Soybeans, Wheat, Gluten, Milk, Tree Nuts, Eggs, Sesame, Crustacean Shellfish
-const allAllerginsData = [
+const allAllergensData = [
     { label: 'Fish', value: '1' },
     { label: 'Soybeans', value: '2' },
     { label: 'Wheat', value: '3' },
@@ -53,7 +54,8 @@ const Survey = ({ navigation }) => {
   const [Allergies, setAllergies] = useState("");
   const [DietaryRestrictions, setDietaryRestrictions] = useState('');
 
-  const [selected, setSelected] = React.useState([]);
+  const [selectedAllergens, setSelectedAllergens] = React.useState([]);
+  const [selectedRest, setSelectedRest] = React.useState([]);
 
   const renderDataItem = (item) => {
     return (
@@ -71,6 +73,9 @@ const Survey = ({ navigation }) => {
   };
   const handleAllergies = (text) => {
     setAllergies(text);
+  };
+  const handleDietaryRestrictions = (text) => {
+    setDietaryRestrictions(text);
   };
   // const handleConfirmPassword = (text) => {
   //   setConfirmPassword(text);
@@ -122,15 +127,7 @@ const Survey = ({ navigation }) => {
         style={{ paddingHorizontal: 25 }}
       >
         <Text
-          style={{
-            fontFamily: "System",
-            fontSize: 28,
-            fontWeight: "500",
-            color: myColors.navy,
-            marginTop: 100,
-            marginBottom: 1,
-          }}
-        >
+          style={styles.title}>
           Personal Survey
         </Text>
         <View
@@ -140,18 +137,18 @@ const Survey = ({ navigation }) => {
           }}
         ></View>
 
-        <View style={styles}>
+        <View style={styles.textField}>
           <TextInput
-            placeholder="Height"
+            placeholder="Height (in)"
             placeholderTextColor="#003f5c"
             autoCapitalize="none"
             onChangeText={(Height) => setHeight(Height)}
           />
         </View>
 
-        <View style={styles}>
+        <View style={styles.textField}>
           <TextInput
-            placeholder="Weight"
+            placeholder="Weight (lbs)"
             placeholderTextColor="#003f5c"
             autoCapitalize="none"
             onChangeText={(Weight) => setWeight(Weight)}
@@ -165,22 +162,51 @@ const Survey = ({ navigation }) => {
                 selectedTextStyle={styles.selectedTextStyle}
                 inputSearchStyle={styles.inputSearchStyle}
                 iconStyle={styles.iconStyle}
-                data={allAllerginsData}
+                data={allAllergensData}
                 labelField="label"
                 valueField="value"
-                placeholder="Multi Select item"
-                value={selected}
+                placeholder="Allergens"
+                value={selectedAllergens}
                 search
                 searchPlaceholder="Search..."
-                onChange={item => {
-                    setSelected(item);
+                onChange={selected => {
+                  setSelectedAllergens(selected);
                 }}
                 
                 renderItem={renderDataItem}
-                renderSelectedItem={(item, unSelect) => (
-                    <TouchableOpacity onPress={() => unSelect && unSelect(item)}>
+                renderSelectedItem={(selected, unSelect) => (
+                    <TouchableOpacity onPress={() => unSelect && unSelect(selected)}>
                         <View style={styles.selectedStyle}>
-                            <Text style={styles.textSelectedStyle}>{item.label}</Text>
+                            <Text style={styles.textSelectedStyle}>{selected.label}</Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
+            />
+            <MultiSelect
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={allDietaryRestrictionsData}
+                labelField="label"
+                valueField="value"
+                placeholder="Dietary Restrictions"
+                value={selectedRest}
+                search
+                maxHeight={300}
+                searchPlaceholder="Search..."
+                onChange={item2 => {
+                    // setSelected(item);
+                    setSelectedRest(item2)
+                    setDietaryRestrictions(item2.label);
+                }}
+                
+                renderItem={renderDataItem}
+                renderSelectedItem={(item2, unSelect) => (
+                    <TouchableOpacity onPress={() => unSelect && unSelect(item2)}>
+                        <View style={styles.selectedStyle}>
+                            <Text style={styles.textSelectedStyle}>{item2.label} </Text>
                         </View>
                     </TouchableOpacity>
                 )}
@@ -188,7 +214,7 @@ const Survey = ({ navigation }) => {
             <StatusBar />
         </View>
 
-        <Dropdown
+        {/* <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -199,7 +225,7 @@ const Survey = ({ navigation }) => {
             maxHeight={300}
             labelField="label"
             valueField="value"
-            placeholder={'Select Dietary Restriction'}
+            placeholder={'Dietary Restrictions'}
             searchPlaceholder="Search..."
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
@@ -207,7 +233,7 @@ const Survey = ({ navigation }) => {
               setDietaryRestrictions(item.label);
               setIsFocus(false);
             }}
-          />
+          /> */}
 
 
         <CustomButton label={"Submit"} onPress={handleRegister} />
@@ -230,5 +256,64 @@ const Survey = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  textField: {
+    flexDirection: "row",
+    borderBottomColor: myColors.grey,
+    borderBottomWidth: 1,
+    paddingBottom: 12,
+    marginBottom: 25,
+    // width: 100,
+  },
+  title: {
+    fontFamily: "System",
+    fontSize: 28,
+    fontWeight: "500",
+    color: myColors.navy,
+    marginTop: 100,
+    marginBottom: 1
+  },
+  dropdown: {
+    height: 50,
+    borderColor: myColors.grey,
+    borderWidth: 0.5,
+    // width: 200,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    marginBottom: 5,
+    scroll: true,
+    // subItemBackground: myColors.darkGrey,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+    color: myColors.navy,
+  },
+  selectedTextStyle: {
+    fontFamily: "System",
+    fontSize: 16,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+  },
+  selectedStyle: {
+    paddingVertical: 5,
+    paddingHorizontal: 3,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
+  },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignContent: 'center',
+    // scroll: true,
+  },
+});
+
 
 export default Survey;
