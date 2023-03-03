@@ -249,7 +249,7 @@ const MealScreen = ({ navigation }) => {
                       label={food["Food Item"]}
                       infoOnPress={() => goToNutrition(food)}
                       addOnPress={() => logFood(food)}
-                    />);
+                    />); 
                 })}
               </ScrollView>
             </View> :
