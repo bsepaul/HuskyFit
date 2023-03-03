@@ -17,6 +17,7 @@ export default function HomeScreen() {
   
   // Set variable to store the user's name once fetched from API
   const [name, setName] = React.useState('');
+  const [week, setWeek] = React.useState([]);
   const [workouts, setWorkouts] = React.useState([]);
   const [lowIntensity, setLowIntensity] = React.useState(0);
   const [midIntensity, setMidIntensity] = React.useState(0);
@@ -56,11 +57,13 @@ export default function HomeScreen() {
 
   // Convert the date format from dd/mm/yyyy --> mm/dd/yyyy for the API call to work
   const convertDate = (date) => {
+    console.log("3. Convert Date");
     let convertedDate = date.slice(3, 5) + '/' + date.slice(0, 2) + date.slice(5, 10)
     return convertedDate
   }
 
   const getUserInfo = async () => {
+    console.log("1. Get User Info");
     var raw = ""
     var requestOptions = {
       method: 'GET',
@@ -79,7 +82,8 @@ export default function HomeScreen() {
   }
 
   // Get the list of dates of the week from Sunday to the current day
-  const getWeekDays = () => {
+  const getWeekDays = async () => {
+    console.log("2. Get Week Days");
     let date = new Date();
     let dayNum = date.getDay();
     let dateStr = date.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
@@ -91,36 +95,48 @@ export default function HomeScreen() {
       daysWeek.push(convertDate(dateStr));
       dayNum -= 1;
     }
-    return daysWeek;
+    setWeek(daysWeek);
   }
 
-  const getUserWorkoutInfo = (week) => {
-    const temp_workouts = [];
+  const fetchWorkout = (day) => {
+    console.log("5. Fetch Workout")
+    var raw = JSON.stringify({
+      "Date": day // mm/dd/yyyy
+    });
+    var requestOptions = {
+      method: 'POST',
+      headers: {
+        "x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+        "Authorization": token
+      },
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        if (result != '') {
+          const json = JSON.parse(result);
+          let temp_workouts = workouts;
+          temp_workouts.push(json)
+          setWorkouts(temp_workouts);
+          console.log(workouts);
+        }
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  const getUserWorkoutInfo = async (week) => {
+    console.log("4. Get User Workout Info")
     week.forEach(day => {
-      var raw = JSON.stringify({
-        "Date": day // mm/dd/yyyy
-      });
-      var requestOptions = {
-        method: 'POST',
-        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
-                  "Authorization": token},
-        body: raw,
-        redirect: 'follow'
-      };
-      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          if (result != '') {
-            const json = JSON.parse(result);
-            temp_workouts.push(json)
-          }
-        })
-        .catch(error => console.log('error', error));
+      fetchWorkout(day);
     })
-    setWorkouts(temp_workouts);
+    console.log("WORKOUTS!!!")
+    console.log(workouts);
   }
 
-  const extractUserWorkoutInfo = () => {
+  const extractUserWorkoutInfo = async () => {
+    console.log("6. Extract User Workout Info")
     var low_intensity = 0;
     var mid_intensity = 0;
     var high_intensity = 0;
@@ -142,15 +158,24 @@ export default function HomeScreen() {
     setHighIntensity(high_intensity);
   }
 
-  const getAllUserInfo = () => {
-    getUserInfo();
-    const daysOfWeek = getWeekDays();
+  const getAllUserInfo = async () => {
+
+    await getUserInfo();
+    await getWeekDays();
+
     console.log("Getting data for days since Sunday:")
-    console.log(daysOfWeek);
-    getUserWorkoutInfo(daysOfWeek);
+    console.log(week);
+
+    await getUserWorkoutInfo(week);
+    await extractUserWorkoutInfo();
+
+    // setTimeout(function () { getUserInfo() },1000)
+    // setTimeout(function () { getWeekDays() },1000)
+    // setTimeout(function () { getUserWorkoutInfo(week) },2000)
+    // setTimeout(function () { extractUserWorkoutInfo() },2000)
+    
     console.log("WORKOUTS")
     console.log(workouts);
-    extractUserWorkoutInfo();
   }
 
   // Automatically get all meals for today from API on screen load
