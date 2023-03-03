@@ -150,6 +150,32 @@ const MealScreen = ({ navigation }) => {
     getMeal('dinner', date);
   }
 
+  const logFood = (food) => { 
+    // Add as many or as little attributes as you want!
+    console.log(food["Food Item"])
+    var raw = JSON.stringify({
+      "Food item": food["Food Item"],
+      "Calories": food["Calories"],
+      "Carbs": food["Total Carbohydrates"],
+      "Protein": food["Protein"],
+      "Dining_hall": food["Dining Hall"]
+    });
+
+    var requestOptions = {
+      method: 'PUT',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+                "Authorization": token},
+      body: raw,
+      redirect: 'follow'
+    };
+
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
+  }
+
   // Automatically get all meals for today from API on screen load
   React.useEffect(() => {
     updateFood("today", todayDate);
@@ -222,7 +248,7 @@ const MealScreen = ({ navigation }) => {
                       key={food.id}
                       label={food["Food Item"]}
                       infoOnPress={() => goToNutrition(food)}
-                      addOnPress={() => { }}
+                      addOnPress={() => logFood(food)}
                     />);
                 })}
               </ScrollView>
@@ -241,8 +267,8 @@ const MealScreen = ({ navigation }) => {
                     <CustomFoodItemButton
                       key={food.id}
                       label={food["Food Item"]}
-                      infoOnPress={() => navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName})}
-                      addOnPress={() => { }}
+                      infoOnPress={() => goToNutrition(food)}
+                      addOnPress={() => logFood(food)}
                     />);
                 })}
               </ScrollView>
@@ -261,8 +287,8 @@ const MealScreen = ({ navigation }) => {
                     <CustomFoodItemButton
                       key={food.id}
                       label={food["Food Item"]}
-                      infoOnPress={() => navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })}
-                      addOnPress={() => { }}
+                      infoOnPress={() => goToNutrition(food)}
+                      addOnPress={() => logFood(food)}
                     />);
                 })}
               </ScrollView>
