@@ -1,103 +1,198 @@
 import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, SafeAreaView, Platform, ScrollView, Dimensions } from 'react-native';
+import { StyleSheet, Text, View, Image, SafeAreaView, Platform, Dimensions } from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
-import { LineChart, ContributionGraph, ProgressChart, BarChart } from 'react-native-chart-kit';
-//import { MyLineChart } from './HomeScreenChart.js';
-import React from 'react'
+import { ProgressChart, BarChart } from 'react-native-chart-kit';
+import React from 'react';
+import fetch from 'node-fetch';
 
-
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 export default function HomeScreen() {
 
-    // Get token from route
-    const route = useRoute();
-    const token = route.params.token;
+  // Get token from route
+  const route = useRoute();
+  const token = route.params.token;
+  
+  // Set variable to store the user's name once fetched from API
+  const [name, setName] = React.useState('');
+  const [workouts, setWorkouts] = React.useState([]);
+  const [lowIntensity, setLowIntensity] = React.useState(0);
+  const [midIntensity, setMidIntensity] = React.useState(0);
+  const [highIntensity, setHighIntensity] = React.useState(0);
 
-    // Get the day of the week
-    const date = new Date();
-    
-    const days = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
-    const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
-    
-    const currentWeekDay = String(days[date.getDay()])
-    const currentMonth = String(months[date.getMonth()])
-    const currentDate = String(date.getDate())
-    
-    // dummy data
-    const kcalMaintenance = 1700  // remaining = maintenance - eaten + burned
-    const kcalEaten = 1250
-    const kcalBurned = 230
-    const kcalRemaining = kcalMaintenance - kcalEaten + kcalBurned
-    
-    
-    
-    
-    const kcalProportion = kcalEaten / (kcalMaintenance - kcalBurned)
-    // for progress ring
-    const ringData = {
-      labels: ["Bike", "Run", "Lift"], // optional
-      data: [0.4, 0.6, 0.8]
-    };
-    
-    const ringData2 = {
-    data: [(kcalEaten - kcalBurned) / kcalMaintenance]
-
+  // get the day of the week
+  const date = new Date();
+  // convert to weekday, month ## format
+  const days = [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ]
+  const daysAbbrev = ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"]
+  const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
+  const currentWeekDay = String(days[date.getDay()])
+  const currentMonth = String(months[date.getMonth()])
+  const currentDate = String(date.getDate())
+  
+  // data
+  // for progress ring
+  const ringData = {                  // take from user data, last 3 workouts performed?
+    labels: ["Bike", "Run", "Lift"],
+    data: [0.4, 0.6, 0.8]             // can set default goal calories to 100 per exercise?
   };
-    const barData = {
-    labels: ["Sun", "Mon", "Tues", "Wed", "Thurs", "Fri", "Sat"], // optional
+  // for calorie bars
+  // only show data for days we've already seen this week
+  const barLabels = []
+  for (let i=0; i <= date.getDay(); i++) {
+    barLabels.push(String(daysAbbrev[i]))
+  }
+    // dummy data
+  const calData = [1750, 1712, 1679, 1712, 1679, 1599, 1650] // change to user data set, exclude 0's for days with no data
+
+  const barData = {
+    labels: barLabels,
     datasets: [{
-    data: [1750, 1712, 1679, 1712, 1679, 1599, 1650]
+      data: calData.slice(0, date.getDay()+1)  // only show cal data since last Sunday
     }]
+  }
+
+  // Convert the date format from dd/mm/yyyy --> mm/dd/yyyy for the API call to work
+  const convertDate = (date) => {
+    let convertedDate = date.slice(3, 5) + '/' + date.slice(0, 2) + date.slice(5, 10)
+    return convertedDate
+  }
+
+  const getUserInfo = async () => {
+    var raw = ""
+    var requestOptions = {
+      method: 'GET',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+                "Authorization": token},
+      body: raw,
+      redirect: 'follow'
+    };
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/profile", requestOptions)
+      .then(response => response.text())
+      .then((result) => {
+        var json = JSON.parse(result);
+        setName(json.Name.split(' ')[0])
+      })
+      .catch(error => console.log('error', error));
+  }
+
+  // Get the list of dates of the week from Sunday to the current day
+  const getWeekDays = () => {
+    let date = new Date();
+    let dayNum = date.getDay();
+    let dateStr = date.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
+    const daysWeek = [];
+    daysWeek.push(convertDate(dateStr));
+    while (dayNum >= 1) {
+      date.setDate(date.getDate() - 1);
+      let dateStr = date.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
+      daysWeek.push(convertDate(dateStr));
+      dayNum -= 1;
     }
-    
-            
+    return daysWeek;
+  }
+
+  const getUserWorkoutInfo = (week) => {
+    const temp_workouts = [];
+    week.forEach(day => {
+      var raw = JSON.stringify({
+        "Date": day // mm/dd/yyyy
+      });
+      var requestOptions = {
+        method: 'POST',
+        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+                  "Authorization": token},
+        body: raw,
+        redirect: 'follow'
+      };
+      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          if (result != '') {
+            const json = JSON.parse(result);
+            temp_workouts.push(json)
+          }
+        })
+        .catch(error => console.log('error', error));
+    })
+    setWorkouts(temp_workouts);
+  }
+
+  const extractUserWorkoutInfo = () => {
+    var low_intensity = 0;
+    var mid_intensity = 0;
+    var high_intensity = 0;
+    workouts.forEach(dayData => {
+      const dayWorkouts = dayData.Workouts;
+      dayWorkouts.forEach(workout => {
+        let intensity = workout.WorkoutIntensity;
+        if (intensity === 'Low') {
+          low_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
+        } else if (intensity === 'Medium') {
+          mid_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
+        } else if (intensity === 'High') {
+          high_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
+        }
+      })
+    })
+    setLowIntensity(low_intensity);
+    setMidIntensity(mid_intensity);
+    setHighIntensity(high_intensity);
+  }
+
+  const getAllUserInfo = () => {
+    getUserInfo();
+    const daysOfWeek = getWeekDays();
+    console.log("Getting data for days since Sunday:")
+    console.log(daysOfWeek);
+    getUserWorkoutInfo(daysOfWeek);
+    console.log("WORKOUTS")
+    console.log(workouts);
+    extractUserWorkoutInfo();
+  }
+
+  // Automatically get all meals for today from API on screen load
+  React.useEffect(() => {
+    getAllUserInfo();
+  }, []);
+      
   return (
-  <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.greetingsContainer}>
-        <Text style={styles.greetingsText}>Hello, Jonathan!</Text>
-          <Text style={{fontSize: 18, paddingVertical: 10, paddingHorizontal: 20}}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
+        <Text style={styles.title}>Hello, {name}</Text>
+        <Text style={{ fontSize: 20, paddingVertical: 0, paddingHorizontal: 20, color: myColors.navy }}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
       </View>
-          <View style={styles.chartContainer}>
-          
-          <Text style={styles.chartLabel}>Activity This Week</Text>
-
-          
-          
-          <ProgressChart
-            data={ringData}
-            width={Dimensions.get('window').width-50}
-            height={220}
-            strokeWidth={16}    // should decrease with more rings
-            radius={32}         // default 32
-            chartConfig={ringConfig}
-            hideLegend={false}
-          />
-          
-          <Text style={styles.chartLabel}>Calorie Goals</Text>
-          
-          <BarChart
-            
-            data={barData}
-            width={Dimensions.get('window').width-25}
-            height={200}
-            fromZero={false}
-            withHorizontalLabels={false}
-            showValuesOnTopOfBars={true}
-            chartConfig={barChartConfig}
-            withInnerLines={true}
-            segments={3}
-            style={{
-              paddingRight: 0,
-              padding: 5,
-              
-          }}
-          />
-          
-
-          
-          </View>
-  </SafeAreaView>
+      <View style={styles.chartContainer}>
+        <Text style={styles.chartLabel}>Activity This Week</Text>
+        <ProgressChart        // ring chart
+          data={ringData}
+          width={Dimensions.get('window').width*.80}
+          height={220}
+          strokeWidth={16}    // ring thickness, should decrease with more rings
+          radius={32}         // default 32
+          chartConfig={ringConfig}
+          hideLegend={false}
+        />
+        <Text style={styles.chartLabel}>Calorie Goals</Text>
+        <BarChart                       // calorie bar chart
+          data={barData}
+          width={Dimensions.get('window').width*.95}
+          height={250}
+          fromZero={false}              // let 0 always be bottom of chart
+          withHorizontalLabels={false}  // show calorie labels on left side of chart
+          showValuesOnTopOfBars={true}  // show calories above bars
+          chartConfig={barChartConfig}
+          withInnerLines={true}         // show dotted/segmented lines
+          segments={3}                  // number of dotted/segmented lines
+          style={{
+            paddingRight: 0,
+            padding: 5
+        }}
+        />
+      </View>
+    </SafeAreaView>
   );
 
 }
@@ -105,92 +200,48 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: myColors.lightGrey,
-      /*alignItems: 'center',*/
-    /*justifyContent: 'center',*/
+    backgroundColor: myColors.white,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    paddingHorizontal: 60,
   },
 greetingsContainer: {
-    flex: .1,
+    flex: .12,
     padding: 10,
     borderRadius: 4,
-//    backgroundColor: "#cecece"
 },
-greetingsText: {
-    width: '100%',
-    height: 50,
-    paddingVertical: 25,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-    fontWeight: 'bold',
-    fontSize: 25
+title: {
+  fontFamily: "System",
+  fontSize: 30,
+  fontWeight: "500",
+  color: myColors.navy,
+  paddingHorizontal: windowWidth * 0.05,
+  paddingVertical: 10,
 },
 chartContainer: {
     flex: 1,
     padding: 20,
     alignItems: 'center'
-//    backgroundColor: "#cecece"
 },
 chartLabel: {
     height: 50,
-    paddingVertical: 20,
+    fontWeight: "500",
+    color: myColors.navy,
+    paddingVertical: 25,
     paddingHorizontal: 50,
     alignItems: 'center',
-//    fontWeight: 'bold',
     fontSize: 18
 }
-
 });
 
-const chartConfig = {
-    backgroundGradientFrom: "#E7E7E7",
-//    backgroundGradientFromOpacity: 0,
-    backgroundGradientTo: "#E7E7E7",
-//    backgroundGradientToOpacity: 0.5,
-    color: (opacity = 3) => `rgba(13, 34, 63, ${opacity})`,
-    strokeWidth: 2,     // optional, default 3
-}
 const barChartConfig = {
-    backgroundGradientFrom: "#E7E7E7",
-//    backgroundGradientFromOpacity: 0.5,
-    backgroundGradientTo: "#E7E7E7",
-//    backgroundGradientToOpacity: 0.5,
+    backgroundGradientFrom: myColors.white,  // our background color
+    backgroundGradientTo: myColors.white,
     color: (opacity = 3) => `rgba(13, 34, 63, ${opacity})`,
     strokeWidth: 2,     // optional, default 3
-    barPercentage: 1,  // what does this do?
     decimalPlaces: 0,
-//    formatYLabel: {1500, 1600, 1700, 1800},
-//    style: {paddingHorizontal: 0}
 }
 const ringConfig = {
-    backgroundGradientFrom: "#E7E7E7",
-    backgroundGradientTo: "#E7E7E7",
+    backgroundGradientFrom: myColors.white,
+    backgroundGradientTo: myColors.white,
     color: (opacity = 3) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
 }
-
-/* line chart code below
- 
- <LineChart
-   data={barData}
-   width={Dimensions.get('window').width-50}
-   height={200}
-   chartConfig={ chartConfig }
- />
- 
- */
-
-/* progress ring code below
- 
- <Text style={styles.chartLabel}>{kcalRemaining} kcal remaining</Text>
- <ProgressChart
-   data={ringData2}
-   width={Dimensions.get('window').width-50}
-   height={180}
-   strokeWidth={20}    // should decrease with more rings
-   radius={60}         // default 32
-   chartConfig={ringConfig}
-   hideLegend={true}
- />
- 
- */
