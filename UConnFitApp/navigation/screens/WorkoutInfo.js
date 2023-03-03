@@ -12,9 +12,9 @@ import {
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
+  Alert,
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
-
 
 const allWorkoutTypeData = [
   { label: 'High Intensity Interval Training', value: '1' },
@@ -22,7 +22,7 @@ const allWorkoutTypeData = [
   { label: 'Jump Rope', value: '3' },
   { label: 'Core Training', value: '4' },
   { label: 'Dance', value: '5' },
-  { label: 'Eliptical', value: '6' },
+  { label: 'Elliptical', value: '6' },
   { label: 'Rower', value: '7' },
   { label: 'Pilates', value: '8' },
   { label: 'Basketball', value: '9' },
@@ -68,6 +68,27 @@ const WorkoutInfo = ({ navigation }) => {
   const [TimeElapsed, setTimeElapsed] = useState('');
   const [WorkoutIntensity, setWorkoutIntensity] = useState('');
 
+  // Alert code - workout successfully added to log
+  const alertSuccess = () => {
+    const title = 'Success';
+    const message = 'Exercise successfully added to log.';
+    const emptyArrayButtons = [];
+    const alertOptions = {
+      cancelable: true,
+    };
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+  };
+  // Alert code - error adding workout to log
+  const alertFailure = () => {
+    const title = 'Error';
+    const message = 'Please make sure you enter information for all specified fields.';
+    const emptyArrayButtons = [];
+    const alertOptions = {
+      cancelable: true,
+    };
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+  };
+
   // const [WorkoutTypeData, setWorkoutTypeData] = useState('');
   // const [TimeElapsedData, setTimeElapsedData] = useState('');
   // const [WorkoutIntensityData, setWorkoutIntensityData] = useState('');
@@ -88,7 +109,12 @@ const WorkoutInfo = ({ navigation }) => {
               "CaloriesBurned": CaloriesBurned,
               "WorkoutIntensity": WorkoutIntensity
           });
-
+      // Make sure user isn't leaving any required fields empty
+      if( !WorkoutType || !TimeElapsed || !WorkoutIntensity ) { 
+        alertFailure();
+        console.log("fail");
+        return; // Don't do API call if invalid data
+      }
 
       var requestOptions = {
         method: 'PUT',
@@ -98,15 +124,16 @@ const WorkoutInfo = ({ navigation }) => {
         redirect: 'follow'
       };
 
-
       fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
 
-
+      alertSuccess();
+      navigation.navigate('WorkoutScreen', {token: token});
   })()
-  navigation.navigate('WorkoutScreen', {token: token})
+  // alertSuccess();
+  // navigation.navigate('WorkoutScreen', {token: token});
   }
 
   return (
