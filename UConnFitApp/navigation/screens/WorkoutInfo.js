@@ -76,7 +76,9 @@ const WorkoutInfo = ({ navigation }) => {
     const alertOptions = {
       cancelable: true,
     };
-    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+    Alert.alert(title, message, emptyArrayButtons, alertOptions, () => {
+      navigation.navigate('WorkoutLog');
+    });
   };
   // Alert code - error adding workout to log
   const alertFailure = () => {
@@ -165,27 +167,8 @@ const WorkoutInfo = ({ navigation }) => {
             }}
           /> : <View></View> }
       
-          <Dropdown
-            style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={allTimeElapsedData}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={'Select Time Elapsed'}
-            searchPlaceholder="Search..."
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={item => {
-              // setTimeElapsedData(item.value);
-              setTimeElapsed(item.label);
-              setIsFocus(false);
-            }}
-          />
+
+          
           <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
             placeholderStyle={styles.placeholderStyle}
@@ -207,6 +190,15 @@ const WorkoutInfo = ({ navigation }) => {
               setIsFocus(false);
             }}
           />
+          <TextInput
+            placeholder="Input time working out"
+            placeholderTextColor={myColors.darkGrey}
+            style={styles.calorieInput}
+            keyboardType='number-pad'
+            onChangeText={(calories) => setCaloriesBurned(calories)}
+          />
+
+
           <TextInput
             placeholder="Calories Burned (Optional)"
             placeholderTextColor={myColors.darkGrey}

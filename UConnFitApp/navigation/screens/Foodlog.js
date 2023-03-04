@@ -6,7 +6,7 @@ import CustomButton from "../../assets/Components/CustomButton";
 import { ThumbsUp, ThumbsDown} from "react-native-feather";
 import React, { useState } from "react";
 import fetch from 'node-fetch';
-import CustomFoodItemButton from '../../assets/Components/CustomFoodItemButton';
+import CustomFoodLogButton from '../../assets/Components/CustomFoodLogButton';
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -69,11 +69,12 @@ export default function Foodlog({navigation, label, inverse=false}) {
 
   return (
     <View style={styles.content}>
+      <Text style= {styles.title}>Food Log</Text>
       <View style={styles.list}>
         <ScrollView>
           {data.map((food) => {
             return (
-              <CustomFoodItemButton
+              <CustomFoodLogButton
                 key={food.id}
                 label={food["Food item"]}
                 infoOnPress={() => {}}
@@ -109,8 +110,8 @@ const styles = StyleSheet.create({
   },
   list: {
     minHeight: 0,
-    maxHeight: windowHeight,
-    width: windowWidth*0.75,
+    maxHeight: 300,
+    width: windowWidth*0.95,
     marginTop: 5,
     paddingTop: 8,
     backgroundColor: myColors.lightGrey,
