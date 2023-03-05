@@ -17,7 +17,7 @@ export default function CustomFoodLogButton({ label, infoOnPress, addOnPress, in
             borderWidth: inverse ? 5 : null,
             paddingVertical: 5,
             paddingHorizontal: 8,
-            width: windowWidth*0.95-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
+            width: windowWidth*0.9-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
             borderRadius: 10,
             marginBottom: 8,
             marginHorizontal: 8,
@@ -27,14 +27,14 @@ export default function CustomFoodLogButton({ label, infoOnPress, addOnPress, in
                 flexWrap: 'wrap',
                 textAlign: 'left',
                 fontWeight: '350',
-                fontSize: 14,
+                fontSize: 15,
                 color: inverse ? myColors.white : myColors.navy, 
             }}>{label}</Text>
             <View style={{
                 flexDirection: 'row',
             }}>
-                 <TouchableOpacity style={{ padding: 2 }} onPress = {()=>{}} ><ThumbsUp stroke={myColors.navy} strokeWidth={1.4} width={24} height={24}/></TouchableOpacity>
-                 <TouchableOpacity style={{ padding: 2 }} onPress = {()=>{}}><ThumbsDown stroke={myColors.navy} strokeWidth={1.4} width={24} height={24}/></TouchableOpacity>
+                 <TouchableOpacity style={{ padding: 4 }} onPress = {()=>{}} ><ThumbsUp stroke={myColors.navy} strokeWidth={1.4} width={22} height={22}/></TouchableOpacity>
+                 <TouchableOpacity style={{ padding: 4 }} onPress = {()=>{}}><ThumbsDown stroke={myColors.navy} strokeWidth={1.4} width={22} height={22}/></TouchableOpacity>
             </View>
         </View>
 

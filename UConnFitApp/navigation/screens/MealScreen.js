@@ -12,13 +12,6 @@ const windowHeight = Dimensions.get('window').height;
 
 const MealScreen = ({ navigation }) => {
 
-  // Get the day of the week
-  const date = new Date();
-  const day = date.getDay();
-
-  // Determine if it is a weekend or not
-  const isWeekend = day === 6 || day === 0;
-
   // Get the token and dining hall name from dining hall page and capitalize the first letter
   const route = useRoute();
   const token = route.params.token;
@@ -35,15 +28,22 @@ const MealScreen = ({ navigation }) => {
   var tomorrow = new Date();
   yesterday.setDate(yesterday.getDate() - 1);
   tomorrow.setDate(tomorrow.getDate() + 1);
+  const isYesterdayWeekend = yesterday.getDay() === 6 || yesterday.getDay() === 0;
+  const isTodayWeekend = today.getDay() === 6 || today.getDay() === 0;
+  const isTomorrowWeekend = tomorrow.getDay() === 6 || tomorrow.getDay() === 0;
 
   // convert dates into eastern time zone
   const yesterdayEST = yesterday.toLocaleString('en-US', { timeZone: 'America/New_York' }).split("/");
   const todayEST     = today.toLocaleString('en-US', { timeZone: 'America/New_York' }).split("/");
   const tomorrowEST = tomorrow.toLocaleString('en-US', { timeZone: 'America/New_York' }).split("/");
   
-  const yesterdayDate = yesterday.toLocaleString('en-US', { timeZone: 'America/New_York' }).split(',')[0];
-  const todayDate = today.toLocaleString('en-US', { timeZone: 'America/New_York' }).split(',')[0];
-  const tomorrowDate = tomorrow.toLocaleString('en-US', { timeZone: 'America/New_York' }).split(',')[0];
+  var yesterdayDate = yesterday.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
+  var todayDate = today.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
+  var tomorrowDate = tomorrow.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
+
+  yesterdayDate = yesterdayDate.slice(3, 5) + '/' + yesterdayDate.slice(0, 2) + yesterdayDate.slice(5, 10)
+  todayDate     = todayDate.slice(3, 5) + '/' + todayDate.slice(0, 2) + todayDate.slice(5, 10)
+  tomorrowDate  = tomorrowDate.slice(3, 5) + '/' + tomorrowDate.slice(0, 2) + tomorrowDate.slice(5, 10)
 
   const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
@@ -66,6 +66,8 @@ const MealScreen = ({ navigation }) => {
   const [isYesterday, setIsYesterday] = React.useState(false);
   const [isToday, setIsToday] = React.useState(true);
   const [isTomorrow, setIsTomorrow] = React.useState(false);
+  const [isWeekend, setIsWeekend] = React.useState(isTodayWeekend);
+  const [selectedDate, setSelectedDate] = React.useState();
 
   var i = 0
 
@@ -136,14 +138,21 @@ const MealScreen = ({ navigation }) => {
       setIsYesterday(true);
       setIsToday(false);
       setIsTomorrow(false);
+      setIsWeekend(isYesterdayWeekend);
+      setSelectedDate(yesterdayDate);
     } else if (selection === "today") {
       setIsYesterday(false);
       setIsToday(true);
       setIsTomorrow(false);
+      setIsWeekend(isTodayWeekend);
+      setSelectedDate(todayDate);
     } else if (selection === "tomorrow") {
       setIsYesterday(false);
       setIsToday(false);
       setIsTomorrow(true);
+      setIsWeekend(isTomorrowWeekend);
+      setSelectedDate(tomorrowDate);
+
     }
     getMeal('breakfast', date);
     getMeal('lunch', date);
@@ -152,13 +161,14 @@ const MealScreen = ({ navigation }) => {
 
   const logFood = (food) => { 
     // Add as many or as little attributes as you want!
-    console.log(food["Food Item"])
     var raw = JSON.stringify({
       "Food item": food["Food Item"],
       "Calories": food["Calories"],
       "Carbs": food["Total Carbohydrates"],
       "Protein": food["Protein"],
-      "Dining_hall": food["Dining Hall"]
+      "Total fat": food["Total Fat"],
+      "Dining hall": food["Dining Hall"],
+      "Date": selectedDate,
     });
 
     var requestOptions = {
@@ -192,7 +202,7 @@ const MealScreen = ({ navigation }) => {
             </TouchableOpacity>
             <Text style={styles.title}>{diningHallName}</Text>
         </View>
-        <View style={{ flexDirection: 'row' }}>
+        <View style={{ flexDirection: 'row', marginBottom:10 }}>
           <TouchableOpacity
             style={{
               backgroundColor: (isYesterday ? myColors.navy : myColors.lightGrey),
@@ -239,7 +249,7 @@ const MealScreen = ({ navigation }) => {
 
         {isWeekend ? <View></View> : <CustomDiningButton label={'Breakfast'} arrow={showBreakfast ? "up" : "down"} onPress={() => showMeal('breakfast')} />}
         <View>
-          {showBreakfast ?
+          {showBreakfast && !isWeekend ?
             <View style={styles.list}>
               <ScrollView>
                 {breakfastFoods.map((food) => {
@@ -296,10 +306,10 @@ const MealScreen = ({ navigation }) => {
               <View></View>
             }
           </View>
-
+          <CustomDiningButton label={'View Food Log'} arrow={"right"} inverse={true} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
           <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
             <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
-              <Text style={{ color:myColors.navy, fontWeight:'700'}}>Back</Text>
+              <Text style={{ color:myColors.navy, fontWeight:'500', marginTop: 10}}>Back</Text>
             </TouchableOpacity>
           </View>
         </ScrollView>
@@ -329,6 +339,14 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     backgroundColor: myColors.lightGrey,
     borderRadius: 12,
+    shadowColor: myColors.darkGrey,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   item: {
     fontFamily: "System",
