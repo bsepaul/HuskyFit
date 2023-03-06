@@ -76,10 +76,9 @@ const WorkoutInfo = ({ navigation }) => {
     const alertOptions = {
       cancelable: true,
     };
-    Alert.alert(title, message, emptyArrayButtons, alertOptions, () => {
-      navigation.navigate('WorkoutLog');
-    });
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
   };
+  
   // Alert code - error adding workout to log
   const alertFailure = () => {
     const title = 'Error';
@@ -167,7 +166,27 @@ const WorkoutInfo = ({ navigation }) => {
             }}
           /> : <View></View> }
       
-
+      <Dropdown
+             style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
+             placeholderStyle={styles.placeholderStyle}
+             selectedTextStyle={styles.selectedTextStyle}
+             inputSearchStyle={styles.inputSearchStyle}
+             iconStyle={styles.iconStyle}
+             data={allTimeElapsedData}
+             search
+             maxHeight={300}
+             labelField="label"
+             valueField="value"
+             placeholder={'Select Time Elapsed'}
+             searchPlaceholder="Search..."
+             onFocus={() => setIsFocus(true)}
+             onBlur={() => setIsFocus(false)}
+             onChange={item => {
+               // setTimeElapsedData(item.value);
+               setTimeElapsed(item.label);
+               setIsFocus(false);
+             }}
+           />
           
           <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
@@ -199,13 +218,13 @@ const WorkoutInfo = ({ navigation }) => {
           />
 
 
-          <TextInput
+          {/* <TextInput
             placeholder="Calories Burned (Optional)"
             placeholderTextColor={myColors.darkGrey}
             style={styles.calorieInput}
             keyboardType='number-pad'
             onChangeText={(calories) => setCaloriesBurned(calories)}
-          />
+          /> */}
           <CustomRecButton label={'Submit'} onPress={addWorkout} />
         </View>
       </View>

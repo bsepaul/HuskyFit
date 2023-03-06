@@ -1,7 +1,8 @@
 import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, Button } from 'react-native';
+import { View, Text, StyleSheet, Button, TouchableOpacity } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-import themeContext from '../../config/themeContext';
+import { myColors } from '../../assets/colors/ColorPalette';
+// import themeContext from '../../config/themeContext';
 
 const WorkoutLog = ({ navigation, route }) => {
   const { weight, time, WorkoutIntensity, caloriesBurned } = route.params;
@@ -15,15 +16,19 @@ const WorkoutLog = ({ navigation, route }) => {
     navigation.navigate('WorkoutScreen');
   };
 
-  const theme = useContext(themeContext);
+  // const theme = useContext(themeContext);
 
   return (
-    <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+    // <View style={[styles.container, { backgroundColor: theme.backgroundColor }]}>
+    <View style={[styles.container, { backgroundColor: myColors.white }]}>
+      
       {workouts.map((workout, index) => (
         <View key={index} style={styles.workoutContainer}>
           <View style={styles.dateContainer}>
-            <Text style={[styles.month, { color: theme.color }]}>Feb</Text>
-            <Text style={[styles.day, { color: theme.color }]}>28</Text>
+            {/* <Text style={[styles.month, { color: theme.color }]}>Feb</Text> */}
+            <Text style={[styles.month, { color: myColors.navy }]}>Feb</Text>
+            {/* <Text style={[styles.day, { color: theme.color }]}>28</Text> */}
+            <Text style={[styles.day, { color: myColors.navy }]}>28</Text>
           </View>
           <View style={styles.bubble}>
             <Feather name="bar-chart-2" size={24} color="white" style={{ marginTop: 10, marginRight: 10 }} />
@@ -40,7 +45,21 @@ const WorkoutLog = ({ navigation, route }) => {
       <View style={styles.buttonContainer}>
         <Button title="Add Another Workout" onPress={addWorkout} />
       </View>
+      <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            marginTop: 30,
+          }}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={{ color: myColors.navy, fontWeight: "700" }}>
+              {" "}
+              Back{" "}
+            </Text>
+          </TouchableOpacity>
+        </View>
     </View>
+    
   );
 };
 
