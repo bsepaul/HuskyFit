@@ -9,7 +9,7 @@ import fetch from 'node-fetch';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
 
   // Get token from route
   const route = useRoute();
@@ -17,11 +17,8 @@ export default function HomeScreen() {
   
   // Set variable to store the user's name once fetched from API
   const [name, setName] = React.useState('');
-  const [week, setWeek] = React.useState([]);
-  const [workouts, setWorkouts] = React.useState([]);
-  const [lowIntensity, setLowIntensity] = React.useState(0);
-  const [midIntensity, setMidIntensity] = React.useState(0);
-  const [highIntensity, setHighIntensity] = React.useState(0);
+  const [weekDays, setWeekDays] = React.useState([]);
+  const [userInfo, setUserInfo] = React.useState({"Calories": [], "low": 0, "mid": 0, "high": 0 });
 
   // get the day of the week
   const date = new Date();
@@ -36,34 +33,30 @@ export default function HomeScreen() {
   // data
   // for progress ring
   const ringData = {                  // take from user data, last 3 workouts performed?
-    labels: ["Bike", "Run", "Lift"],
-    data: [0.4, 0.6, 0.8]             // can set default goal calories to 100 per exercise?
+    labels: ["High", "Mid", "Low"],
+    data: [Math.min(1, ((userInfo.high)/75)), Math.min(1, ((userInfo.mid)/115)), Math.min(1, ((userInfo.low)/200))]             // can set default goal calories to 100 per exercise?
   };
+
+  const barData = {
+    labels: weekDays,
+    datasets: [
+      {data: userInfo.Calories}
+    ]
+  }
   // for calorie bars
   // only show data for days we've already seen this week
   const barLabels = []
   for (let i=0; i <= date.getDay(); i++) {
     barLabels.push(String(daysAbbrev[i]))
   }
-    // dummy data
-  const calData = [1750, 1712, 1679, 1712, 1679, 1599, 1650] // change to user data set, exclude 0's for days with no data
-
-  const barData = {
-    labels: barLabels,
-    datasets: [{
-      data: calData.slice(0, date.getDay()+1)  // only show cal data since last Sunday
-    }]
-  }
 
   // Convert the date format from dd/mm/yyyy --> mm/dd/yyyy for the API call to work
   const convertDate = (date) => {
-    console.log("3. Convert Date");
     let convertedDate = date.slice(3, 5) + '/' + date.slice(0, 2) + date.slice(5, 10)
     return convertedDate
   }
 
   const getUserInfo = async () => {
-    console.log("1. Get User Info");
     var raw = ""
     var requestOptions = {
       method: 'GET',
@@ -83,105 +76,86 @@ export default function HomeScreen() {
 
   // Get the list of dates of the week from Sunday to the current day
   const getWeekDays = async () => {
-    console.log("2. Get Week Days");
     let date = new Date();
     let dayNum = date.getDay();
+    setWeekDays(daysAbbrev.slice(0,(dayNum+1)));
     let dateStr = date.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
     const daysWeek = [];
     daysWeek.push(convertDate(dateStr));
     while (dayNum >= 1) {
       date.setDate(date.getDate() - 1);
       let dateStr = date.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
-      daysWeek.push(convertDate(dateStr));
+      daysWeek.unshift(convertDate(dateStr));
       dayNum -= 1;
     }
-    setWeek(daysWeek);
+    return daysWeek;
   }
 
-  const fetchWorkout = (day) => {
-    console.log("5. Fetch Workout")
-    var raw = JSON.stringify({
-      "Date": day // mm/dd/yyyy
-    });
-    var requestOptions = {
-      method: 'POST',
-      headers: {
-        "x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
-        "Authorization": token
-      },
-      body: raw,
-      redirect: 'follow'
-    };
-    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        if (result != '') {
-          const json = JSON.parse(result);
-          let temp_workouts = workouts;
-          temp_workouts.push(json)
-          setWorkouts(temp_workouts);
-          console.log(workouts);
-        }
-      })
-      .catch(error => console.log('error', error));
-  }
-
-  const getUserWorkoutInfo = async (week) => {
-    console.log("4. Get User Workout Info")
-    week.forEach(day => {
-      fetchWorkout(day);
-    })
-    console.log("WORKOUTS!!!")
-    console.log(workouts);
-  }
-
-  const extractUserWorkoutInfo = async () => {
-    console.log("6. Extract User Workout Info")
+  const extractUserWorkoutInfo = (workouts) => {
     var low_intensity = 0;
     var mid_intensity = 0;
     var high_intensity = 0;
-    workouts.forEach(dayData => {
-      const dayWorkouts = dayData.Workouts;
-      dayWorkouts.forEach(workout => {
-        let intensity = workout.WorkoutIntensity;
-        if (intensity === 'Low') {
-          low_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
-        } else if (intensity === 'Medium') {
-          mid_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
-        } else if (intensity === 'High') {
-          high_intensity += parseInt(workout.TimeElapsed.split('-')[1].split(' ')[0])
-        }
-      })
+    var tempCaloriesBurned = 0;
+    workouts.forEach(workout => {
+      tempCaloriesBurned += (parseFloat(workout.CaloriesBurned));
+      let intensity = workout.WorkoutIntensity;
+      if (intensity === 'Low') {
+        low_intensity += parseFloat(workout.TimeElapsed)
+      } else if (intensity === 'Medium') {
+        mid_intensity += parseFloat(workout.TimeElapsed)
+      } else if (intensity === 'High') {
+        high_intensity += parseFloat(workout.TimeElapsed)
+      }
     })
-    setLowIntensity(low_intensity);
-    setMidIntensity(mid_intensity);
-    setHighIntensity(high_intensity);
+    return [tempCaloriesBurned, low_intensity, mid_intensity, high_intensity];
+  }
+
+  const getUserWorkoutInfo = async (week) => {
+    const tempUserInfo = { "Calories": [], "low": 0, "mid": 0, "high": 0 };
+    for (let index = 0; index < week.length; index++) {
+      const day = week[index];
+      var raw = JSON.stringify({
+        "Date": day // mm/dd/yyyy
+      });
+      var requestOptions = {
+        method: 'POST',
+        headers: {
+          "x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+          "Authorization": token
+        },
+        body: raw,
+        redirect: 'follow'
+      };
+      await fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          if (result != '') {
+            const json = JSON.parse(result);
+            let userInfoArr = extractUserWorkoutInfo(json.Workouts);
+            tempUserInfo.Calories.push(userInfoArr[0]);
+            tempUserInfo.low += userInfoArr[1];
+            tempUserInfo.mid += userInfoArr[2];
+            tempUserInfo.high += userInfoArr[3];
+          }
+        })
+        .catch(error => console.log('error', error));
+    }
+    setUserInfo(tempUserInfo);
   }
 
   const getAllUserInfo = async () => {
-
     await getUserInfo();
-    await getWeekDays();
-
-    console.log("Getting data for days since Sunday:")
-    console.log(week);
-
+    let week = await getWeekDays();
     await getUserWorkoutInfo(week);
-    await extractUserWorkoutInfo();
-
-    // setTimeout(function () { getUserInfo() },1000)
-    // setTimeout(function () { getWeekDays() },1000)
-    // setTimeout(function () { getUserWorkoutInfo(week) },2000)
-    // setTimeout(function () { extractUserWorkoutInfo() },2000)
-    
-    console.log("WORKOUTS")
-    console.log(workouts);
   }
-
-  // Automatically get all meals for today from API on screen load
+  
+  // Automatically get user's info on screen load
   React.useEffect(() => {
-    getAllUserInfo();
-  }, []);
+    const userInfo = navigation.addListener('focus', () => {
+      getAllUserInfo();
+    });
+    return userInfo;
+  }, [navigation]);
       
   return (
     <SafeAreaView style={styles.container}>
@@ -201,7 +175,7 @@ export default function HomeScreen() {
           hideLegend={false}
         />
         <Text style={styles.chartLabel}>Calorie Goals</Text>
-        <BarChart                       // calorie bar chart
+        <BarChart             // calorie bar chart
           data={barData}
           width={Dimensions.get('window').width*.95}
           height={250}
