@@ -47,7 +47,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: windowWidth * 0.125,
     paddingTop: windowHeight * 0.04,
-    paddingBottom: windowHeight * 0.05
+    paddingBottom: windowHeight * 0.1,
+    minHeight: windowHeight * 0.75
   },
   title: {
     fontFamily: "System",
