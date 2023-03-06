@@ -177,7 +177,7 @@ export default function HomeScreen({navigation}) {
         <Text style={styles.chartLabel}>Calorie Goals</Text>
         <BarChart             // calorie bar chart
           data={barData}
-          width={Dimensions.get('window').width*.95}
+          width={Dimensions.get('window').width*.8}
           height={250}
           fromZero={false}              // let 0 always be bottom of chart
           withHorizontalLabels={false}  // show calorie labels on left side of chart
