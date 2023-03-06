@@ -106,63 +106,64 @@ export default function Foodlog({navigation, label, inverse=false}) {
 
 
   return (
-    <SafeAreaView style={styles.content}>
-      <Text style={styles.title}>Food Log</Text>
-      <Text style={styles.subtitle}>Macronutrients</Text>
-      <View style={{alignItems:'center'}}>
-        <ProgressChart        // ring chart
-          data={{
-            labels: ['Fats', 'Protein', 'Carbs'],
-            data: [Math.min(1, (fat / (weight * 0.4))), Math.min(1, (protein / (weight * 1.0))), Math.min(1, (carbs / (weight*1.4)))]
-          }}
-          width={windowWidth * .90}
-          height={220}
-          strokeWidth={16}    // ring thickness, should decrease with more rings
-          radius={32}         // default 32
-          chartConfig={{
-            backgroundGradientFrom: myColors.white,
-            backgroundGradientTo: myColors.white,
-            decimalPlaces: 3,
-            color: (opacity = 1) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
-          }}
-          hideLegend= {true}
-        />
-        <View style={{flexDirection:'row',justifyContent:'space-around'}}>
-          <Macro label={"Carbs"} color={'#303E55'} macroGrams={carbs} coefficient={1.4} />
-          <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
-          <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
-        </View>
-      </View>
-      <Text style={styles.subtitle}>Food Logged</Text>
-      <View style={{alignItems:'center'}}>
-        <View style={styles.list}>
-          <ScrollView>
-            {data.map((food) => {
-              return (
-                <CustomFoodLogButton
-                  key={food.id}
-                  label={food["Food item"]}
-                  infoOnPress={() => {}}
-                  addOnPress={() => {}}
-                />); 
-            })}
-          </ScrollView>
-        </View>
-        <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', params: { screen: 'DiningHalls', params: { token: token } } })}>
-          <View style={{flexDirection:'row', paddingTop:10}}>
-            <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
-            <Text style={styles.text}>View Menus</Text>
+    <View style={styles.content}>
+      <SafeAreaView>
+        <Text style={styles.title}>Food Log</Text>
+        <Text style={styles.subtitle}>Macronutrient Targets</Text>
+        <View style={{alignItems:'center'}}>
+          <ProgressChart        // ring chart
+            data={{
+              labels: ['Fats', 'Protein', 'Carbs'],
+              data: [Math.min(1, (fat / (weight * 0.4))), Math.min(1, (protein / (weight * 1.0))), Math.min(1, (carbs / (weight*1.4)))]
+            }}
+            width={windowWidth * .90}
+            height={200}
+            strokeWidth={15}    // ring thickness, should decrease with more rings
+            radius={30}         // default 32
+            chartConfig={{
+              backgroundGradientFrom: myColors.white,
+              backgroundGradientTo: myColors.white,
+              decimalPlaces: 3,
+              color: (opacity = 1) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
+            }}
+            hideLegend= {true}
+          />
+          <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+            <Macro label={"Carbs"} color={'#303E55'} macroGrams={carbs} coefficient={1.4} />
+            <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
+            <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
           </View>
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+        </View>
+        <Text style={styles.subtitle}>Food Logged</Text>
+        <View style={{alignItems:'center'}}>
+          <View style={styles.list}>
+            <ScrollView>
+              {data.map((food) => {
+                return (
+                  <CustomFoodLogButton
+                    key={food.id}
+                    label={food["Food item"]}
+                    infoOnPress={() => {}}
+                    addOnPress={() => {}}
+                  />); 
+              })}
+            </ScrollView>
+          </View>
+          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', params: { screen: 'DiningHalls', params: { token: token } } })}>
+            <View style={{flexDirection:'row', paddingTop:10}}>
+              <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
+              <Text style={styles.text}>View Menus</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    </View>
   )
 }
 
 
 const styles = StyleSheet.create({
   content: {
-    paddingTop: windowHeight * 0.15,
     backgroundColor: myColors.white,
     paddingHorizontal: windowWidth*0.02
   },
@@ -192,9 +193,10 @@ const styles = StyleSheet.create({
   },
   list: {
     minHeight: 0,
-    maxHeight: 275,
+    maxHeight: windowHeight*0.26,
     width: windowWidth*0.9,
     marginTop: 5,
+    marginBottom: 10,
     paddingTop: 8,
     backgroundColor: myColors.lightGrey,
     borderRadius: 12,
