@@ -67,6 +67,13 @@ const WorkoutInfo = ({ navigation }) => {
   const [WorkoutType, setWorkoutType] = useState(workoutType);
   const [TimeElapsed, setTimeElapsed] = useState('');
   const [WorkoutIntensity, setWorkoutIntensity] = useState('');
+  const [CaloriesBurned, setCaloriesBurned] = useState('');
+  const [isFocus, setIsFocus] = useState(false);
+  
+  
+  const handleCaloriesBurned = (text) => {
+    setCaloriesBurned(text);
+  };
 
   // Alert code - workout successfully added to log
   const alertSuccess = () => {
@@ -90,24 +97,13 @@ const WorkoutInfo = ({ navigation }) => {
     Alert.alert(title, message, emptyArrayButtons, alertOptions);
   };
 
-  // const [WorkoutTypeData, setWorkoutTypeData] = useState('');
-  // const [TimeElapsedData, setTimeElapsedData] = useState('');
-  // const [WorkoutIntensityData, setWorkoutIntensityData] = useState('');
-  // const [CalorieData, setSetCalorieData] = useState(null);
-  // const [Calories, setCalorie] = useState(null);
-  const [CaloriesBurned, setCaloriesBurned] = useState('');
-  const [isFocus, setIsFocus] = useState(false);
-  const handleCaloriesBurned = (text) => {
-    setCaloriesBurned(text);
-  };
-
   const addWorkout = () => {
     (async () => {
       // Add as many or as little attributes as you want!
       var raw = JSON.stringify({
               "WorkoutType": WorkoutType,
               "TimeElapsed": TimeElapsed,
-              "CaloriesBurned": CaloriesBurned,
+              "CaloriesBurned": ((CaloriesBurned === '') ? handleCaloriesBurned() : CaloriesBurned),
               "WorkoutIntensity": WorkoutIntensity
           });
       // Make sure user isn't leaving any required fields empty
@@ -152,7 +148,6 @@ const WorkoutInfo = ({ navigation }) => {
             data={allWorkoutTypeData}
             search
             maxHeight={300}
-            //scroll = {true}
             labelField="label"
             valueField="value"
             placeholder={'Select Workout Type'}
@@ -160,33 +155,10 @@ const WorkoutInfo = ({ navigation }) => {
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
-              // setWorkoutTypeData(item.value);
               setWorkoutType(item.label);
               setIsFocus(false);
             }}
           /> : <View></View> }
-      
-      <Dropdown
-             style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
-             placeholderStyle={styles.placeholderStyle}
-             selectedTextStyle={styles.selectedTextStyle}
-             inputSearchStyle={styles.inputSearchStyle}
-             iconStyle={styles.iconStyle}
-             data={allTimeElapsedData}
-             search
-             maxHeight={300}
-             labelField="label"
-             valueField="value"
-             placeholder={'Select Time Elapsed'}
-             searchPlaceholder="Search..."
-             onFocus={() => setIsFocus(true)}
-             onBlur={() => setIsFocus(false)}
-             onChange={item => {
-               // setTimeElapsedData(item.value);
-               setTimeElapsed(item.label);
-               setIsFocus(false);
-             }}
-           />
           
           <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
@@ -204,27 +176,32 @@ const WorkoutInfo = ({ navigation }) => {
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
-              // setWorkoutIntensityData(item.value);
               setWorkoutIntensity(item.label);
               setIsFocus(false);
             }}
           />
-          <TextInput
-            placeholder="Input time working out"
-            placeholderTextColor={myColors.darkGrey}
-            style={styles.calorieInput}
-            keyboardType='number-pad'
-            onChangeText={(calories) => setCaloriesBurned(calories)}
-          />
-
-
-          {/* <TextInput
-            placeholder="Calories Burned (Optional)"
-            placeholderTextColor={myColors.darkGrey}
-            style={styles.calorieInput}
-            keyboardType='number-pad'
-            onChangeText={(calories) => setCaloriesBurned(calories)}
-          /> */}
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'flex-start', marginBottom:10 }}>
+            <View style={styles.inputUnits}>
+              <TextInput
+                placeholder="Time Elapsed"
+                placeholderTextColor={myColors.darkGrey}
+                style={styles.input}
+                keyboardType='number-pad'
+                onChangeText={(time) => setTimeElapsed(time)}
+              />
+              <Text style={styles.units}>mins</Text>
+            </View>
+            <View style={styles.inputUnits}>
+              <TextInput
+                placeholder="Calories (Optional)"
+                placeholderTextColor={myColors.darkGrey}
+                style={styles.input}
+                keyboardType='number-pad'
+                onChangeText={(calories) => setCaloriesBurned(calories)}>
+              </TextInput>
+              <Text style={styles.units}>Kcals</Text>
+            </View>
+          </View>
           <CustomRecButton label={'Submit'} onPress={addWorkout} />
         </View>
       </View>
@@ -261,11 +238,32 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: myColors.navy,
   },
-  calorieInput: {
-    borderBottomWidth: 1,
-    borderBottomColor: myColors.lightGrey,
-    paddingBottom: 5,
+  input: {
+    height: 34,
+    borderColor: myColors.grey,
+    borderWidth: 0,
+    borderRadius: 8,
+    paddingHorizontal: 6,
+    fontSize:12,
+  },
+  inputUnits: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    height: 34,
+    borderColor: myColors.grey,
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingLeft: 6,
+    paddingRight:6,
     marginBottom: 10,
+    marginRight: 10,
+  },
+  units: {
+    fontFamily: 'System',
+    fontSize: 12,
+    fontWeight:'300',
+    color: myColors.black,
+    paddingRight: 5,
   },
   label: {
     position: 'absolute',
@@ -276,9 +274,11 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   placeholderStyle: {
+    color:myColors.darkGrey,
     fontSize: 16,
   },
   selectedTextStyle: {
+    color:myColors.black,
     fontSize: 16,
   },
   iconStyle: {
