@@ -95,9 +95,11 @@ export default function HomeScreen({navigation}) {
     var low_intensity = 0;
     var mid_intensity = 0;
     var high_intensity = 0;
-    var tempCaloriesBurned = 0;
-    workouts.forEach(workout => {
-      tempCaloriesBurned += (parseFloat(workout.CaloriesBurned));
+    var tempCaloriesBurned = 0.0;
+    for (let index = 0; index < workouts.length; index++) {
+      const workout = workouts[index];
+      let numCalories = parseFloat(workout.CaloriesBurned);
+      tempCaloriesBurned += (isNaN(numCalories)) ? 0 : numCalories;
       let intensity = workout.WorkoutIntensity;
       if (intensity === 'Low') {
         low_intensity += parseFloat(workout.TimeElapsed)
@@ -106,7 +108,7 @@ export default function HomeScreen({navigation}) {
       } else if (intensity === 'High') {
         high_intensity += parseFloat(workout.TimeElapsed)
       }
-    })
+    }
     return [tempCaloriesBurned, low_intensity, mid_intensity, high_intensity];
   }
 
