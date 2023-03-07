@@ -113,8 +113,9 @@ export default function HomeScreen({navigation}) {
   }
 
   const getUserWorkoutInfo = async (week) => {
-    const tempUserInfo = { "Calories": [], "low": 0, "mid": 0, "high": 0 };
-    for (let index = 0; index < week.length; index++) {
+    const tempUserInfo = { "Calories": Array(week.length).fill(0), "low": 0, "mid": 0, "high": 0 };
+    let index = 0;
+    for (index = 0; index < week.length; index++) {
       const day = week[index];
       var raw = JSON.stringify({
         "Date": day // mm/dd/yyyy
@@ -134,7 +135,7 @@ export default function HomeScreen({navigation}) {
           if (result != '') {
             const json = JSON.parse(result);
             let userInfoArr = extractUserWorkoutInfo(json.Workouts);
-            tempUserInfo.Calories.push(userInfoArr[0]);
+            tempUserInfo.Calories[index] = userInfoArr[0];
             tempUserInfo.low += userInfoArr[1];
             tempUserInfo.mid += userInfoArr[2];
             tempUserInfo.high += userInfoArr[3];
@@ -176,7 +177,7 @@ export default function HomeScreen({navigation}) {
           chartConfig={ringConfig}
           hideLegend={false}
         />
-        <Text style={styles.chartLabel}>Calorie Goals</Text>
+        <Text style={styles.chartLabel}>Burned Calories</Text>
         <BarChart             // calorie bar chart
           data={barData}
           width={Dimensions.get('window').width*.8}
