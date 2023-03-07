@@ -5,6 +5,7 @@ import { myColors } from '../../assets/colors/ColorPalette';
 import { ChevronLeft } from "react-native-feather";
 import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
 import CustomFoodItemButton from '../../assets/Components/CustomFoodItemButton';
+import CustomNavigationButton from '../../assets/Components/CustomNavigationButton';
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -306,7 +307,7 @@ const MealScreen = ({ navigation }) => {
               <View></View>
             }
           </View>
-          <CustomDiningButton label={'View Food Log'} arrow={"right"} inverse={true} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
+          <CustomNavigationButton label={'View Food Log'} arrow={"right"} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
           <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
             <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
               <Text style={{ color:myColors.navy, fontWeight:'500', marginTop: 10}}>Back</Text>

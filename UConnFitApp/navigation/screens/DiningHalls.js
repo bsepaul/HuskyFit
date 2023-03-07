@@ -2,6 +2,7 @@ import { useRoute } from '@react-navigation/native';
 import { Text, View, SafeAreaView, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { myColors } from '../../assets/colors/ColorPalette';
 import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
+import CustomNavigationButton from '../../assets/Components/CustomNavigationButton'
 import React from 'react'
 
 // Get screen dimensions
@@ -31,7 +32,7 @@ const DiningHalls = ({ navigation }) => {
         <CustomDiningButton label={'Putnam'}     arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'putnam' })} />
         <CustomDiningButton label={'South'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'south' })}/>
         <CustomDiningButton label={'Whitney'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'whitney' })}/>
-        <CustomDiningButton label={'View Food Log'} arrow={"right"} inverse={true} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
+        <CustomNavigationButton label={'View Food Log'} arrow={"right"} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
       </ScrollView>
     </SafeAreaView>       
 );
