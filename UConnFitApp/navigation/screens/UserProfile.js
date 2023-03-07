@@ -26,7 +26,6 @@ const UserProfile = ({ navigation }) => {
       <CustomButton label={"Food Log"} onPress={() => navigation.navigate('Foodlog', {token:token})}></CustomButton>
       <CustomButton label={"Workout Log"} onPress={() => navigation.navigate('Workoutlog', {token:token})}></CustomButton>
       <CustomButton label={"Personal Survey"} onPress={() => navigation.navigate('Survey', {token:token})}></CustomButton>
-      <CustomButton label={"Settings"} onPress={() => navigation.navigate('Settings', {token:token})}></CustomButton>
     </View>
     </SafeAreaView>
   );

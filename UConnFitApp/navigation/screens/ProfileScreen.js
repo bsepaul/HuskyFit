@@ -16,7 +16,6 @@ const ProfileScreen = () => {
         <Stack.Screen component = {UserProfile} initialParams={{token:token}} name = "UserProfile" options={{headerShown:false}}/>
         <Stack.Screen component = {Foodlog}    initialParams={{token:token}} name = "Foodlog" options={{headerShown: false}} />
         <Stack.Screen component = {Workoutlog}    initialParams={{token:token}} name = "Workoutlog" options={{headerShown: false}} />
-        <Stack.Screen component = {Settings}    initialParams={{token:token}} name = "Settings" options={{headerShown: false}} />
         <Stack.Screen component = {Survey}    initialParams={{token:token}} name = "Survey" options={{headerShown: false}} />
         <Stack.Screen component = {BmiCalculator}    initialParams={{token:token}} name = "BmiCalculator" options={{headerShown: false}} />
       </Stack.Navigator>
