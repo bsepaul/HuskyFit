@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRoute } from '@react-navigation/native';
 import fetch from "node-fetch";
 import {
   View,
@@ -9,7 +10,9 @@ import {
   Image,
   ScrollView,
   StatusBar,
-  StyleSheet
+  StyleSheet,
+  Alert,
+  Dimensions
 } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import { myColors } from "../../assets/colors/ColorPalette";
@@ -23,6 +26,9 @@ import { MultiSelect } from 'react-native-element-dropdown';
 //   paddingBottom: 12,
 //   marginBottom: 25,
 // };
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const allDietaryRestrictionsData = [
     { label: 'Vegetarian', value: '1' },
@@ -47,15 +53,40 @@ const allAllergensData = [
     { label: 'Crustacean Shellfish', value: '9' },
   ];
 
+   // Alert code - response successfully added to database
+   const alertSuccess = () => {
+    const title = 'Success';
+    const message = 'Response successfully logged.';
+    const emptyArrayButtons = [];
+    const alertOptions = {
+      cancelable: true,
+    };
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+  };
+  
+  // Alert code - error adding response to database
+  const alertFailure = () => {
+    const title = 'Error';
+    const message = 'Please make sure you enter your height and weight.';
+    const emptyArrayButtons = [];
+    const alertOptions = {
+      cancelable: true,
+    };
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+  };
 
 const Survey = ({ navigation }) => {
   const [Height, setHeight] = useState("");
   const [Weight, setWeight] = useState("");
-  const [Allergies, setAllergies] = useState("");
+  const [Allergens, setAllergens] = useState("");
   const [DietaryRestrictions, setDietaryRestrictions] = useState('');
 
   const [selectedAllergens, setSelectedAllergens] = React.useState([]);
   const [selectedRest, setSelectedRest] = React.useState([]);
+
+    // Get token from route
+    const route = useRoute();
+    const token = route.params.token;
 
   const renderDataItem = (item) => {
     return (
@@ -83,39 +114,42 @@ const Survey = ({ navigation }) => {
   const [isFocus, setIsFocus] = useState(false); 
 
 
-  const handleRegister = () => {
+  const handleSurvey = () => {
     (async () => {
       var raw = JSON.stringify({
         Height: Height,
         Weight: Weight,
-        Allergies: Allergies,
-        birthdate: dob,
+        Allergens: Allergens,
+        Dietary_Restrictions: DietaryRestrictions,
       });
 
+      // Make sure user isn't leaving any required fields empty
+      if( !Height || !Weight) { 
+        alertFailure();
+        console.log("fail");
+        return; // Don't do API call if invalid data
+      }
+
       var requestOptions = {
-        method: "POST",
+        method: 'PUT',
         headers: {
           "x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
-          "Content-Type": "application/json",
-        },
+          "Authorization": token},
         body: raw,
-        redirect: "follow",
+        redirect: 'follow',
       };
 
       fetch(
-        "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/auth/signup",
+        "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info",
         requestOptions
       )
       .then(response => response.text())
-      .then((result) => {
-        // Do stuff here
-        var json = JSON.parse(result);
-        var message = json.message
-        console.log(message) // "User registration succesful"
-        
-        navigation.navigate("Login");
-      })
+      .then((result) => console.log(result))
       .catch(error => console.log('error', error));
+      
+      alertSuccess();
+      // navigation.navigate('Profile', {token: token});
+      navigation.goBack()
     })();
   };
   return (
@@ -140,7 +174,7 @@ const Survey = ({ navigation }) => {
         <View style={styles.textField}>
           <TextInput
             placeholder="Height (in)"
-            placeholderTextColor="#003f5c"
+            placeholderTextColor={myColors.navy}
             autoCapitalize="none"
             onChangeText={(Height) => setHeight(Height)}
           />
@@ -149,7 +183,7 @@ const Survey = ({ navigation }) => {
         <View style={styles.textField}>
           <TextInput
             placeholder="Weight (lbs)"
-            placeholderTextColor="#003f5c"
+            placeholderTextColor={myColors.navy}
             autoCapitalize="none"
             onChangeText={(Weight) => setWeight(Weight)}
           />
@@ -168,6 +202,7 @@ const Survey = ({ navigation }) => {
                 placeholder="Allergens"
                 value={selectedAllergens}
                 search
+                maxHeight={250}
                 searchPlaceholder="Search..."
                 onChange={selected => {
                   setSelectedAllergens(selected);
@@ -177,7 +212,7 @@ const Survey = ({ navigation }) => {
                 renderSelectedItem={(selected, unSelect) => (
                     <TouchableOpacity onPress={() => unSelect && unSelect(selected)}>
                         <View style={styles.selectedStyle}>
-                            <Text style={styles.textSelectedStyle}>{selected.label}</Text>
+                            <Text style={styles.selectedTextList}>{selected.label}</Text>
                         </View>
                     </TouchableOpacity>
                 )}
@@ -194,7 +229,7 @@ const Survey = ({ navigation }) => {
                 placeholder="Dietary Restrictions"
                 value={selectedRest}
                 search
-                maxHeight={300}
+                maxHeight={250}
                 searchPlaceholder="Search..."
                 onChange={item2 => {
                     // setSelected(item);
@@ -206,7 +241,7 @@ const Survey = ({ navigation }) => {
                 renderSelectedItem={(item2, unSelect) => (
                     <TouchableOpacity onPress={() => unSelect && unSelect(item2)}>
                         <View style={styles.selectedStyle}>
-                            <Text style={styles.textSelectedStyle}>{item2.label} </Text>
+                            <Text style={styles.selectedTextList}>{item2.label} </Text>
                         </View>
                     </TouchableOpacity>
                 )}
@@ -236,7 +271,7 @@ const Survey = ({ navigation }) => {
           /> */}
 
 
-        <CustomButton label={"Submit"} onPress={handleRegister} />
+        <CustomButton label={"Submit"} onPress={handleSurvey} style={{width:windowWidth*.45}}/>
 
         <View
           style={{
@@ -264,7 +299,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     paddingBottom: 12,
     marginBottom: 25,
-    // width: 100,
+    width: windowWidth * .45,
   },
   title: {
     fontFamily: "System",
@@ -278,7 +313,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: myColors.grey,
     borderWidth: 0.5,
-    // width: 200,
+    width: windowWidth * .45,
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 5,
@@ -292,8 +327,14 @@ const styles = StyleSheet.create({
   selectedTextStyle: {
     fontFamily: "System",
     fontSize: 16,
-    paddingVertical: 4,
+    paddingVertical: 6,
     paddingHorizontal: 10,
+  },
+  selectedTextList: {
+    fontFamily: "System",
+    fontSize: 14,
+    paddingVertical: 3,
+    paddingRight: 3,
   },
   selectedStyle: {
     paddingVertical: 5,
@@ -308,9 +349,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   container: {
-    flex: 1,
+    // flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
+    width: windowWidth * .45,
     // scroll: true,
   },
 });

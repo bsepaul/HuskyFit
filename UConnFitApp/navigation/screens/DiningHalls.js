@@ -31,6 +31,7 @@ const DiningHalls = ({ navigation }) => {
         <CustomDiningButton label={'Putnam'}     arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'putnam' })} />
         <CustomDiningButton label={'South'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'south' })}/>
         <CustomDiningButton label={'Whitney'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'whitney' })}/>
+        <CustomDiningButton label={'View Food Log'} arrow={"right"} inverse={true} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
       </ScrollView>
     </SafeAreaView>       
 );
@@ -46,13 +47,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: windowWidth * 0.125,
     paddingTop: windowHeight * 0.04,
-    paddingBottom: windowHeight * 0.05
+    paddingBottom: windowHeight * 0.1,
+    minHeight: windowHeight * 0.75
   },
   title: {
     fontFamily: "System",
     fontSize: 30,
     fontWeight: "500",
     color: myColors.navy,
+    marginBottom:10,
   },
 });
 

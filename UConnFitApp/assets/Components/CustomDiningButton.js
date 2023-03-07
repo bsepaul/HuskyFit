@@ -10,11 +10,11 @@ const windowWidth = Dimensions.get('window').width;
 export default function CustomDiningButton({ label, onPress, arrow, inverse = false }) {
     var chevronArrow = <Text></Text>;
     if (arrow === "down") {
-        chevronArrow = <ChevronDown stroke={myColors.white} width={18} height={18} />
+        chevronArrow = <ChevronDown stroke={inverse ? myColors.navy : myColors.white} width={18} height={18} />
     } else if (arrow === "right") {
-        chevronArrow = <ChevronRight stroke={myColors.white} width={18} height={18} />
+        chevronArrow = <ChevronRight stroke={inverse ? myColors.navy : myColors.white} width={18} height={18} />
     } else if (arrow === "up") {
-        chevronArrow = <ChevronUp stroke={myColors.white} width={18} height={18} />
+        chevronArrow = <ChevronUp stroke={inverse ? myColors.navy : myColors.white} width={18} height={18} />
     }
 
     return (
@@ -27,11 +27,12 @@ export default function CustomDiningButton({ label, onPress, arrow, inverse = fa
                 alignItems: 'center',
                 backgroundColor: inverse ? myColors.white : myColors.navy, 
                 borderColor: inverse ? myColors.navy : null,
-                borderWidth: inverse ? 5 : null,
-                padding: 22,
+                borderWidth: inverse ? 1 : null,
+                padding: inverse ? 12 : 20,
                 width: windowWidth*.75,
-                borderRadius: 20,
-                marginTop:15,
+                borderRadius: inverse ? 18 : 22,
+                marginTop:8,
+                marginBottom:8,
             }}>
             <Text 
                 style= {{

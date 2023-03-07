@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Foodlog from './Foodlog';
 import Workoutlog from './Workoutlog';
 import Survey from './Survey';
-
+import BmiCalculator from './BmiScreen';
 const Stack = createNativeStackNavigator();
 
 const ProfileScreen = () => {
@@ -18,6 +18,7 @@ const ProfileScreen = () => {
         <Stack.Screen component = {Workoutlog}    initialParams={{token:token}} name = "Workoutlog" options={{headerShown: false}} />
         <Stack.Screen component = {Settings}    initialParams={{token:token}} name = "Settings" options={{headerShown: false}} />
         <Stack.Screen component = {Survey}    initialParams={{token:token}} name = "Survey" options={{headerShown: false}} />
+        <Stack.Screen component = {BmiCalculator}    initialParams={{token:token}} name = "BmiCalculator" options={{headerShown: false}} />
       </Stack.Navigator>
   )
 };
