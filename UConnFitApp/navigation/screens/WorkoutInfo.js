@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import InputField from '../../assets/Components/InputField';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { myColors } from '../../assets/styles/ColorPalette';
 import React, { useState } from 'react';
 import CustomRecButton from '../../assets/Components/CustomRecButton';
 import fetch from 'node-fetch'

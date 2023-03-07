@@ -16,7 +16,7 @@ import CustomRecButton from '../../assets/Components/CustomRecButton';
 import { EventRegister } from 'react-native-event-listeners';
 import themeContext from '../config/themeContext';
 import FeatherIcon from 'react-native-vector-icons/Feather';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { myColors } from '../../assets/styles/ColorPalette';
 // import { name } from './HomeScreen.js';
 
 const SECTIONS = [

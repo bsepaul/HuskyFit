@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useState, useContext } from 'react';
 import { View, Text, StyleSheet, Button, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { myColors } from '../../assets/styles/ColorPalette';
 import { Clock, BarChart2, Zap, PlusCircle } from "react-native-feather";
 // import themeContext from '../../config/themeContext';
 const windowWidth = Dimensions.get('window').width;

@@ -1,6 +1,6 @@
 import {View, Text, TouchableOpacity, Dimensions} from 'react-native'
 import React from 'react'
-import { myColors } from '../colors/ColorPalette'
+import { myColors } from '../styles/ColorPalette'
 import { ThumbsUp, ThumbsDown } from "react-native-feather";
 
 // Get screen dimensions

@@ -1,6 +1,6 @@
 import {Text, TouchableOpacity} from 'react-native'
 import React from 'react'
-import { myColors } from '../colors/ColorPalette'
+import { myColors } from '../styles/ColorPalette'
 
 export default function CustomButton({label, onPress, inverse=false}) {
     return (

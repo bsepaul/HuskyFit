@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, TextInput, Dimensions, FlatList } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft } from "react-native-feather";
 import NutritionButton from '../../assets/Components/NutritionButton';
 

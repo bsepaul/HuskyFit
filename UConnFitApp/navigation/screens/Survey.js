@@ -15,7 +15,7 @@ import {
   Dimensions
 } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
-import { myColors } from "../../assets/colors/ColorPalette";
+import { myColors } from "../../assets/styles/ColorPalette";
 import {Dropdown} from 'react-native-element-dropdown';
 import { MultiSelect } from 'react-native-element-dropdown';
 

@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import { Text, View, SafeAreaView, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { myColors } from '../../assets/styles/ColorPalette';
 import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
 import CustomNavigationButton from '../../assets/Components/CustomNavigationButton'
 import React from 'react'

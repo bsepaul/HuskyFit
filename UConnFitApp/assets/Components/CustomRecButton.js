@@ -1,6 +1,6 @@
 import { View, Image, Text, TouchableOpacity, Dimensions } from 'react-native'
 import React from 'react'
-import { myColors } from '../colors/ColorPalette'
+import { myColors } from '../styles/ColorPalette'
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Alert } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import fetch from "node-fetch";
-import { myColors } from "../../assets/colors/ColorPalette";
+import { myColors } from "../../assets/styles/ColorPalette";
 let styles = {
     flexDirection: "row",
     borderBottomColor: myColors.grey,
