@@ -32,17 +32,17 @@ export default function Foodlog({navigation, label, inverse=false}) {
   const weight = 140;
 
   const setFood = (foodData) => {
-    var i = 0
+    var id = 0
     let totalCarbs = 0;
     let totalProtein = 0;
     let totalFat = 0
-    foodData.forEach(food => {
-      food.id = i;
-      i += 1;
-      totalCarbs += parseFloat(food['Carbs']);
-      totalProtein += parseFloat(food['Protein']);
-      totalFat += parseFloat(food['Total fat']);
-    });
+    for (let i = 0; i < foodData.length; i++) {
+      foodData[i].id = id;
+      id += 1;
+      totalCarbs += parseFloat(foodData[i]['Carbs']);
+      totalProtein += parseFloat(foodData[i]['Protein']);
+      totalFat += parseFloat(foodData[i]['Total fat']);
+    }
     setCarbs(totalCarbs);
     setProtein(totalProtein);
     setFat(totalFat);
