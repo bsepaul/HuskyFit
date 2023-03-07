@@ -14,7 +14,6 @@ let styles = {
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
-  navigation.navigate('Settings', { email: email });
   const [password, setPassword] = React.useState("");
 
   const alertFailure = () => {
