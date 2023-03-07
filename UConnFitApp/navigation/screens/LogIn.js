@@ -4,7 +4,6 @@ import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Alert } from "re
 import CustomButton from "../../assets/Components/CustomButton";
 import fetch from "node-fetch";
 import { myColors } from "../../assets/colors/ColorPalette";
-
 let styles = {
     flexDirection: "row",
     borderBottomColor: myColors.grey,
@@ -15,6 +14,7 @@ let styles = {
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
+  navigation.navigate('Settings', { email: email });
   const [password, setPassword] = React.useState("");
 
   const alertFailure = () => {
@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
 
   const handleEmail = (text) => {
     setEmail(text);
-  };
+    };
   const handlePassword = (text) => {    
     setPassword(text);
   };
