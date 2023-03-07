@@ -7,14 +7,14 @@ import { ChevronRight, ChevronDown, ChevronUp } from "react-native-feather";
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 
-export default function CustomDiningButton({ label, onPress, arrow, inverse = false }) {
+export default function CustomNavigationButton({ label, onPress, arrow, inverse = false }) {
     var chevronArrow = <Text></Text>;
     if (arrow === "down") {
-        chevronArrow = <ChevronDown stroke={inverse ? myColors.navy : myColors.white} width={18} height={18} />
+        chevronArrow = <ChevronDown stroke={inverse ? myColors.white : myColors.navy} width={18} height={18} />
     } else if (arrow === "right") {
-        chevronArrow = <ChevronRight stroke={inverse ? myColors.navy : myColors.white} width={18} height={18} />
+        chevronArrow = <ChevronRight stroke={inverse ? myColors.white : myColors.navy} width={18} height={18} />
     } else if (arrow === "up") {
-        chevronArrow = <ChevronUp stroke={inverse ? myColors.navy : myColors.white} width={18} height={18} />
+        chevronArrow = <ChevronUp stroke={inverse ? myColors.white : myColors.navy} width={18} height={18} />
     }
 
     return (
@@ -25,12 +25,12 @@ export default function CustomDiningButton({ label, onPress, arrow, inverse = fa
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                backgroundColor: inverse ? myColors.white : myColors.navy, 
-                borderColor: inverse ? myColors.navy : null,
-                borderWidth: inverse ? 1 : null,
-                padding: 20,
-                width: windowWidth*.75,
-                borderRadius: 22,
+                backgroundColor: inverse ? myColors.navy : myColors.offWhite, 
+                borderColor: inverse ? null: myColors.navy,
+                borderWidth: inverse ? null : 1,
+                padding: 14,
+                width: windowWidth*.7,
+                borderRadius: 18,
                 marginTop:8,
                 marginBottom:8,
             }}>
@@ -39,7 +39,7 @@ export default function CustomDiningButton({ label, onPress, arrow, inverse = fa
                     textAllign: 'center', 
                     fontWeight: '500', 
                     fontSize: 16,
-                    color: inverse ? myColors.navy : myColors.white,
+                    color: inverse ? myColors.white : myColors.navy,
             }}>
             {label}
             </Text>

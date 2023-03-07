@@ -18,7 +18,7 @@ export default function CustomRecIconButton({ label, icon, onPress, inverse = fa
                     borderWidth: inverse ? 1 : null,
                     padding: 20,
                     borderRadius: 25, 
-                    marginBottom:35,
+                    marginBottom:25,
                 }}>
                 <Image
                     source={icon}
