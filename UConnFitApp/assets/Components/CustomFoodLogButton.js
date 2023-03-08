@@ -12,7 +12,7 @@ export default function CustomFoodLogButton({ label, infoOnPress, addOnPress, in
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: inverse ? myColors.navy : myColors.white, 
+            backgroundColor: inverse ? myColors.navy : myColors.offwhite, 
             borderColor: inverse ? myColors.navy : null,
             borderWidth: inverse ? 5 : null,
             paddingVertical: 5,

@@ -164,7 +164,7 @@ export default function Foodlog({navigation, label, inverse=false}) {
 
 const styles = StyleSheet.create({
   content: {
-    backgroundColor: myColors.white,
+    backgroundColor: myColors.offwhite,
     paddingHorizontal: windowWidth*0.02
   },
   title: {

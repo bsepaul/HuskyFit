@@ -9,7 +9,7 @@ const OnboardingScreen = ({navigation}) => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: myColors.white,
+            backgroundColor: myColors.offwhite,
         }}>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         </View>
@@ -25,7 +25,7 @@ const OnboardingScreen = ({navigation}) => {
     onPress={() => navigation.navigate('Login')}>
     <Text
         style={{
-            color: myColors.white,
+            color: myColors.offwhite,
             fontSize: 18,
             textAllign: 'center',
             fontWeight: 'bold',

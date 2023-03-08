@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
 		fontWeight: "600",
 	},
   workout: {
-    backgroundColor: myColors.white,
+    backgroundColor: myColors.offwhite,
     padding: 15,
     width: windowWidth * 0.66,
     height: 80,

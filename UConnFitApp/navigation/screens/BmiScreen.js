@@ -3,6 +3,7 @@ import React, {useState} from "react"
 import Constants from 'expo-constants'
 import theme from '../config/theme'
 import CustomRecButton from '../../assets/Components/CustomRecButton'
+import { myColors } from '../../assets/styles/ColorPalette'
 const BmiCalculator = ({navigation}) => {
     const [weight, setWeight] = useState('')
     const [height, setHeight] = useState('')
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
        
     },
     title: {
-        backgroundColor: '#1d3352',
+        backgroundColor: myColors.offWhite,
         height: 90,
         justifyContent: 'center',
         alignItems: 'center',
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
         borderWidth:1/2,
         padding:10,
         borderRadius:5,
-        backgroundColor:'#FFFFFF',
+        backgroundColor: myColors.offWhite,
         fontsize:18
     },
     button:{
@@ -98,7 +99,7 @@ const styles = StyleSheet.create({
         margin:15,
         borderWidth:1/2,
         borderRadius:5,
-        backgroundColor:'#1d3352',
+        backgroundColor: myColors.offWhite,
         justifyContent:'center',
         alignItems:'center'
     },

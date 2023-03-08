@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
         paddingLeft: 20,
         margin: 5,
         borderColor: '#009688',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: myColors.offWhite,
     },
     foodTitle: {
         fontFamily: "System",
