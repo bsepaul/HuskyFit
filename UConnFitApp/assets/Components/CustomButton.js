@@ -8,7 +8,7 @@ export default function CustomButton({label, onPress, inverse=false}) {
         <TouchableOpacity 
             onPress={ onPress }
             style={{
-                backgroundColor: inverse ? myColors.white : myColors.navy, 
+                backgroundColor: inverse ? myColors.offwhite : myColors.navy, 
                 borderColor: inverse ? myColors.navy : null,
                 borderWidth: inverse ? 1 : null,
                 padding: 15,
