@@ -13,6 +13,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  TouchableOpacity
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
@@ -203,6 +204,23 @@ const WorkoutInfo = ({ navigation }) => {
             </View>
           </View>
           <CustomRecButton label={'Submit'} onPress={addWorkout} />
+
+          <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            // marginBottom: 30,
+            marginTop: 20
+          }}
+        >
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Text style={{ color: myColors.navy, fontWeight: "700" }}>
+              {" "}
+              Back{" "}
+            </Text>
+          </TouchableOpacity>
+          </View>
+
         </View>
       </View>
     </TouchableWithoutFeedback>
