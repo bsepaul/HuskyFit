@@ -25,7 +25,7 @@ const OnboardingScreen = ({navigation}) => {
     onPress={() => navigation.navigate('Login')}>
     <Text
         style={{
-            color: myColors.offwhite,
+            color: myColors.offWhite,
             fontSize: 18,
             textAllign: 'center',
             fontWeight: 'bold',
