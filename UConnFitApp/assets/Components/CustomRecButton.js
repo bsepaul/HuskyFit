@@ -15,7 +15,7 @@ export default function CustomRecButton({ label, onPress, inverse = false }) {
                     flexDirection: 'center',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: inverse ? myColors.offwhite : myColors.navy, 
+                    backgroundColor: inverse ? myColors.offWhite : myColors.navy, 
                     borderColor: inverse ? myColors.navy : null,
                     borderWidth: inverse ? 1 : null,
                     padding: 20,

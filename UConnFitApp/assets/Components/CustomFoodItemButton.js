@@ -12,7 +12,7 @@ export default function CustomFoodItemButton({ label, infoOnPress, addOnPress, i
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: inverse ? myColors.navy : myColors.offwhite, 
+            backgroundColor: inverse ? myColors.navy : myColors.offWhite, 
             borderColor: inverse ? myColors.navy : null,
             borderWidth: inverse ? 5 : null,
             paddingVertical: 5,

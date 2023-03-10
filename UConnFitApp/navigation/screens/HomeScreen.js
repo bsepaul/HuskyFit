@@ -202,7 +202,7 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: myColors.offwhite,
+    backgroundColor: myColors.offWhite,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     paddingHorizontal: 60,
   },
@@ -236,14 +236,14 @@ chartLabel: {
 });
 
 const barChartConfig = {
-    backgroundGradientFrom: myColors.white,  // our background color
-    backgroundGradientTo: myColors.white,
+    backgroundGradientFrom: myColors.offWhite,  // our background color
+    backgroundGradientTo: myColors.offWhite,
     color: (opacity = 3) => `rgba(13, 34, 63, ${opacity})`,
     strokeWidth: 2,     // optional, default 3
     decimalPlaces: 0,
 }
 const ringConfig = {
-    backgroundGradientFrom: myColors.white,
-    backgroundGradientTo: myColors.white,
+    backgroundGradientFrom: myColors.offWhite,
+    backgroundGradientTo: myColors.offWhite,
     color: (opacity = 3) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
 }

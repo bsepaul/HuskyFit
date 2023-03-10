@@ -121,8 +121,8 @@ export default function Foodlog({navigation, label, inverse=false}) {
             strokeWidth={15}    // ring thickness, should decrease with more rings
             radius={30}         // default 32
             chartConfig={{
-              backgroundGradientFrom: myColors.white,
-              backgroundGradientTo: myColors.white,
+              backgroundGradientFrom: myColors.offWhite,
+              backgroundGradientTo: myColors.offWhite,
               decimalPlaces: 3,
               color: (opacity = 1) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
             }}
@@ -164,7 +164,7 @@ export default function Foodlog({navigation, label, inverse=false}) {
 
 const styles = StyleSheet.create({
   content: {
-    backgroundColor: myColors.offwhite,
+    backgroundColor: myColors.offWhite,
     paddingHorizontal: windowWidth*0.02
   },
   title: {
