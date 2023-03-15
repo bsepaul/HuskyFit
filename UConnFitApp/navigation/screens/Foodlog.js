@@ -22,6 +22,7 @@ export default function Foodlog({navigation, label, inverse=false}) {
   const [protein, setProtein] = useState(0);
   const [carbs, setCarbs] = useState(0);
   const [fat, setFat] = useState(0);
+  const [showFood, setShowFood] = useState(false);
 
   // Get today's date for the API call
   let today = new Date();
@@ -65,13 +66,18 @@ export default function Foodlog({navigation, label, inverse=false}) {
 
 
       fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
-      .then(response => response.text())
-      .then(result => {
-        let json = JSON.parse(result);
-        let foodData = json["Food_Log"];
-        setFood(foodData);
-      })
-      .catch(error => console.log('error', error));
+        .then(response => response.text())
+        .then(result => {
+          if (result != '') {
+            let json = JSON.parse(result);
+            let foodData = json["Food_Log"];
+            setFood(foodData);
+            setShowFood(true);
+          } else {
+            setShowFood(false);
+          }
+        })
+        .catch(error => console.log('error', error));
   };
 
   const handlefood = async () => {
@@ -95,10 +101,10 @@ export default function Foodlog({navigation, label, inverse=false}) {
     return (
       <View style={{ flexDirection:'row', padding: 10, alignItems:'center' }}>
         <Circle stroke={color} fill={color} width={26} height={26} />
-        <View>
+        <View style={{ paddingHorizontal: 5 }}>
           <Text style={styles.text}>{label}</Text>
-          <Text style={{ paddingHorizontal: 5, fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{macroGrams} / {totalIntake}g</Text>
-          <Text style={{ paddingHorizontal: 5, fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{percent}%</Text>
+          <Text style={{fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{macroGrams} / {totalIntake}g</Text>
+          <Text style={{fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{percent}%</Text>
         </View>
       </View>
     );
@@ -128,27 +134,35 @@ export default function Foodlog({navigation, label, inverse=false}) {
             }}
             hideLegend= {true}
           />
-          <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+          <View style={{flexDirection:'row',justifyContent:'space-around', marginBottom:10}}>
             <Macro label={"Carbs"} color={'#303E55'} macroGrams={carbs} coefficient={1.4} />
             <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
             <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
           </View>
         </View>
         <Text style={styles.subtitle}>Food Logged</Text>
-        <View style={{alignItems:'center'}}>
-          <View style={styles.list}>
-            <ScrollView>
-              {data.map((food) => {
-                return (
-                  <CustomFoodLogButton
-                    key={food.id}
-                    label={food["Food item"]}
-                    infoOnPress={() => {}}
-                    addOnPress={() => {}}
-                  />); 
-              })}
-            </ScrollView>
+        {showFood ? 
+          <View style={{ alignItems: 'center' }}>
+            <View style={styles.list}>
+              <ScrollView>
+                {data.map((food) => {
+                  return (
+                    <CustomFoodLogButton
+                      key={food.id}
+                      label={food["Food item"]}
+                      infoOnPress={() => {}}
+                      addOnPress={() => {}}
+                    />); 
+                })}
+              </ScrollView>
+            </View>
           </View>
+          :
+          <View>
+            <Text style={styles.text}>No food logged yet today!</Text>
+          </View>
+        }
+        <View style={{ alignItems: 'center' }}>
           <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', params: { screen: 'DiningHalls', params: { token: token } } })}>
             <View style={{flexDirection:'row', paddingTop:10}}>
               <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
@@ -165,7 +179,7 @@ export default function Foodlog({navigation, label, inverse=false}) {
 const styles = StyleSheet.create({
   content: {
     backgroundColor: myColors.offWhite,
-    paddingHorizontal: windowWidth*0.02
+    paddingHorizontal: windowWidth*0.05
   },
   title: {
     fontFamily: "System",
@@ -174,10 +188,8 @@ const styles = StyleSheet.create({
     color: myColors.navy,
     marginBottom: 15,
     marginTop: 20,
-    paddingLeft: windowWidth*0.05,
   },
   text: {
-    paddingHorizontal: 5,
     fontFamily: 'System',
     color: myColors.navy,
     fontSize: 16,
@@ -189,7 +201,6 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: myColors.navy,
     marginBottom: 5,
-    paddingLeft: windowWidth*0.05,
   },
   list: {
     minHeight: 0,
