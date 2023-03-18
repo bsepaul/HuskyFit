@@ -1,9 +1,8 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, TextInput, Dimensions, FlatList } from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, TextInput, Dimensions, FlatList, ScrollView } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft } from "react-native-feather";
-import NutritionButton from '../../assets/Components/NutritionButton';
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -19,6 +18,7 @@ const NutritionScreen = ({ navigation }) => {
     const breakfastFoods = route.params.breakfastFoods;
     const lunchFoods = route.params.lunchFoods;
     const dinnerFoods = route.params.dinnerFoods;
+    // const allAllergens = [{ id: 0, allergen: "Soy" }, { id: 1, allergen: "Gluten" }];
 
     // set variable for the selected food id
     var selectedFoodID = route.params.food.id;
@@ -29,15 +29,58 @@ const NutritionScreen = ({ navigation }) => {
     // Set state variables for condition of showing menus (hide menu if false, show if true)
     const [allFoods, setAllFoods] = React.useState([]);
     // make a set height for nutrition facts
-    const factHeight = 180;
+    const factHeight = 200;
+
+    const allergens = (allergenString) => {
+        const allergenList = allergenString.split(", ")
+        const allergenMap = [];
+        for (let i = 0; i < allergenList.length; i++) {
+            allergenMap.push({id:i, allergen:allergenList[i]})
+        }
+        return allergenMap;
+    }
+
+    const allergenRender = ({item}) => {
+        return (
+            <View style={{
+                backgroundColor: myColors.navy,
+                marginRight: 5,
+                paddingHorizontal: 10,
+                paddingVertical:4,
+                borderRadius: 13,
+                height:26,
+            }}>
+                <Text style={{
+                    color: myColors.white,
+                    fontFamily: 'System',
+                    fontSize:14,
+                }}>{item.allergen}</Text>                
+            </View>
+
+        );
+    }
 
     // formatting the nutrition facts
     const getNutrition = (food) => {
         const backgroundColor = food.index === selectedFoodID ? myColors.lightGrey : null;
         const foodItem = food.item
+        const allAllergens = allergens(foodItem["Allergens"]);
         return (
             <View style={{ width:windowWidth, height:factHeight, borderBottomWidth:1, borderBottomColor:myColors.lightGrey, paddingHorizontal:windowWidth*0.05, paddingBottom: 15, backgroundColor:backgroundColor}}>
                 <Text style={styles.foodTitle}>{foodItem["Food Item"]}</Text>
+                {(foodItem["Allergens"] === "") ?
+                    <View>
+                        <Text style={styles.subTitle}>Allergen Free</Text>
+                    </View> :
+                    <View style={styles.allergens}>
+                        <FlatList
+                            data={allAllergens}
+                            renderItem={allergenRender}
+                            keyExtractor={item => item.id}
+                            horizontal={true}
+                        />                    
+                    </View>
+                }
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View>
                         <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Serving Size: </Text><Text style={styles.nutritionText}>{foodItem["Serving Size"]}</Text></View>
@@ -169,6 +212,13 @@ const styles = StyleSheet.create({
         paddingTop: 10,
         paddingBottom: 3,
     },
+    subTitle: {
+        fontFamily: "System",
+        fontSize: 14,
+        fontWeight: "300",
+        color: myColors.navy,
+        paddingBottom: 6,
+    },
     nutritionFact: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -179,6 +229,9 @@ const styles = StyleSheet.create({
         fontSize: 13,
         fontWeight: "350",
         color: myColors.darkGrey,
+    },
+    allergens: {
+        height: 30,
     },
 });
 export default NutritionScreen
