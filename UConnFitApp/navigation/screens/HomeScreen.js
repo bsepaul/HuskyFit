@@ -103,7 +103,7 @@ export default function HomeScreen({navigation}) {
       let intensity = workout.WorkoutIntensity;
       if (intensity === 'Low') {
         low_intensity += parseFloat(workout.TimeElapsed)
-      } else if (intensity === 'Medium') {
+      } else if (intensity === 'Mid') {
         mid_intensity += parseFloat(workout.TimeElapsed)
       } else if (intensity === 'High') {
         high_intensity += parseFloat(workout.TimeElapsed)
