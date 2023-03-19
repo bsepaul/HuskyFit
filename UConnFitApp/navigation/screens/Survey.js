@@ -127,10 +127,10 @@ const Survey = ({ navigation }) => {
   const handleSurvey = () => {
     (async () => {
       var raw = JSON.stringify({
-        Height: Height,
-        Weight: Weight,
-        Allergens: Allergens,
-        Dietary_Restrictions: DietaryRestrictions,
+        "Height": Height,
+        "Weight": Weight,
+        "Allergens": Allergens,
+        "Dietary_Restrictions": DietaryRestrictions,
       });
 
       // Make sure user isn't leaving any required fields empty

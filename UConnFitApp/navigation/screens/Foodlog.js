@@ -23,14 +23,12 @@ export default function Foodlog({navigation, label, inverse=false}) {
   const [carbs, setCarbs] = useState(0);
   const [fat, setFat] = useState(0);
   const [showFood, setShowFood] = useState(false);
+  const [weight, setWeight] = useState(100);
 
   // Get today's date for the API call
   let today = new Date();
   today = today.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
   today = today.slice(3, 5) + '/' + today.slice(0, 2) + today.slice(5, 10)
-
-  // THIS IS A HARDCODED WEIGHT - NEED TO GET FROM API
-  const weight = 140;
 
   const setFood = (foodData) => {
     var id = 0
@@ -51,33 +49,56 @@ export default function Foodlog({navigation, label, inverse=false}) {
   }
 
   const fetchFood = async () => {
-      var raw = JSON.stringify({
-        "Date": today // mm/dd/yyyy
-      });
+
+    // Fetch the food items in user's food log for today's date
+    var raw = JSON.stringify({
+      "Date": today // mm/dd/yyyy
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+            "Authorization": token},
+      body: raw,
+      redirect: 'follow'
+    };
 
 
-      var requestOptions = {
-        method: 'POST',
-        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
-              "Authorization": token},
-        body: raw,
-        redirect: 'follow'
-      };
-
-
-      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          if (result != '') {
-            let json = JSON.parse(result);
-            let foodData = json["Food_Log"];
-            setFood(foodData);
-            setShowFood(true);
-          } else {
-            setShowFood(false);
-          }
-        })
-        .catch(error => console.log('error', error));
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        if (result != '') {
+          let json = JSON.parse(result);
+          let foodData = json["Food_Log"];
+          setFood(foodData);
+          setShowFood(true);
+        } else {
+          setShowFood(false);
+        }
+      })
+      .catch(error => console.log('error', error));
+    
+    // Fetch the user's weight for macro calculations
+    raw = '';
+    
+    var requestOptions = {
+      method: 'GET',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+            "Authorization": token},
+      body: raw,
+      redirect: 'follow'
+    };
+    
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        if (result != '') {
+          let json = JSON.parse(result);
+          setWeight(json.Weight);
+        }
+      })
+      .catch(error => console.log('error', error));
+    
   };
 
   const handlefood = async () => {
