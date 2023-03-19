@@ -5,8 +5,8 @@ import { ProgressChart } from 'react-native-chart-kit';
 import React, { useState } from "react";
 import fetch from 'node-fetch';
 import CustomFoodLogButton from '../../assets/Components/CustomFoodLogButton';
-import CustomDiningButton from '../../assets/Components/CustomDiningButton';
-import { Circle, ChevronLeft } from "react-native-feather";
+import { Circle, ChevronLeft, ChevronRight } from "react-native-feather";
+
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -23,7 +23,8 @@ export default function Foodlog({navigation, label, inverse=false}) {
   const [carbs, setCarbs] = useState(0);
   const [fat, setFat] = useState(0);
   const [showFood, setShowFood] = useState(false);
-  const [weight, setWeight] = useState(100);
+  const [weight, setWeight] = useState(150);
+  const [userWeight, setUserWeight] = useState(true);
 
   // Get today's date for the API call
   let today = new Date();
@@ -94,7 +95,12 @@ export default function Foodlog({navigation, label, inverse=false}) {
       .then(result => {
         if (result != '') {
           let json = JSON.parse(result);
-          setWeight(json.Weight);
+          if (json.Weight != undefined) {
+            setWeight(json.Weight);
+            setUserWeight(true);
+          } else {
+            setUserWeight(false);
+          }
         }
       })
       .catch(error => console.log('error', error));
@@ -160,6 +166,14 @@ export default function Foodlog({navigation, label, inverse=false}) {
             <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
             <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
           </View>
+          {userWeight ? <View></View> :
+            <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Survey', params: { token: token } } })}>
+              <View style={{ flexDirection: 'row', paddingBottom: 10}}>
+                <Text style={styles.text}>Take survey for improved accuracy</Text>
+                <ChevronRight stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
+              </View>
+            </TouchableOpacity>
+          }
         </View>
         <Text style={styles.subtitle}>Food Logged</Text>
         {showFood ? 
@@ -207,7 +221,7 @@ const styles = StyleSheet.create({
     fontSize: 30,
     fontWeight: "600",
     color: myColors.navy,
-    marginBottom: 15,
+    marginBottom: 10,
     marginTop: 20,
   },
   text: {
@@ -221,7 +235,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: myColors.navy,
-    marginBottom: 5,
+    marginVertical: 5,
   },
   list: {
     minHeight: 0,
