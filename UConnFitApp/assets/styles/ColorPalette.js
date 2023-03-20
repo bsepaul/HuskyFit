@@ -1,7 +1,7 @@
 export const myColors = {
     navy: '#1d3352',
     white: '#FAFAFA',
-    offWhite: '#F1F1F1',
+    offWhite: '#F6F6F6',
     grey: '#A3A9AB',
     lightGrey: '#d9d9d9',
     darkGrey: '#7c8082',
