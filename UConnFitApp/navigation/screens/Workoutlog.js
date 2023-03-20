@@ -230,7 +230,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   scroll: {
-    maxHeight: 600,
+    minHeight: 0,
+    maxHeight: windowHeight*0.62,
   },
   list: {
     minHeight: 0,
