@@ -58,7 +58,7 @@ const BmiCalculator = ({navigation}) => {
                 <Text style={styles.result}>{description}</Text>
             </View>
             <View style={{alignItems: 'center', marginBottom:  300}}>
-      <CustomRecButton label={'Return'} onPress={() => navigation.navigate('Settings')}/>  
+      <CustomRecButton label={'Return'} onPress={() => navigation.goBack()}/> 
     </View>
         </View>
 
