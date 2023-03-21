@@ -1,6 +1,6 @@
 import {View, Text, TouchableOpacity, Dimensions} from 'react-native'
 import React from 'react'
-import { myColors } from '../colors/ColorPalette'
+import { myColors } from '../styles/ColorPalette'
 import { Info, PlusCircle } from "react-native-feather";
 
 // Get screen dimensions
@@ -12,7 +12,7 @@ export default function CustomFoodItemButton({ label, infoOnPress, addOnPress, i
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: inverse ? myColors.navy : myColors.white, 
+            backgroundColor: inverse ? myColors.navy : myColors.offWhite, 
             borderColor: inverse ? myColors.navy : null,
             borderWidth: inverse ? 5 : null,
             paddingVertical: 5,

@@ -1,6 +1,6 @@
 import { View, Image, Text, TouchableOpacity, Dimensions } from 'react-native'
 import React from 'react'
-import { myColors } from '../colors/ColorPalette'
+import { myColors } from '../styles/ColorPalette'
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -15,7 +15,7 @@ export default function CustomRecButton({ label, onPress, inverse = false }) {
                     flexDirection: 'center',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: inverse ? myColors.white : myColors.navy, 
+                    backgroundColor: inverse ? myColors.offWhite : myColors.navy, 
                     borderColor: inverse ? myColors.navy : null,
                     borderWidth: inverse ? 1 : null,
                     padding: 20,

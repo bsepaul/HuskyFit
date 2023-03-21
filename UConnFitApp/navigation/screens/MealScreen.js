@@ -1,10 +1,11 @@
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, ScrollView, Dimensions, useEffect } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, ScrollView, Dimensions, useEffect, Alert} from 'react-native';
+import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft } from "react-native-feather";
 import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
 import CustomFoodItemButton from '../../assets/Components/CustomFoodItemButton';
+import CustomNavigationButton from '../../assets/Components/CustomNavigationButton';
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -91,6 +92,15 @@ const MealScreen = ({ navigation }) => {
       setDinnerFoods(temp_foods);
     }
   }
+  const alertSuccess = () => {
+    const title = 'Success';
+    const message = 'Food successfully added to log.';
+    const emptyArrayButtons = [];
+    const alertOptions = {
+      cancelable: true,
+    };
+    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+  };
 
   const getMeal = async (meal, date) => {
     // Make API call based on dining hall name and meal selected
@@ -114,7 +124,8 @@ const MealScreen = ({ navigation }) => {
         var json = JSON.parse(result);
         setFoods(json, meal); // set the food list based on the json data and the meal type
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('error', error)); 
+      //alertSuccess(); 
   };
 
   const showMeal = (meal) => {
@@ -183,6 +194,8 @@ const MealScreen = ({ navigation }) => {
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
+
+      alertSuccess(); 
 
   }
 
@@ -260,6 +273,7 @@ const MealScreen = ({ navigation }) => {
                       infoOnPress={() => goToNutrition(food)}
                       addOnPress={() => logFood(food)}
                     />); 
+                    alertSuccess(); 
                 })}
               </ScrollView>
             </View> :
@@ -280,6 +294,7 @@ const MealScreen = ({ navigation }) => {
                       infoOnPress={() => goToNutrition(food)}
                       addOnPress={() => logFood(food)}
                     />);
+                    alertSuccess();
                 })}
               </ScrollView>
             </View> :
@@ -300,13 +315,14 @@ const MealScreen = ({ navigation }) => {
                       infoOnPress={() => goToNutrition(food)}
                       addOnPress={() => logFood(food)}
                     />);
+                    alertSuccess(); 
                 })}
               </ScrollView>
               </View> :
               <View></View>
             }
           </View>
-          <CustomDiningButton label={'View Food Log'} arrow={"right"} inverse={true} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
+          <CustomNavigationButton label={'View Food Log'} arrow={"right"} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
           <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
             <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
               <Text style={{ color:myColors.navy, fontWeight:'500', marginTop: 10}}>Back</Text>

@@ -1,12 +1,12 @@
 import { useRoute } from '@react-navigation/native';
 import { StyleSheet, Text, View, Image, SafeAreaView, Platform, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { myColors } from '../../assets/styles/ColorPalette';
 import { ProgressChart } from 'react-native-chart-kit';
 import React, { useState } from "react";
 import fetch from 'node-fetch';
 import CustomFoodLogButton from '../../assets/Components/CustomFoodLogButton';
-import CustomDiningButton from '../../assets/Components/CustomDiningButton';
-import { Circle, ChevronLeft } from "react-native-feather";
+import { Circle, ChevronLeft, ChevronRight } from "react-native-feather";
+
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -22,27 +22,27 @@ export default function Foodlog({navigation, label, inverse=false}) {
   const [protein, setProtein] = useState(0);
   const [carbs, setCarbs] = useState(0);
   const [fat, setFat] = useState(0);
+  const [showFood, setShowFood] = useState(false);
+  const [weight, setWeight] = useState(150);
+  const [userWeight, setUserWeight] = useState(true);
 
   // Get today's date for the API call
   let today = new Date();
   today = today.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
   today = today.slice(3, 5) + '/' + today.slice(0, 2) + today.slice(5, 10)
 
-  // THIS IS A HARDCODED WEIGHT - NEED TO GET FROM API
-  const weight = 140;
-
   const setFood = (foodData) => {
-    var i = 0
+    var id = 0
     let totalCarbs = 0;
     let totalProtein = 0;
     let totalFat = 0
-    foodData.forEach(food => {
-      food.id = i;
-      i += 1;
-      totalCarbs += parseFloat(food['Carbs']);
-      totalProtein += parseFloat(food['Protein']);
-      totalFat += parseFloat(food['Total fat']);
-    });
+    for (let i = 0; i < foodData.length; i++) {
+      foodData[i].id = id;
+      id += 1;
+      totalCarbs += parseFloat(foodData[i]['Carbs']);
+      totalProtein += parseFloat(foodData[i]['Protein']);
+      totalFat += parseFloat(foodData[i]['Total fat']);
+    }
     setCarbs(totalCarbs);
     setProtein(totalProtein);
     setFat(totalFat);
@@ -50,28 +50,61 @@ export default function Foodlog({navigation, label, inverse=false}) {
   }
 
   const fetchFood = async () => {
-      var raw = JSON.stringify({
-        "Date": today // mm/dd/yyyy
-      });
+
+    // Fetch the food items in user's food log for today's date
+    var raw = JSON.stringify({
+      "Date": today // mm/dd/yyyy
+    });
+
+    var requestOptions = {
+      method: 'POST',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+            "Authorization": token},
+      body: raw,
+      redirect: 'follow'
+    };
 
 
-      var requestOptions = {
-        method: 'POST',
-        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
-              "Authorization": token},
-        body: raw,
-        redirect: 'follow'
-      };
-
-
-      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
       .then(response => response.text())
       .then(result => {
-        let json = JSON.parse(result);
-        let foodData = json["Food_Log"];
-        setFood(foodData);
+        if (result != '') {
+          let json = JSON.parse(result);
+          let foodData = json["Food_Log"];
+          setFood(foodData);
+          setShowFood(true);
+        } else {
+          setShowFood(false);
+        }
       })
       .catch(error => console.log('error', error));
+    
+    // Fetch the user's weight for macro calculations
+    raw = '';
+    
+    var requestOptions = {
+      method: 'GET',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+            "Authorization": token},
+      body: raw,
+      redirect: 'follow'
+    };
+    
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        if (result != '') {
+          let json = JSON.parse(result);
+          if (json.Weight != undefined) {
+            setWeight(json.Weight);
+            setUserWeight(true);
+          } else {
+            setUserWeight(false);
+          }
+        }
+      })
+      .catch(error => console.log('error', error));
+    
   };
 
   const handlefood = async () => {
@@ -95,10 +128,10 @@ export default function Foodlog({navigation, label, inverse=false}) {
     return (
       <View style={{ flexDirection:'row', padding: 10, alignItems:'center' }}>
         <Circle stroke={color} fill={color} width={26} height={26} />
-        <View>
+        <View style={{ paddingHorizontal: 5 }}>
           <Text style={styles.text}>{label}</Text>
-          <Text style={{ paddingHorizontal: 5, fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{macroGrams} / {totalIntake}g</Text>
-          <Text style={{ paddingHorizontal: 5, fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{percent}%</Text>
+          <Text style={{fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{macroGrams} / {totalIntake}g</Text>
+          <Text style={{fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{percent}%</Text>
         </View>
       </View>
     );
@@ -121,34 +154,50 @@ export default function Foodlog({navigation, label, inverse=false}) {
             strokeWidth={15}    // ring thickness, should decrease with more rings
             radius={30}         // default 32
             chartConfig={{
-              backgroundGradientFrom: myColors.white,
-              backgroundGradientTo: myColors.white,
+              backgroundGradientFrom: myColors.offWhite,
+              backgroundGradientTo: myColors.offWhite,
               decimalPlaces: 3,
               color: (opacity = 1) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
             }}
             hideLegend= {true}
           />
-          <View style={{flexDirection:'row',justifyContent:'space-around'}}>
+          <View style={{flexDirection:'row',justifyContent:'space-around', marginBottom:10}}>
             <Macro label={"Carbs"} color={'#303E55'} macroGrams={carbs} coefficient={1.4} />
             <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
             <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
           </View>
+          {userWeight ? <View></View> :
+            <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Survey', params: { token: token } } })}>
+              <View style={{ flexDirection: 'row', paddingBottom: 10}}>
+                <Text style={styles.text}>Take survey for improved accuracy</Text>
+                <ChevronRight stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
+              </View>
+            </TouchableOpacity>
+          }
         </View>
         <Text style={styles.subtitle}>Food Logged</Text>
-        <View style={{alignItems:'center'}}>
-          <View style={styles.list}>
-            <ScrollView>
-              {data.map((food) => {
-                return (
-                  <CustomFoodLogButton
-                    key={food.id}
-                    label={food["Food item"]}
-                    infoOnPress={() => {}}
-                    addOnPress={() => {}}
-                  />); 
-              })}
-            </ScrollView>
+        {showFood ? 
+          <View style={{ alignItems: 'center' }}>
+            <View style={styles.list}>
+              <ScrollView>
+                {data.map((food) => {
+                  return (
+                    <CustomFoodLogButton
+                      key={food.id}
+                      label={food["Food item"]}
+                      infoOnPress={() => {}}
+                      addOnPress={() => {}}
+                    />); 
+                })}
+              </ScrollView>
+            </View>
           </View>
+          :
+          <View>
+            <Text style={styles.text}>No food logged yet today!</Text>
+          </View>
+        }
+        <View style={{ alignItems: 'center' }}>
           <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', params: { screen: 'DiningHalls', params: { token: token } } })}>
             <View style={{flexDirection:'row', paddingTop:10}}>
               <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
@@ -164,20 +213,18 @@ export default function Foodlog({navigation, label, inverse=false}) {
 
 const styles = StyleSheet.create({
   content: {
-    backgroundColor: myColors.white,
-    paddingHorizontal: windowWidth*0.02
+    backgroundColor: myColors.offWhite,
+    paddingHorizontal: windowWidth*0.05
   },
   title: {
     fontFamily: "System",
     fontSize: 30,
     fontWeight: "600",
     color: myColors.navy,
-    marginBottom: 15,
+    marginBottom: 10,
     marginTop: 20,
-    paddingLeft: windowWidth*0.05,
   },
   text: {
-    paddingHorizontal: 5,
     fontFamily: 'System',
     color: myColors.navy,
     fontSize: 16,
@@ -188,8 +235,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: myColors.navy,
-    marginBottom: 5,
-    paddingLeft: windowWidth*0.05,
+    marginVertical: 5,
   },
   list: {
     minHeight: 0,

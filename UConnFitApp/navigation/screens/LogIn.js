@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Alert } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import fetch from "node-fetch";
-import { myColors } from "../../assets/colors/ColorPalette";
+import { myColors } from "../../assets/styles/ColorPalette";
 let styles = {
     flexDirection: "row",
     borderBottomColor: myColors.grey,
@@ -14,7 +14,6 @@ let styles = {
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = React.useState("");
-  navigation.navigate('Settings', { email: email });
   const [password, setPassword] = React.useState("");
 
   const alertFailure = () => {
@@ -104,6 +103,7 @@ const Login = ({ navigation }) => {
             placeholder="Email"
             placeholderTextColor="#003f5c"
             autoCapitalize="none"
+            autoCorrect="false"
             onChangeText={(email) => setEmail(email)}
           />
         </View>

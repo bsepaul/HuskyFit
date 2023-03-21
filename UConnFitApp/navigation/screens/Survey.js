@@ -15,7 +15,7 @@ import {
   Dimensions
 } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
-import { myColors } from "../../assets/colors/ColorPalette";
+import { myColors } from "../../assets/styles/ColorPalette";
 import {Dropdown} from 'react-native-element-dropdown';
 import { MultiSelect } from 'react-native-element-dropdown';
 
@@ -77,6 +77,8 @@ const allAllergensData = [
 
 const Survey = ({ navigation }) => {
   const [Height, setHeight] = useState("");
+  const [heightFt, setHeightFt] = useState(0);
+  const [heightIn, setHeightIn] = useState(0);
   const [Weight, setWeight] = useState("");
   const [Allergens, setAllergens] = useState("");
   const [DietaryRestrictions, setDietaryRestrictions] = useState('');
@@ -99,6 +101,12 @@ const Survey = ({ navigation }) => {
   const handleHeight = (text) => {
     setHeight(text);
   };
+  const handleHeightFt = (text) => {
+    setHeightFt(text);
+  };
+  const handleHeightIn = (text) => {
+    setHeightIn(text);
+  };
   const handleWeight = (text) => {
     setWeight(text);
   };
@@ -113,14 +121,16 @@ const Survey = ({ navigation }) => {
   // };
   const [isFocus, setIsFocus] = useState(false); 
 
+  // placeholder variables for calculating user's height in inches, for call to API
+  // var heightFt, heightIn;
 
   const handleSurvey = () => {
     (async () => {
       var raw = JSON.stringify({
-        Height: Height,
-        Weight: Weight,
-        Allergens: Allergens,
-        Dietary_Restrictions: DietaryRestrictions,
+        "Height": Height,
+        "Weight": Weight,
+        "Allergens": Allergens,
+        "Dietary_Restrictions": DietaryRestrictions,
       });
 
       // Make sure user isn't leaving any required fields empty
@@ -129,6 +139,7 @@ const Survey = ({ navigation }) => {
         console.log("fail");
         return; // Don't do API call if invalid data
       }
+      console.log("height submitted:", Height, "in");
 
       var requestOptions = {
         method: 'PUT',
@@ -171,13 +182,36 @@ const Survey = ({ navigation }) => {
           }}
         ></View>
 
-        <View style={styles.textField}>
-          <TextInput
-            placeholder="Height (in)"
-            placeholderTextColor={myColors.navy}
-            autoCapitalize="none"
-            onChangeText={(Height) => setHeight(Height)}
-          />
+        <View style={styles.textFieldSmall}>
+          <View style={styles.textFieldFt}>
+            <TextInput
+              placeholder="Height (ft)"
+              placeholderTextColor={myColors.navy}
+              autoCapitalize="none"
+              // onChangeText={(Height) => setHeight(Height)}
+              onChangeText={(heightFt) => {
+                setHeightFt(heightFt);
+                setHeight((heightFt*12) + heightIn);
+                // console.log(heightFt, "ft");
+              }}
+            />
+          </View>
+          
+          <View style={styles.textFieldIn}>
+            <TextInput
+              marginLeft= {10}
+              placeholder="(in)"
+              placeholderTextColor={myColors.navy}
+              autoCapitalize="none"
+              // onChangeText={(Height) => setHeight(Height)}
+              onChangeText={(heightIn) => {
+                setHeightIn(heightIn);
+                setHeight(parseFloat((heightFt*12)) + parseFloat(heightIn));
+                console.log(heightIn, "in", heightFt, "ft");
+                console.log("height:", Height);
+              }}
+              />
+          </View>
         </View>
 
         <View style={styles.textField}>
@@ -300,6 +334,34 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     marginBottom: 25,
     width: windowWidth * .45,
+  },
+  textFieldSmall: {
+    flexDirection: "row",
+    // borderBottomColor: myColors.grey,
+    // borderBottomWidth: 1,
+    paddingBottom: 12,
+    marginBottom: 8,
+    width: windowWidth * .2,
+  },
+  textFieldFt: {
+    // flexDirection: "row",
+    borderBottomColor: myColors.grey,
+    borderBottomWidth: 1,
+    paddingBottom: 12,
+    marginLeft: 0,
+    // marginTop: 0,
+    // marginBottom: 25,
+    width: windowWidth * .2,
+  },
+  textFieldIn: {
+    // flexDirection: "row",
+    borderBottomColor: myColors.grey,
+    borderBottomWidth: 1,
+    paddingBottom: 12,
+    marginLeft: 30,
+    // marginTop: 0,
+    // marginBottom: 25,
+    width: windowWidth * .2,
   },
   title: {
     fontFamily: "System",

@@ -1,6 +1,6 @@
 import {Text, TouchableOpacity, Dimensions} from 'react-native'
 import React from 'react'
-import { myColors } from '../colors/ColorPalette'
+import { myColors } from '../styles/ColorPalette'
 import { ChevronRight, ChevronDown, ChevronUp } from "react-native-feather";
 
 
@@ -25,12 +25,12 @@ export default function CustomDiningButton({ label, onPress, arrow, inverse = fa
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
-                backgroundColor: inverse ? myColors.white : myColors.navy, 
+                backgroundColor: inverse ? myColors.offWhite : myColors.navy, 
                 borderColor: inverse ? myColors.navy : null,
                 borderWidth: inverse ? 1 : null,
-                padding: inverse ? 12 : 20,
+                padding: 20,
                 width: windowWidth*.75,
-                borderRadius: inverse ? 18 : 22,
+                borderRadius: 22,
                 marginTop:8,
                 marginBottom:8,
             }}>

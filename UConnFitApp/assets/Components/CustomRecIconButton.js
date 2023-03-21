@@ -1,6 +1,6 @@
 import { View, Image, Text, TouchableOpacity} from 'react-native'
 import React from 'react'
-import { myColors } from '../colors/ColorPalette'
+import { myColors } from '../styles/ColorPalette'
 
 export default function CustomRecIconButton({ label, icon, onPress, inverse = false }) {
 
@@ -13,12 +13,12 @@ export default function CustomRecIconButton({ label, icon, onPress, inverse = fa
                     flexDirection: 'center',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    backgroundColor: inverse ? myColors.white : myColors.navy, 
+                    backgroundColor: inverse ? myColors.offWhite : myColors.navy, 
                     borderColor: inverse ? myColors.navy : null,
                     borderWidth: inverse ? 1 : null,
                     padding: 20,
                     borderRadius: 25, 
-                    marginBottom:35,
+                    marginBottom:25,
                 }}>
                 <Image
                     source={icon}

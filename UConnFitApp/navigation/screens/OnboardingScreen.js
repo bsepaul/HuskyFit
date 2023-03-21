@@ -1,6 +1,6 @@
 import React from 'react'
 import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { myColors } from '../../assets/styles/ColorPalette';
 
 const OnboardingScreen = ({navigation}) => {
     return (
@@ -9,7 +9,7 @@ const OnboardingScreen = ({navigation}) => {
             flex: 1,
             justifyContent: 'center',
             alignItems: 'center',
-            backgroundColor: myColors.white,
+            backgroundColor: myColors.offWhite,
         }}>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
         </View>
@@ -25,7 +25,7 @@ const OnboardingScreen = ({navigation}) => {
     onPress={() => navigation.navigate('Login')}>
     <Text
         style={{
-            color: myColors.white,
+            color: myColors.offWhite,
             fontSize: 18,
             textAllign: 'center',
             fontWeight: 'bold',

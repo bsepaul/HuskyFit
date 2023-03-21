@@ -1,9 +1,9 @@
 import { useRoute } from '@react-navigation/native';
 import { StyleSheet, View, SafeAreaView, Text, Dimensions } from 'react-native';
-import { myColors } from '../../assets/colors/ColorPalette';
+import { myColors } from '../../assets/styles/ColorPalette';
 import CustomRecButton from '../../assets/Components/CustomRecButton';
 import CustomRecIconButton from '../../assets/Components/CustomRecIconButton';
-
+import CustomNavigationButton from '../../assets/Components/CustomNavigationButton';
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 
@@ -28,8 +28,9 @@ const RecScreen = ({ navigation }) => {
         <CustomRecIconButton label={'Swimming'} icon={require('../../assets/icons/rec/swim.png')}   onPress={() => navigation.navigate('WorkoutInfo', { workoutType: 'Swimming' })} />
         <CustomRecIconButton label={'Biking  '} icon={require('../../assets/icons/rec/biking.png')} onPress={() => navigation.navigate('WorkoutInfo', { workoutType: 'Biking' })}/>   
       </View>
-      <View>
-        <CustomRecButton label={'Other Workouts'} onPress={() => navigation.navigate('WorkoutInfo', { workoutType: '' })}/>  
+      <View style={{alignItems:'center'}}>
+        <CustomNavigationButton label={'Select Other Workout'} arrow={"right"} inverse={true} onPress={() => navigation.navigate('WorkoutInfo', { workoutType: '' })}/>  
+        <CustomNavigationButton label={'View Workout Log'} arrow={"right"} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Workoutlog', params: { token: token } } })}/>
       </View>
     </SafeAreaView>
         
