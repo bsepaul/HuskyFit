@@ -1,9 +1,9 @@
 import { useRoute } from '@react-navigation/native';
 import { StyleSheet, View, SafeAreaView, Text, Dimensions } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
-import CustomRecButton from '../../assets/Components/CustomRecButton';
 import CustomRecIconButton from '../../assets/Components/CustomRecIconButton';
 import CustomNavigationButton from '../../assets/Components/CustomNavigationButton';
+
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 

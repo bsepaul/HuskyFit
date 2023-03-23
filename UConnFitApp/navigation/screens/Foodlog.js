@@ -126,12 +126,12 @@ export default function Foodlog({navigation, label, inverse=false}) {
     macroGrams = macroGrams.toFixed(1);
     totalIntake = totalIntake.toFixed(1);
     return (
-      <View style={{ flexDirection:'row', padding: 10, alignItems:'center' }}>
+      <View style={{ flexDirection:'row', padding: 8, alignItems:'center' }}>
         <Circle stroke={color} fill={color} width={26} height={26} />
         <View style={{ paddingHorizontal: 5 }}>
           <Text style={styles.text}>{label}</Text>
-          <Text style={{fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{macroGrams} / {totalIntake}g</Text>
-          <Text style={{fontFamily:'System', color:myColors.darkGrey, fontSize:12 }}>{percent}%</Text>
+          <Text style={{fontFamily:'System', color:myColors.darkGrey, fontSize:11 }}>{macroGrams} / {totalIntake}g</Text>
+          <Text style={{fontFamily:'System', color:myColors.darkGrey, fontSize:11 }}>{percent}%</Text>
         </View>
       </View>
     );
@@ -139,29 +139,29 @@ export default function Foodlog({navigation, label, inverse=false}) {
 
 
   return (
-    <View style={styles.content}>
-      <SafeAreaView>
+    <SafeAreaView>
+      <View style={styles.contentContainer}>
         <Text style={styles.title}>Food Log</Text>
         <Text style={styles.subtitle}>Macronutrient Targets</Text>
-        <View style={{alignItems:'center'}}>
+        <View style={styles.chartContainer}>
           <ProgressChart        // ring chart
             data={{
               labels: ['Fats', 'Protein', 'Carbs'],
               data: [Math.min(1, (fat / (weight * 0.4))), Math.min(1, (protein / (weight * 1.0))), Math.min(1, (carbs / (weight*1.4)))]
             }}
-            width={windowWidth * .90}
+            width={windowWidth * .45}
             height={200}
             strokeWidth={15}    // ring thickness, should decrease with more rings
             radius={30}         // default 32
             chartConfig={{
-              backgroundGradientFrom: myColors.offWhite,
-              backgroundGradientTo: myColors.offWhite,
+              backgroundGradientFrom: myColors.white,
+              backgroundGradientTo: myColors.white,
               decimalPlaces: 3,
               color: (opacity = 1) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
             }}
             hideLegend= {true}
           />
-          <View style={{flexDirection:'row',justifyContent:'space-around', marginBottom:10}}>
+          <View style={{width:windowWidth*0.35}}>
             <Macro label={"Carbs"} color={'#303E55'} macroGrams={carbs} coefficient={1.4} />
             <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
             <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
@@ -205,15 +205,14 @@ export default function Foodlog({navigation, label, inverse=false}) {
             </View>
           </TouchableOpacity>
         </View>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   )
 }
 
 
 const styles = StyleSheet.create({
   content: {
-    backgroundColor: myColors.offWhite,
     paddingHorizontal: windowWidth*0.05
   },
   title: {
@@ -236,6 +235,26 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: myColors.navy,
     marginVertical: 5,
+  },
+  contentContainer: {
+    paddingHorizontal: windowWidth*0.05,
+    alignItems: 'center'
+  },
+  chartContainer: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    backgroundColor: myColors.white,
+    padding: 12,
+    marginBottom: 15,
+    borderRadius: 10,
+    shadowColor: myColors.darkGrey,
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 4.65,
+    elevation: 7,
   },
   list: {
     minHeight: 0,
