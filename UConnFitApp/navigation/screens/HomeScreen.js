@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert, SafeAreaView, Platform, Dimensions, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Alert, SafeAreaView, Platform, Dimensions, ScrollView, Image } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ProgressChart, BarChart } from 'react-native-chart-kit';
 import React from 'react';
@@ -241,11 +241,25 @@ export default function HomeScreen({navigation}) {
   }, [navigation]);
       
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.contentContainer}>
       <ScrollView>
         <View style={styles.greetingsContainer}>
-          <Text style={styles.title}>Hello, {name}</Text>
-          <Text style={{ fontSize: 20, paddingVertical: 0, paddingHorizontal: 20, color: myColors.navy }}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
+          <View>
+            <Text style={styles.title}>Hello, {name}</Text>
+            <Text style={{ fontSize: 20, paddingVertical: 0, color: myColors.navy }}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
+          </View>
+          <Image
+            source={require('../../assets/img/husky.png')}
+            resizeMode='contain'
+            style={{
+              width: 75,
+              height: 75,
+              borderRadius: 100,
+              borderColor: myColors.navy,
+              paddingRight: 10,
+              // borderWidth:5,
+            }}
+        />
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.chartLabel}>Activity This Week</Text>
@@ -312,23 +326,22 @@ export default function HomeScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container: {
+  contentContainer: {
     flex: 1,
-    backgroundColor: myColors.offWhite,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    paddingHorizontal: 60,
+    alignItems: 'center'
   },
   greetingsContainer: {
-      flex: .12,
-      padding: 10,
-      borderRadius: 4,
+    padding: 10,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width:windowWidth*0.9,
   },
   title: {
     fontFamily: "System",
     fontSize: 30,
     fontWeight: "500",
     color: myColors.navy,
-    paddingHorizontal: windowWidth * 0.05,
     paddingVertical: 10,
   },
   text: {
@@ -336,10 +349,6 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
     color: myColors.navy,
-  },
-  contentContainer: {
-    flex: 1,
-    alignItems: 'center'
   },
   chartContainer: {
     alignItems: 'center',
