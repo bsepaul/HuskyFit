@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert, SafeAreaView, Platform, Dimensions, ScrollView, Image } from 'react-native';
+import { StyleSheet, Text, View, Alert, SafeAreaView, Platform, Dimensions, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ProgressChart, BarChart } from 'react-native-chart-kit';
 import React from 'react';
@@ -241,25 +241,24 @@ export default function HomeScreen({navigation}) {
   }, [navigation]);
       
   return (
-    <SafeAreaView style={styles.contentContainer}>
-      <ScrollView>
+    <SafeAreaView>
+      <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.greetingsContainer}>
           <View>
             <Text style={styles.title}>Hello, {name}</Text>
             <Text style={{ fontSize: 20, paddingVertical: 0, color: myColors.navy }}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
           </View>
-          <Image
-            source={require('../../assets/img/husky.png')}
-            resizeMode='contain'
-            style={{
-              width: 75,
-              height: 75,
-              borderRadius: 100,
-              borderColor: myColors.navy,
-              paddingRight: 10,
-              // borderWidth:5,
-            }}
-        />
+          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { token: token } })}>
+            <Image
+              source={require('../../assets/img/husky.png')}
+              resizeMode='contain'
+              style={{
+                width: 75,
+                height: 75,
+                borderRadius: 100,
+              }}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.contentContainer}>
           <Text style={styles.chartLabel}>Activity This Week</Text>
@@ -326,16 +325,16 @@ export default function HomeScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-  contentContainer: {
-    flex: 1,
-    alignItems: 'center'
+  content: {
+    alignItems: 'center',
+    paddingHorizontal: windowWidth * 0.05,
   },
   greetingsContainer: {
-    padding: 10,
+    width: windowWidth*0.9,
+    paddingVertical: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    width:windowWidth*0.9,
   },
   title: {
     fontFamily: "System",
@@ -349,6 +348,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "400",
     color: myColors.navy,
+  },
+  contentContainer: {
+    alignItems: 'center',
   },
   chartContainer: {
     alignItems: 'center',
@@ -387,8 +389,6 @@ const styles = StyleSheet.create({
       fontWeight: "500",
       color: myColors.navy,
       paddingVertical: 8,
-      paddingHorizontal: 50,
-      alignItems: 'center',
       fontSize: 18
   }
 });
