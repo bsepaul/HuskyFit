@@ -1,5 +1,4 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import React from "react";
 import { View, Text, SafeAreaView, TextInput, TouchableOpacity, Alert } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import fetch from "node-fetch";
@@ -24,13 +23,6 @@ const Login = ({ navigation }) => {
       cancelable: true,
     };
     Alert.alert(title, message, emptyArrayButtons, alertOptions);
-  };
-
-  const handleEmail = (text) => {
-    setEmail(text);
-    };
-  const handlePassword = (text) => {    
-    setPassword(text);
   };
 
   const handleLogin = () => {

@@ -18,19 +18,19 @@ import {
 import {Dropdown} from 'react-native-element-dropdown';
 
 const allWorkoutTypeData = [
-  { label: 'High Intensity Interval Training', value: '1' },
-  { label: 'Stair Stepper', value: '2' },
-  { label: 'Jump Rope', value: '3' },
-  { label: 'Core Training', value: '4' },
+  { label: 'High Intensity Interval Training', value: '9' },
+  { label: 'Stair Stepper', value: '9' },
+  { label: 'Jump Rope', value: '10' },
+  { label: 'Core Training', value: '5.5' },
   { label: 'Dance', value: '5' },
-  { label: 'Elliptical', value: '6' },
+  { label: 'Elliptical', value: '6.5' },
   { label: 'Rower', value: '7' },
-  { label: 'Pilates', value: '8' },
+  { label: 'Pilates', value: '3' },
   { label: 'Basketball', value: '9' },
-  { label: 'Volleyball', value: '10' },
-  { label: 'Soccer', value: '11' },
-  { label: 'Badmitten', value: '12' },
-  { label: 'Raquetball', value: '13' },
+  { label: 'Volleyball', value: '4' },
+  { label: 'Soccer', value: '9.5' },
+  { label: 'Badmitten', value: '5' },
+  { label: 'Raquetball', value: '8.6' },
 ];
 
 const allTimeElapsedData = [
