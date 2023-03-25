@@ -3,7 +3,7 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Image, SafeAreaView, Platform, Dimensions} from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import CustomButton from "../../assets/Components/CustomButton";
-import CustomDiningButton from "../../assets/Components/CustomDiningButton";
+import CustomButtonArrow from "../../assets/Components/CustomButtonArrow";
 import React from 'react';
 
 const windowWidth = Dimensions.get('window').width;
@@ -62,11 +62,11 @@ const UserProfile = ({ navigation }) => {
         <Text style={styles.email}>{email}</Text>
         <View style={styles.content}>
           <Text style={styles.subtitle}>View Logs</Text>
-          <CustomDiningButton label={"Food Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Foodlog', {token:token})}/>
-          <CustomDiningButton label={"Workout Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Workoutlog', {token:token})}/>
+          <CustomButtonArrow label={"Food Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Foodlog', {token:token})}/>
+          <CustomButtonArrow label={"Workout Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Workoutlog', {token:token})}/>
           <Text style={styles.subtitle}>Personal Stats</Text>
-          <CustomDiningButton label={"Personal Survey"} arrow={"right"}  hasIcon={true} icon={require('../../assets/icons/survey.png')} onPress={() => navigation.navigate('Survey', { token: token })} />
-          <CustomDiningButton label={"BMI Calculator"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/body.png')} onPress={() => navigation.navigate('BmiCalculator', {token:token})}/>
+          <CustomButtonArrow label={"Personal Survey"} arrow={"right"}  hasIcon={true} icon={require('../../assets/icons/survey.png')} onPress={() => navigation.navigate('Survey', { token: token })} />
+          <CustomButtonArrow label={"BMI Calculator"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/body.png')} onPress={() => navigation.navigate('BmiCalculator', {token:token})}/>
         </View>
 
       </View>

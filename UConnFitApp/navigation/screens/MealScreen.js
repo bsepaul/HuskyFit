@@ -3,7 +3,7 @@ import React from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, ScrollView, Dimensions, useEffect, Alert} from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft } from "react-native-feather";
-import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
+import CustomButtonArrow from '../../assets/Components/CustomButtonArrow'; 
 import CustomFoodItemButton from '../../assets/Components/CustomFoodItemButton';
 import CustomNavigationButton from '../../assets/Components/CustomNavigationButton';
 
@@ -260,7 +260,7 @@ const MealScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {isWeekend ? <View></View> : <CustomDiningButton label={'Breakfast'} arrow={showBreakfast ? "up" : "down"} onPress={() => showMeal('breakfast')} />}
+        {isWeekend ? <View></View> : <CustomButtonArrow label={'Breakfast'} arrow={showBreakfast ? "up" : "down"} onPress={() => showMeal('breakfast')} />}
         <View>
           {showBreakfast && !isWeekend ?
             <View style={styles.list}>
@@ -281,7 +281,7 @@ const MealScreen = ({ navigation }) => {
           }
         </View>
     
-        <CustomDiningButton label={isWeekend ? 'Brunch' : 'Lunch'} arrow={showLunch ? "up" : "down"} onPress={() => showMeal('lunch')} />
+        <CustomButtonArrow label={isWeekend ? 'Brunch' : 'Lunch'} arrow={showLunch ? "up" : "down"} onPress={() => showMeal('lunch')} />
         <View>
           {showLunch ?
             <View style={styles.list}>
@@ -302,7 +302,7 @@ const MealScreen = ({ navigation }) => {
           }
         </View>
         
-        <CustomDiningButton label={'Dinner'} arrow={showDinner ? "up" : "down"} onPress={() => showMeal('dinner')} />
+        <CustomButtonArrow label={'Dinner'} arrow={showDinner ? "up" : "down"} onPress={() => showMeal('dinner')} />
           <View>
             {showDinner ?
               <View style={styles.list}>
