@@ -41,7 +41,7 @@ const BmiCalculator = ({navigation}) => {
     return (
         <View style={[styles.container, , {backgroundColor: theme.background}]}>
             <View style={styles.title}>
-                <Text style={styles.titleText}>Bmi Calculator</Text>
+                <Text style={styles.titleText}>BMI Calculator</Text>
             </View>
             <TextInput
              style={styles.input}
