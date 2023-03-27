@@ -31,8 +31,8 @@ export default function CustomButtonArrow({ label, onPress, arrow, icon, hasIcon
                 padding: inverse ? 16 : 18,
                 width: windowWidth*.75,
                 borderRadius: 22,
-                marginTop:5,
-                marginBottom:5,
+                marginTop:8,
+                marginBottom:8,
             }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {hasIcon ? 

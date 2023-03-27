@@ -6,10 +6,7 @@ import { Info, PlusCircle } from "react-native-feather";
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 
-export default function CustomRecommendedFoodButton({ label, diningHall, date, calories, carbs, protein, fat, meal, infoOnPress, addOnPress, inverse = false }) {
-    const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    const month = months[parseInt(date.split('/')[0]) - 1];
-    const day = parseInt(date.split('/')[1]);
+export default function CustomRecommendedFoodButton({ label, diningHall, month, day, calories, carbs, protein, fat, meal, infoOnPress, addOnPress, inverse = false }) {
     let icon = '';
     if (meal === 'Breakfast') { icon = require('../icons/food/breakfast.png') }
     else if (meal === 'Lunch') { icon = require('../icons/food/lunch.png') }
