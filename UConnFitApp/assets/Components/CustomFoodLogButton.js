@@ -26,7 +26,7 @@ export default function CustomFoodLogButton({ label, infoOnPress, addOnPress, in
                 flex: 1,
                 flexWrap: 'wrap',
                 textAlign: 'left',
-                fontWeight: '350',
+                fontWeight: '300',
                 fontSize: 15,
                 color: inverse ? myColors.white : myColors.navy, 
             }}>{label}</Text>

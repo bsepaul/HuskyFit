@@ -227,7 +227,7 @@ const styles = StyleSheet.create({
     nutritionText: {
         fontFamily: "System",
         fontSize: 13,
-        fontWeight: "350",
+        fontWeight: "300",
         color: myColors.darkGrey,
     },
     allergens: {
