@@ -19,14 +19,6 @@ import { myColors } from "../../assets/styles/ColorPalette";
 import {Dropdown} from 'react-native-element-dropdown';
 import { MultiSelect } from 'react-native-element-dropdown';
 
-// let styles = {
-//   flexDirection: "row",
-//   borderBottomColor: myColors.grey,
-//   borderBottomWidth: 1,
-//   paddingBottom: 12,
-//   marginBottom: 25,
-// };
-
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -52,6 +44,17 @@ const allAllergensData = [
     { label: 'Sesame', value: '8' },
     { label: 'Crustacean Shellfish', value: '9' },
   ];
+
+  const allDiningHallPreferenceData = [
+    { label: 'Buckley', value: '1' },
+    { label: 'Gelfenbien', value: '2' },
+    { label: 'McMahon', value: '3' },
+    { label: 'North', value: '4' },
+    { label: 'Northwest', value: '5' },
+    { label: 'Putnam', value: '6' },
+    { label: 'South', value: '7' },
+    { label: 'Whitney', value: '8' },
+  ]
 
    // Alert code - response successfully added to database
    const alertSuccess = () => {
@@ -82,6 +85,7 @@ const Survey = ({ navigation }) => {
   const [Weight, setWeight] = useState("");
   const [Allergens, setAllergens] = useState("");
   const [DietaryRestrictions, setDietaryRestrictions] = useState('');
+  const [DiningHallPreference, setDiningHallPreference] = useState('')
 
   const [selectedAllergens, setSelectedAllergens] = React.useState([]);
   const [selectedRest, setSelectedRest] = React.useState([]);
@@ -116,9 +120,7 @@ const Survey = ({ navigation }) => {
   const handleDietaryRestrictions = (text) => {
     setDietaryRestrictions(text);
   };
-  // const handleConfirmPassword = (text) => {
-  //   setConfirmPassword(text);
-  // };
+ 
   const [isFocus, setIsFocus] = useState(false); 
 
   // placeholder variables for calculating user's height in inches, for call to API
@@ -131,6 +133,7 @@ const Survey = ({ navigation }) => {
         "Weight": Weight,
         "Allergens": Allergens,
         "Dietary_Restrictions": DietaryRestrictions,
+        "Dining_Hall_Preference": DiningHallPreference
       });
 
       // Make sure user isn't leaving any required fields empty
@@ -139,7 +142,6 @@ const Survey = ({ navigation }) => {
         console.log("fail");
         return; // Don't do API call if invalid data
       }
-      console.log("height submitted:", Height, "in");
 
       var requestOptions = {
         method: 'PUT',
@@ -159,7 +161,7 @@ const Survey = ({ navigation }) => {
       .catch(error => console.log('error', error));
       
       alertSuccess();
-      // navigation.navigate('Profile', {token: token});
+
       navigation.goBack()
     })();
   };
@@ -207,8 +209,6 @@ const Survey = ({ navigation }) => {
               onChangeText={(heightIn) => {
                 setHeightIn(heightIn);
                 setHeight(parseFloat((heightFt*12)) + parseFloat(heightIn));
-                console.log(heightIn, "in", heightFt, "ft");
-                console.log("height:", Height);
               }}
               />
           </View>
@@ -283,26 +283,26 @@ const Survey = ({ navigation }) => {
             <StatusBar />
         </View>
 
-        {/* <Dropdown
+        <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
-            data={allDietaryRestrictionsData}
+            data={allDiningHallPreferenceData}
             search
-            maxHeight={300}
+            maxHeight={250}
             labelField="label"
             valueField="value"
-            placeholder={'Dietary Restrictions'}
+            placeholder={'Preferred Dining Hall'}
             searchPlaceholder="Search..."
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
-              setDietaryRestrictions(item.label);
+              setDiningHallPreference(item.label);
               setIsFocus(false);
             }}
-          /> */}
+          />
 
 
         <CustomButton label={"Submit"} onPress={handleSurvey} style={{width:windowWidth*.45}}/>
