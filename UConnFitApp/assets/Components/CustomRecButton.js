@@ -24,7 +24,7 @@ export default function CustomRecButton({ label, onPress, inverse = false }) {
                 }}>
                 <Text 
                     style= {{
-                        textAllign: 'center', 
+                        textAlign: 'center', 
                         fontWeight: '500', 
                         fontSize: 15, 
                         color: inverse ? myColors.navy : myColors.white,

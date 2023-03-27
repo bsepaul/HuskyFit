@@ -17,7 +17,7 @@ export default function CustomButton({label, onPress, inverse=false}) {
             }}>
             <Text 
                 style= {{
-                    textAllign: 'center', 
+                    textAlign: 'center', 
                     fontWeight: '700', 
                     fontSize: 16, 
                     color: inverse ? myColors.navy : myColors.white,

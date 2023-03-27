@@ -27,7 +27,7 @@ const OnboardingScreen = ({navigation}) => {
         style={{
             color: myColors.offWhite,
             fontSize: 18,
-            textAllign: 'center',
+            textAlign: 'center',
             fontWeight: 'bold',
             fontFamily: 'System',
         }}>

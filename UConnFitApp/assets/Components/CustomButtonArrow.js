@@ -51,7 +51,7 @@ export default function CustomButtonArrow({ label, onPress, arrow, icon, hasIcon
                 }
                 <Text 
                     style= {{
-                        textAllign: 'center', 
+                        textAlign: 'center', 
                         fontWeight: '500', 
                         fontSize: 16,
                         color: inverse ? myColors.navy : myColors.white,
