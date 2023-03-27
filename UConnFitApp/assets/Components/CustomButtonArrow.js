@@ -28,11 +28,11 @@ export default function CustomButtonArrow({ label, onPress, arrow, icon, hasIcon
                 backgroundColor: inverse ? myColors.offWhite : myColors.navy, 
                 borderColor: inverse ? myColors.navy : null,
                 borderWidth: inverse ? 1 : null,
-                padding: 20,
+                padding: inverse ? 16 : 18,
                 width: windowWidth*.75,
                 borderRadius: 22,
-                marginTop:8,
-                marginBottom:8,
+                marginTop:5,
+                marginBottom:5,
             }}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                 {hasIcon ? 
