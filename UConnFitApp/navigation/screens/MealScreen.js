@@ -260,7 +260,7 @@ const MealScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {isWeekend ? <View></View> : <CustomButtonArrow label={'Breakfast'} arrow={showBreakfast ? "up" : "down"} onPress={() => showMeal('breakfast')} />}
+        {isWeekend ? <View></View> : <CustomButtonArrow label={'Breakfast'} arrow={showBreakfast ? "up" : "down"} hasIcon={true} icon={require('../../assets/icons/food/breakfast.png')} onPress={() => showMeal('breakfast')} />}
         <View>
           {showBreakfast && !isWeekend ?
             <View style={styles.list}>
@@ -281,7 +281,7 @@ const MealScreen = ({ navigation }) => {
           }
         </View>
     
-        <CustomButtonArrow label={isWeekend ? 'Brunch' : 'Lunch'} arrow={showLunch ? "up" : "down"} onPress={() => showMeal('lunch')} />
+        <CustomButtonArrow label={isWeekend ? 'Brunch' : 'Lunch'} arrow={showLunch ? "up" : "down"} hasIcon={true} icon={require('../../assets/icons/food/lunch.png')}  onPress={() => showMeal('lunch')} />
         <View>
           {showLunch ?
             <View style={styles.list}>
@@ -302,7 +302,7 @@ const MealScreen = ({ navigation }) => {
           }
         </View>
         
-        <CustomButtonArrow label={'Dinner'} arrow={showDinner ? "up" : "down"} onPress={() => showMeal('dinner')} />
+        <CustomButtonArrow label={'Dinner'} arrow={showDinner ? "up" : "down"} hasIcon={true} icon={require('../../assets/icons/food/dinner.png')}  onPress={() => showMeal('dinner')} />
           <View>
             {showDinner ?
               <View style={styles.list}>

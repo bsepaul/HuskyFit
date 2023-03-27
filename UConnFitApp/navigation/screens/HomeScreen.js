@@ -6,7 +6,7 @@ import { ProgressChart, BarChart } from 'react-native-chart-kit';
 import React from 'react';
 import fetch from 'node-fetch';
 import { Circle } from "react-native-feather";
-import CustomRecFoodButton from '../../assets/Components/CustomRecFoodButton';
+import CustomRecommendedFoodButton from '../../assets/Components/CustomRecommendedFoodButton';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -21,7 +21,7 @@ export default function HomeScreen({navigation}) {
   const [name, setName] = React.useState('');
   const [weekDays, setWeekDays] = React.useState([]);
   const [userInfo, setUserInfo] = React.useState({"Calories": [], "low": 0, "mid": 0, "high": 0 });
-  const [recommendedFoods, setRecommendedFoods] = React.useState([]);
+  const [recommendedFoods, setRecommendedFoods] = React.useState([{"id": 0, "Food Item": "Fetching suggested foods...", "Dining Hall": "North", "Meal": "Dinner", "Date": "03/20/2023", "Calories": "0", "Protein": "0", "Total Carbohydrates": "0", "Total Fat": "0"}]);
 
   // get the day of the week
   const date = new Date();
@@ -301,7 +301,7 @@ export default function HomeScreen({navigation}) {
             <ScrollView>
               {recommendedFoods.map((food) => {
                 return (
-                  <CustomRecFoodButton
+                  <CustomRecommendedFoodButton
                     key={food.id}
                     label={food["Food Item"]}
                     diningHall={food["Dining Hall"]}
@@ -310,6 +310,7 @@ export default function HomeScreen({navigation}) {
                     carbs={food["Total Carbohydrates"]}
                     protein={food["Protein"]}
                     fat={food["Total Fat"]}
+                    meal={food["Meal"]}
                     infoOnPress={() => { }}
                     addOnPress={() => logFood(food)}
                   />);

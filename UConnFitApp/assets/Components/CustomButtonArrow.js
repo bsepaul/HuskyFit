@@ -40,10 +40,10 @@ export default function CustomButtonArrow({ label, onPress, arrow, icon, hasIcon
                         source={icon}
                         resizeMode='contain'
                         style={{
-                            width: 18,
-                            height: 18,
+                            width: 20,
+                            height: 20,
                             tintColor: inverse ? myColors.navy : myColors.white,
-                            marginRight: 5,
+                            marginRight: 8,
                         }}
                     />                
                 :
