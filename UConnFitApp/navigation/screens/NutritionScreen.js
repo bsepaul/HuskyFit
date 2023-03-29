@@ -1,6 +1,6 @@
 import { useRoute } from '@react-navigation/native';
-import React, { useState } from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, TextInput, Dimensions, FlatList, ScrollView } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Image, Dimensions, FlatList, ScrollView } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft } from "react-native-feather";
 
@@ -20,128 +20,170 @@ const NutritionScreen = ({ navigation }) => {
     const dinnerFoods = route.params.dinnerFoods;
     // const allAllergens = [{ id: 0, allergen: "Soy" }, { id: 1, allergen: "Gluten" }];
 
-    // set variable for the selected food id
-    var selectedFoodID = route.params.food.id;
-
     // get dining hall name from route and format it
     const diningHallName = route.params.dininghall.charAt(0).toUpperCase() + route.params.dininghall.slice(1)
 
     // Set state variables for condition of showing menus (hide menu if false, show if true)
     const [allFoods, setAllFoods] = React.useState([]);
+    const [selectedFoodID, setSelectedFoodID] = React.useState(route.params.food.id)
     // make a set height for nutrition facts
     const factHeight = 200;
 
-    const allergens = (allergenString) => {
+    const allergens = (allergenString, index) => {
         const allergenList = allergenString.split(", ")
         const allergenMap = [];
         for (let i = 0; i < allergenList.length; i++) {
-            allergenMap.push({id:i, allergen:allergenList[i]})
+            let newIndex = index + ((i+1) / 10);
+            allergenMap.push({id:newIndex, allergen:allergenList[i]})
         }
         return allergenMap;
     }
 
-    const allergenRender = ({item}) => {
-        return (
-            <View style={{
-                backgroundColor: myColors.navy,
-                marginRight: 5,
-                paddingHorizontal: 10,
-                paddingVertical:4,
-                borderRadius: 13,
-                height:26,
-            }}>
-                <Text style={{
-                    color: myColors.white,
-                    fontFamily: 'System',
-                    fontSize:14,
-                }}>{item.allergen}</Text>                
-            </View>
+    const allergenRender = useCallback(({ item }) => (
+        <View style={{
+            backgroundColor: myColors.navy,
+            marginRight: 5,
+            paddingHorizontal: 10,
+            paddingVertical: 4,
+            borderRadius: 13,
+            height: 26,
+            flexDirection: 'row',
+            alignItems:'center',
+        }}>
+            <Image
+                source={getIcon(item.allergen)}
+                style={{
+                    width: 12,
+                    height: 12,
+                    tintColor: myColors.white,
+                    marginRight: 3,
+                }}
+            />
+            <Text style={{
+                color: myColors.white,
+                fontFamily: 'System',
+                fontSize: 14,
+            }}>{item.allergen}</Text>
+        </View>
+    ), []);
 
-        );
+    const getIcon = (allergen) => {
+        let icon = '';
+        if (allergen === 'Fish') {
+            icon = require('../../assets/icons/food/Allergens/fish.png');
+        } else if (allergen === 'Soybeans') {
+            icon = require('../../assets/icons/food/Allergens/soy.png');
+        } else if (allergen === 'Wheat') {
+            icon = require('../../assets/icons/food/Allergens/wheat.png');
+        } else if (allergen === 'Gluten') {
+            icon = require('../../assets/icons/food/Allergens/gluten.png');
+        } else if (allergen === 'Milk') {
+            icon = require('../../assets/icons/food/Allergens/milk.png');
+        } else if (allergen === 'Tree Nuts') {
+            icon = require('../../assets/icons/food/Allergens/nut.png');
+        } else if (allergen === 'Eggs') {
+            icon = require('../../assets/icons/food/Allergens/eggs.png');
+        } else if (allergen === 'Sesame') {
+            icon = require('../../assets/icons/food/Allergens/sesame.png');
+        } else if (allergen === 'Crustacean Shellfish') {
+            icon = require('../../assets/icons/food/Allergens/crustacean.png');
+        } else if (allergen === 'Coconut') {
+            icon = require('../../assets/icons/food/Allergens/coconut.png');
+        } else {
+            icon = require('../../assets/icons/food/Allergens/allergen.png');
+        }
+        return icon;
     }
 
     // formatting the nutrition facts
-    const getNutrition = (food) => {
-        const backgroundColor = food.index === selectedFoodID ? myColors.lightGrey : null;
-        const foodItem = food.item
-        const allAllergens = allergens(foodItem["Allergens"]);
-        return (
-            <View style={{ width:windowWidth, height:factHeight, borderBottomWidth:1, borderBottomColor:myColors.lightGrey, paddingHorizontal:windowWidth*0.05, paddingBottom: 15, backgroundColor:backgroundColor}}>
-                <Text style={styles.foodTitle}>{foodItem["Food Item"]}</Text>
-                {(foodItem["Allergens"] === "") ?
-                    <View>
-                        <Text style={styles.subTitle}>Allergen Free</Text>
-                    </View> :
-                    <View style={styles.allergens}>
-                        <FlatList
-                            data={allAllergens}
-                            renderItem={allergenRender}
-                            keyExtractor={item => item.id}
-                            horizontal={true}
-                        />                    
-                    </View>
-                }
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
-                    <View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Serving Size: </Text><Text style={styles.nutritionText}>{foodItem["Serving Size"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Calories: </Text><Text style={styles.nutritionText}>{foodItem["Calories"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Total Fat: </Text><Text style={styles.nutritionText}>{foodItem["Total Fat"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Saturated Fat: </Text><Text style={styles.nutritionText}>{foodItem["Saturated Fat"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Trans Fat: </Text><Text style={styles.nutritionText}>{foodItem["Trans Fat"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Cholesterol: </Text><Text style={styles.nutritionText}>{foodItem["Cholesterol"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Sodium: </Text><Text style={styles.nutritionText}>{foodItem["Sodium"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Total Carbohydrates: </Text><Text style={styles.nutritionText}>{foodItem["Total Carbohydrates"]}</Text></View>
-                    </View>
-                    <View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Dietary Fiber: </Text><Text style={styles.nutritionText}>{foodItem["Dietary Fiber"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Total Sugars: </Text><Text style={styles.nutritionText}>{foodItem["Total Sugars"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Added Sugars: </Text><Text style={styles.nutritionText}>{foodItem["Added Sugars"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Protein: </Text><Text style={styles.nutritionText}>{foodItem["Protein"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Vitamin D: </Text><Text style={styles.nutritionText}>{foodItem["Vitamin D"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Calcium: </Text><Text style={styles.nutritionText}>{foodItem["Calcium"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Iron: </Text><Text style={styles.nutritionText}>{foodItem["Iron"]}</Text></View>
-                        <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Potassium: </Text><Text style={styles.nutritionText}>{foodItem["Potassium"]}</Text></View>
-                    </View>
+    const getNutrition = useCallback(({item}) => (
+        <View key={item["id"]} style={{ width:windowWidth, height:factHeight, borderBottomWidth:1, borderBottomColor:myColors.lightGrey, paddingHorizontal:windowWidth*0.05, paddingBottom: 15, backgroundColor:(item["id"] === selectedFoodID ? myColors.lightGrey : null)}}>
+            <Text style={styles.foodTitle}>{item["Food Item"]}</Text>
+            {(item["Allergens"] === "") ?
+                <View>
+                    <Text style={styles.subTitle}>Allergen Free</Text>
+                </View> :
+                <View style={styles.allergens}>
+                    <FlatList
+                        data={allergens(item["Allergens"], item["id"])}
+                        renderItem={allergenRender}
+                        keyExtractor={item => item["id"]}
+                        horizontal={true}
+                    />                    
+                </View>
+            }
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between'}}>
+                <View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Serving Size: </Text><Text style={styles.nutritionText}>{item["Serving Size"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Calories: </Text><Text style={styles.nutritionText}>{item["Calories"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Total Fat: </Text><Text style={styles.nutritionText}>{item["Total Fat"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Saturated Fat: </Text><Text style={styles.nutritionText}>{item["Saturated Fat"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Trans Fat: </Text><Text style={styles.nutritionText}>{item["Trans Fat"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Cholesterol: </Text><Text style={styles.nutritionText}>{item["Cholesterol"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Sodium: </Text><Text style={styles.nutritionText}>{item["Sodium"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Total Carbohydrates: </Text><Text style={styles.nutritionText}>{item["Total Carbohydrates"]}</Text></View>
+                </View>
+                <View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Dietary Fiber: </Text><Text style={styles.nutritionText}>{item["Dietary Fiber"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Total Sugars: </Text><Text style={styles.nutritionText}>{item["Total Sugars"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Added Sugars: </Text><Text style={styles.nutritionText}>{item["Added Sugars"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Protein: </Text><Text style={styles.nutritionText}>{item["Protein"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Vitamin D: </Text><Text style={styles.nutritionText}>{item["Vitamin D"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Calcium: </Text><Text style={styles.nutritionText}>{item["Calcium"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Iron: </Text><Text style={styles.nutritionText}>{item["Iron"]}</Text></View>
+                    <View style={styles.nutritionFact}><Text style={styles.nutritionText}>Potassium: </Text><Text style={styles.nutritionText}>{item["Potassium"]}</Text></View>
                 </View>
             </View>
-        );
-    }
+        </View>
+    ), []);
     
     // On screen load, combine all foods into one list and get the index of the food that the user selected
-    React.useEffect(() => {
+    const getFoods = async () => {
         // set first index of food to 0
         var i = 0;
         // create empty list to temporarily store all foods
         const allTempFoods = [];
         // push all breakfast foods onto a temporary list
-        breakfastFoods.forEach(food => {
-            if (food.id === selectedFoodID) {
-                selectedFoodID = i;
+        for (let index = 0; index < breakfastFoods.length; index++) {
+            if (breakfastFoods[index]["id"] === selectedFoodID) {
+                setSelectedFoodID(i);
             }
-            food.id = i;
-            allTempFoods.push(food);
+            breakfastFoods[index]["id"] = i;
+            allTempFoods.push(breakfastFoods[index]);
             i += 1;
-        });
+        }
+
         // push all lunch foods onto a temporary list
-        lunchFoods.forEach(food => {
-            if (food.id === selectedFoodID) {
-                selectedFoodID = i;
+        for (let index = 0; index < lunchFoods.length; index++) {
+            if (lunchFoods[index]["id"] === selectedFoodID) {
+                setSelectedFoodID(i);
             }
-            food.id = i;
-            allTempFoods.push(food);
+            lunchFoods[index]["id"] = i;
+            allTempFoods.push(lunchFoods[index]);
             i += 1;
-        });
+        }
         // push all dinner foods onto a temporary list
-        dinnerFoods.forEach(food => {
-            if (food.id === selectedFoodID) {
-                selectedFoodID = i;
+        for (let index = 0; index < dinnerFoods.length; index++) {
+            if (dinnerFoods[index]["id"] === selectedFoodID) {
+                setSelectedFoodID(i);
             }
-            food.id = i;
-            allTempFoods.push(food);
+            dinnerFoods[index]["id"] = i;
+            allTempFoods.push(dinnerFoods[index]);
             i += 1;
-        });
+        }
         setAllFoods(allTempFoods);
-    }, []);
+    }
+
+    const getAllFoods = async () => {
+        await getFoods();
+    }
+
+    React.useEffect(() => {
+        const foods = navigation.addListener('focus', () => {
+            getAllFoods();
+        });
+        return foods;
+    }, [navigation]);
 
     const getItemLayout = (data, index) => (
         { length: factHeight, offset: factHeight*index, index }
@@ -172,10 +214,10 @@ const NutritionScreen = ({ navigation }) => {
                 renderItem={getNutrition}
                 style={{ flex: 1 }}
                 ListFooterComponent={backButton}
-                keyExtractor={food => food.id}
+                keyExtractor={item => item.id}
                 extraData={selectedFoodID}
                 getItemLayout={getItemLayout}
-                initialScrollIndex={selectedFoodID}
+                // initialScrollIndex={selectedFoodID}
             />
         </SafeAreaView>
     );
