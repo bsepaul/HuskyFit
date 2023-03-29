@@ -26,8 +26,8 @@ export default function CustomFoodItemButton({ label, infoOnPress, addOnPress, i
                 flex: 1,
                 flexWrap: 'wrap',
                 textAlign: 'left',
-                fontWeight: '300',
-                fontSize: 14,
+                fontWeight: '400',
+                fontSize: 13,
                 color: inverse ? myColors.white : myColors.navy, 
             }}>{label}</Text>
             <View style={{

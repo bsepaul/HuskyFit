@@ -270,7 +270,9 @@ export default function HomeScreen({navigation}) {
           </TouchableOpacity>
         </View>
         <View style={styles.contentContainer}>
-          <Text style={styles.chartLabel}>Activity This Week</Text>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.chartLabel}>Activity This Week</Text>           
+          </View>
           <View style={styles.chartContainer}>
             <ProgressChart        // ring chart
               data={ringData}
@@ -282,12 +284,14 @@ export default function HomeScreen({navigation}) {
               hideLegend={true}
             />
             <View style={{width: windowWidth*.35}}>
-              <ExerciseLevel label={"Low"} color={'#303E55'} percent={(100 * ringData.data[2]).toFixed(2)} minutes={userInfo.low} minutesTotal={210} />
-              <ExerciseLevel label={"Mid"}  color={'#4E5A6D'} percent={(100*ringData.data[1]).toFixed(2)}  minutes={userInfo.mid} minutesTotal={115} />
-              <ExerciseLevel label={"High"} color={'#6C7686'} percent={(100*ringData.data[0]).toFixed(2)}  minutes={userInfo.high} minutesTotal={75} />            
+              <ExerciseLevel label={"Low"} color={myColors.navy} percent={(100 * ringData.data[2]).toFixed(2)} minutes={userInfo.low} minutesTotal={210} />
+              <ExerciseLevel label={"Mid"}  color={myColors.mediumBlue} percent={(100*ringData.data[1]).toFixed(2)}  minutes={userInfo.mid} minutesTotal={115} />
+              <ExerciseLevel label={"High"} color={myColors.lightBlue} percent={(100*ringData.data[0]).toFixed(2)}  minutes={userInfo.high} minutesTotal={75} />            
             </View>
           </View>
-          <Text style={styles.chartLabel}>Burned Calories</Text>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.chartLabel}>Burned Calories</Text>           
+          </View>
           <View style={styles.chartContainer}>
             <BarChart             // calorie bar chart
               data={barData}
@@ -305,7 +309,9 @@ export default function HomeScreen({navigation}) {
               }}
             />
           </View>
-          <Text style={styles.chartLabel}>Suggested Foods</Text>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.chartLabel}>Food Suggestions</Text>           
+          </View>
           <View style={styles.scrollContainer}>
             <ScrollView>
               {recommendedFoods.map((food) => {
@@ -401,10 +407,17 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   chartLabel: {
-      fontWeight: "500",
-      color: myColors.navy,
+      fontWeight: "400",
+      color: myColors.white,
       paddingVertical: 8,
-      fontSize: 18
+      fontSize: 16
+  },
+  subtitleContainer: {
+    backgroundColor: myColors.navy,
+    paddingHorizontal: 15,
+    marginBottom: 8,
+    marginTop:5,
+    borderRadius: 18,
   },
   centeredView: {
     flex: 1,
