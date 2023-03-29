@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import InputField from '../../assets/Components/InputField';
 import { myColors } from '../../assets/styles/ColorPalette';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomRecButton from '../../assets/Components/CustomRecButton';
 import fetch from 'node-fetch'
 import {
@@ -18,19 +18,41 @@ import {
 import {Dropdown} from 'react-native-element-dropdown';
 
 const allWorkoutTypeData = [
-  { label: 'High Intensity Interval Training', value: '9' },
+  { label: 'High Intensity Interval Training', value: '8' },
   { label: 'Stair Stepper', value: '9' },
   { label: 'Jump Rope', value: '10' },
   { label: 'Core Training', value: '5.5' },
   { label: 'Dance', value: '5' },
-  { label: 'Elliptical', value: '6.5' },
+  { label: 'Elliptical', value: '5' },
   { label: 'Rower', value: '7' },
   { label: 'Pilates', value: '3' },
-  { label: 'Basketball', value: '9' },
+  { label: 'Basketball', value: '8' },
   { label: 'Volleyball', value: '4' },
   { label: 'Soccer', value: '9.5' },
   { label: 'Badmitten', value: '5' },
   { label: 'Raquetball', value: '8.6' },
+];
+
+const allWorkoutTypesInfo = [
+  { label: 'High Intensity Interval Training', value: '8' },
+  { label: 'Stair Stepper', value: '9' },
+  { label: 'Jump Rope', value: '10' },
+  { label: 'Core Training', value: '5.5' },
+  { label: 'Dance', value: '5' },
+  { label: 'Elliptical', value: '5' },
+  { label: 'Rower', value: '7' },
+  { label: 'Pilates', value: '3' },
+  { label: 'Basketball', value: '8' },
+  { label: 'Volleyball', value: '4' },
+  { label: 'Soccer', value: '9.5' },
+  { label: 'Badmitten', value: '5' },
+  { label: 'Raquetball', value: '8.6' },
+  { label: 'Walk', value: '4' },
+  { label: 'Run', value: '10' },
+  { label: 'Weights', value: '7' },
+  { label: 'Yoga', value: '3' },
+  { label: 'Swimming', value: '5.5' },
+  { label: 'Biking', value: '8' },
 ];
 
 const allTimeElapsedData = [
@@ -54,6 +76,7 @@ const allWorkoutIntensityData = [
   { label: 'High', value: '3' },
 ];
 
+
 const WorkoutInfo = ({ navigation }) => {
 
   // Get token and workoutType from route
@@ -70,11 +93,60 @@ const WorkoutInfo = ({ navigation }) => {
   const [WorkoutIntensity, setWorkoutIntensity] = useState('');
   const [CaloriesBurned, setCaloriesBurned] = useState('');
   const [isFocus, setIsFocus] = useState(false);
+  const [weight, setWeight] = useState('');
+  const [userWeight, setUserWeight] = useState('');
   
   
-  const handleCaloriesBurned = (text) => {
-    setCaloriesBurned(text);
+  const handleCaloriesBurned = () => {
+    ( async () => {
+      raw = '';
+      var requestOptions = {
+        method: 'GET',
+        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+              "Authorization": token},
+        body: raw,
+        redirect: 'follow'
+      };
+      
+      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info", requestOptions)
+        .then(response => response.text())
+        .then(result => {
+          if (result != '') {
+            let json = JSON.parse(result);
+            if (json.Weight != undefined) {
+              setWeight(json.Weight);
+              setUserWeight(true);
+            } else {
+              setUserWeight(false);
+            }
+          }
+        })
+        .catch(error => console.log('error', error));
+
+        let workoutTypeValue = null;
+        for (let i = 0; i < allWorkoutTypesInfo.length; i++) {
+          if (allWorkoutTypesInfo[i].label === WorkoutType) {
+            workoutTypeValue = allWorkoutTypesInfo[i].value;
+          }
+        }
+
+        let weightInPounds = weight;
+        let metValue = workoutTypeValue;
+        if (WorkoutIntensity === 'Low') {
+          metValue -= 1;
+        } else if (WorkoutIntensity === 'High') {
+          metValue += 1;
+        }
+
+        let calories = metValue * 3.5 * weightInPounds * 0.45359237 * parseInt(TimeElapsed) / 200;
+        calories = Math.round(calories);
+        setCaloriesBurned(calories);
+    })();
   };
+
+  useEffect(() => {
+    setCaloriesBurned(handleCaloriesBurned);
+},[TimeElapsed]);
 
   // Alert code - workout successfully added to log
   const alertSuccess = () => {
@@ -104,7 +176,7 @@ const WorkoutInfo = ({ navigation }) => {
       var raw = JSON.stringify({
               "WorkoutType": WorkoutType,
               "TimeElapsed": TimeElapsed,
-              "CaloriesBurned": ((CaloriesBurned === '') ? handleCaloriesBurned() : CaloriesBurned),
+              "CaloriesBurned": CaloriesBurned,
               "WorkoutIntensity": WorkoutIntensity
           });
       // Make sure user isn't leaving any required fields empty
@@ -117,7 +189,8 @@ const WorkoutInfo = ({ navigation }) => {
       var requestOptions = {
         method: 'PUT',
         headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
-                  "Authorization": token},
+        "Content-Type": "application/json",
+        "Authorization": token},
         body: raw,
         redirect: 'follow'
       };
@@ -188,7 +261,7 @@ const WorkoutInfo = ({ navigation }) => {
                 placeholderTextColor={myColors.darkGrey}
                 style={styles.input}
                 keyboardType='number-pad'
-                onChangeText={(time) => setTimeElapsed(time)}
+                onChangeText={(time) => {setTimeElapsed(time); setCaloriesBurned(handleCaloriesBurned);}}
               />
               <Text style={styles.units}>mins</Text>
             </View>
@@ -198,7 +271,9 @@ const WorkoutInfo = ({ navigation }) => {
                 placeholderTextColor={myColors.darkGrey}
                 style={styles.input}
                 keyboardType='number-pad'
-                onChangeText={(calories) => setCaloriesBurned(calories)}>
+                value = {CaloriesBurned}
+                onChangeText={(value) => {setCaloriesBurned(value);}}
+              >
               </TextInput>
               <Text style={styles.units}>Kcals</Text>
             </View>
