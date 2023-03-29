@@ -142,7 +142,9 @@ export default function Foodlog({navigation, label, inverse=false}) {
     <SafeAreaView>
       <View style={styles.contentContainer}>
         <Text style={styles.title}>Food Log</Text>
-        <Text style={styles.subtitle}>Macronutrient Targets</Text>
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.subtitle}>Macronutrient Targets</Text>           
+        </View>
         <View style={styles.chartContainer}>
           <ProgressChart        // ring chart
             data={{
@@ -175,7 +177,9 @@ export default function Foodlog({navigation, label, inverse=false}) {
             </TouchableOpacity>
           }
         </View>
-        <Text style={styles.subtitle}>Food Logged</Text>
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.subtitle}>Food Logged</Text>           
+        </View>
         {showFood ? 
           <View style={{ alignItems: 'center' }}>
             <View style={styles.list}>
@@ -231,10 +235,17 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontFamily: "System",
-    fontSize: 20,
-    fontWeight: "500",
-    color: myColors.navy,
+    fontSize: 18,
+    fontWeight: "400",
+    color: myColors.white,
     marginVertical: 5,
+  },
+  subtitleContainer: {
+    backgroundColor: myColors.mediumBlue,
+    paddingHorizontal: 15,
+    marginBottom: 8,
+    marginTop:5,
+    borderRadius: 18,
   },
   contentContainer: {
     paddingHorizontal: windowWidth*0.05,
@@ -246,7 +257,7 @@ const styles = StyleSheet.create({
     backgroundColor: myColors.white,
     padding: 12,
     marginBottom: 15,
-    borderRadius: 10,
+    borderRadius: 12,
     shadowColor: myColors.darkGrey,
     shadowOffset: {
       width: 0,
@@ -258,12 +269,12 @@ const styles = StyleSheet.create({
   },
   list: {
     minHeight: 0,
-    maxHeight: windowHeight*0.26,
+    maxHeight: windowHeight*0.3,
     width: windowWidth*0.9,
     marginTop: 5,
     marginBottom: 10,
     paddingTop: 8,
-    backgroundColor: myColors.lightGrey,
+    backgroundColor: myColors.veryLightGrey,
     borderRadius: 12,
     shadowColor: myColors.darkGrey,
     shadowOffset: {

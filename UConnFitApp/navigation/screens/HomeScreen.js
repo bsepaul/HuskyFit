@@ -413,7 +413,7 @@ const styles = StyleSheet.create({
       fontSize: 16
   },
   subtitleContainer: {
-    backgroundColor: myColors.navy,
+    backgroundColor: myColors.mediumBlue,
     paddingHorizontal: 15,
     marginBottom: 8,
     marginTop:5,

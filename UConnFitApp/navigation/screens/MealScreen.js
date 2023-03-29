@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
     width: windowWidth*0.75,
     marginTop: 5,
     paddingTop: 8,
-    backgroundColor: myColors.lightGrey,
+    backgroundColor: myColors.veryLightGrey,
     borderRadius: 12,
     shadowColor: myColors.darkGrey,
     shadowOffset: {
