@@ -1,8 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import { Text, View, SafeAreaView, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
-import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
-import CustomNavigationButton from '../../assets/Components/CustomNavigationButton'
+import CustomButtonArrow from '../../assets/Components/CustomButtonArrow'; 
 import React from 'react'
 
 // Get screen dimensions
@@ -24,15 +23,15 @@ const DiningHalls = ({ navigation }) => {
     <SafeAreaView style={styles.screen}>
       <ScrollView contentContainerStyle={styles.content}>
         <Text style={styles.title}>{'Dining Halls'}</Text>
-        {isWeekend ? <View></View> : <CustomDiningButton label={'Buckley'} arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall: 'buckley' })} />}
-        <CustomDiningButton label={'Gelfenbien'} arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'gelfenbien' })}/>
-        <CustomDiningButton label={'McMahon'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'mcmahon' })}/>
-        <CustomDiningButton label={'North'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'north' })}/>
-        <CustomDiningButton label={'Northwest'}  arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'northwest' })}/>
-        <CustomDiningButton label={'Putnam'}     arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'putnam' })} />
-        <CustomDiningButton label={'South'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'south' })}/>
-        <CustomDiningButton label={'Whitney'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'whitney' })}/>
-        <CustomNavigationButton label={'View Food Log'} arrow={"right"} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
+        {isWeekend ? <View></View> : <CustomButtonArrow label={'Buckley'} arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall: 'buckley' })} />}
+        <CustomButtonArrow label={'Gelfenbien'} arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'gelfenbien' })}/>
+        <CustomButtonArrow label={'McMahon'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'mcmahon' })}/>
+        <CustomButtonArrow label={'North'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'north' })}/>
+        <CustomButtonArrow label={'Northwest'}  arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'northwest' })}/>
+        <CustomButtonArrow label={'Putnam'}     arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'putnam' })} />
+        <CustomButtonArrow label={'South'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'south' })}/>
+        <CustomButtonArrow label={'Whitney'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'whitney' })}/>
+        <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
       </ScrollView>
     </SafeAreaView>       
 );

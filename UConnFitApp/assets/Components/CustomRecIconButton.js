@@ -32,7 +32,7 @@ export default function CustomRecIconButton({ label, icon, onPress, inverse = fa
             </TouchableOpacity>
             {/* <Text 
                 style= {{
-                    textAllign: 'center', 
+                    textAlign: 'center', 
                     fontWeight: '700', 
                     fontSize: 15, 
                     color: inverse ? myColors.white : myColors.navy,

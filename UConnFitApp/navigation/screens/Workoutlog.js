@@ -24,11 +24,11 @@ const WorkoutLog = ({ navigation }) => {
       <View style={{ flexDirection: 'row' }}>
         <View style={{
           backgroundColor: color,
-          marginVertical: 10,
+          marginVertical: 8,
           marginRight: 10,
-          width: 65,
-          height: 80,
-          paddingVertical: 15,
+          width: 60,
+          height: 70,
+          paddingVertical: 10,
           borderRadius: 15,
           alignItems: 'center', }}>
           <Text style={styles.month}>{month}</Text>
@@ -130,7 +130,9 @@ const WorkoutLog = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <SafeAreaView>
-        <Text style={styles.title}>Workouts</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.title}>Workouts</Text>        
+        </View>
         <ScrollView style={styles.scroll}>
           {workouts.map((workout) => {
             return (
@@ -144,10 +146,11 @@ const WorkoutLog = ({ navigation }) => {
                 color={workout.color}
               />); 
           })}
+          <View style={{height:100}} />
         </ScrollView>
-        <View style={{flexDirection: 'row', justifyContent:'center',}}>
+        <View style={{alignItems: 'center', marginTop: -80,}}>
           <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Rec', params: { screen: 'WorkoutScreen', params: { token: token } } })}>
-            <PlusCircle fill={myColors.navy} stroke={myColors.offWhite} strokeWidth={1.2} width={55} height={55}/>
+            <PlusCircle fill={myColors.navy} stroke={myColors.offWhite} strokeWidth={1.2} width={56} height={56}/>
           </TouchableOpacity>
         </View>
       </SafeAreaView>
@@ -160,14 +163,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: myColors.offWhite,
-    paddingBottom: 50,
+  },
+  titleContainer: {
+    height: 80,
+    justifyContent: 'center',
+    alignItems:'center',
   },
   title: {
     fontFamily: "System",
     fontSize: 30,
-    fontWeight: "600",
+    fontWeight: "500",
     color: myColors.navy,
     marginBottom: 15,
     marginTop: 20,
@@ -199,10 +205,10 @@ const styles = StyleSheet.create({
 	},
   workout: {
     backgroundColor: myColors.white,
-    padding: 15,
+    padding: 12,
     width: windowWidth * 0.66,
-    height: 80,
-    marginVertical: 10,
+    height: 70,
+    marginVertical: 8,
     borderRadius: 15,
     shadowColor: myColors.grey,
     shadowOffset: {
@@ -230,8 +236,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   scroll: {
-    minHeight: 0,
-    maxHeight: windowHeight*0.62,
+    // minHeight: 0,
+    maxHeight: windowHeight - 230,
   },
   list: {
     minHeight: 0,

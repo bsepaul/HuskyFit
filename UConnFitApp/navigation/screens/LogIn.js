@@ -95,7 +95,7 @@ const Login = ({ navigation }) => {
             placeholder="Email"
             placeholderTextColor="#003f5c"
             autoCapitalize="none"
-            autoCorrect="false"
+            autoCorrect={false}
             onChangeText={(email) => setEmail(email)}
           />
         </View>

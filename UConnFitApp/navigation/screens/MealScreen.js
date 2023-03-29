@@ -3,9 +3,8 @@ import React from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, ScrollView, Dimensions, useEffect, Alert} from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft } from "react-native-feather";
-import CustomDiningButton from '../../assets/Components/CustomDiningButton'; 
+import CustomButtonArrow from '../../assets/Components/CustomButtonArrow'; 
 import CustomFoodItemButton from '../../assets/Components/CustomFoodItemButton';
-import CustomNavigationButton from '../../assets/Components/CustomNavigationButton';
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -260,7 +259,7 @@ const MealScreen = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        {isWeekend ? <View></View> : <CustomDiningButton label={'Breakfast'} arrow={showBreakfast ? "up" : "down"} onPress={() => showMeal('breakfast')} />}
+        {isWeekend ? <View></View> : <CustomButtonArrow label={'Breakfast'} arrow={showBreakfast ? "up" : "down"} hasIcon={true} icon={require('../../assets/icons/food/breakfast.png')} onPress={() => showMeal('breakfast')} />}
         <View>
           {showBreakfast && !isWeekend ?
             <View style={styles.list}>
@@ -281,7 +280,7 @@ const MealScreen = ({ navigation }) => {
           }
         </View>
     
-        <CustomDiningButton label={isWeekend ? 'Brunch' : 'Lunch'} arrow={showLunch ? "up" : "down"} onPress={() => showMeal('lunch')} />
+        <CustomButtonArrow label={isWeekend ? 'Brunch' : 'Lunch'} arrow={showLunch ? "up" : "down"} hasIcon={true} icon={require('../../assets/icons/food/lunch.png')}  onPress={() => showMeal('lunch')} />
         <View>
           {showLunch ?
             <View style={styles.list}>
@@ -302,7 +301,7 @@ const MealScreen = ({ navigation }) => {
           }
         </View>
         
-        <CustomDiningButton label={'Dinner'} arrow={showDinner ? "up" : "down"} onPress={() => showMeal('dinner')} />
+        <CustomButtonArrow label={'Dinner'} arrow={showDinner ? "up" : "down"} hasIcon={true} icon={require('../../assets/icons/food/dinner.png')}  onPress={() => showMeal('dinner')} />
           <View>
             {showDinner ?
               <View style={styles.list}>
@@ -321,15 +320,15 @@ const MealScreen = ({ navigation }) => {
               </View> :
               <View></View>
             }
-          </View>
-          <CustomNavigationButton label={'View Food Log'} arrow={"right"} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
-          <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
-            <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
-              <Text style={{ color:myColors.navy, fontWeight:'500', marginTop: 10}}>Back</Text>
-            </TouchableOpacity>
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+        </View>
+        <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
+        <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
+          <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
+            <Text style={{ color:myColors.navy, fontWeight:'500', marginTop: 10}}>Back</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 
@@ -353,7 +352,7 @@ const styles = StyleSheet.create({
     width: windowWidth*0.75,
     marginTop: 5,
     paddingTop: 8,
-    backgroundColor: myColors.lightGrey,
+    backgroundColor: myColors.veryLightGrey,
     borderRadius: 12,
     shadowColor: myColors.darkGrey,
     shadowOffset: {

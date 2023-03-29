@@ -1,12 +1,13 @@
 import { useRoute } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert, SafeAreaView, Platform, Dimensions, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Alert, SafeAreaView, Modal, Pressable, Dimensions, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ProgressChart, BarChart } from 'react-native-chart-kit';
 import React from 'react';
 import fetch from 'node-fetch';
-import { Circle } from "react-native-feather";
-import CustomRecFoodButton from '../../assets/Components/CustomRecFoodButton';
+import { Circle, Check } from "react-native-feather";
+import CustomRecommendedFoodButton from '../../assets/Components/CustomRecommendedFoodButton';
+import CustomButtonArrow from '../../assets/Components/CustomButtonArrow';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -21,7 +22,8 @@ export default function HomeScreen({navigation}) {
   const [name, setName] = React.useState('');
   const [weekDays, setWeekDays] = React.useState([]);
   const [userInfo, setUserInfo] = React.useState({"Calories": [], "low": 0, "mid": 0, "high": 0 });
-  const [recommendedFoods, setRecommendedFoods] = React.useState([]);
+  const [recommendedFoods, setRecommendedFoods] = React.useState([{"id": 0, "Food Item": "Fetching suggested foods...", "Dining Hall": "A", "Meal": "Dinner", "Date": "03/20/2023", "Calories": "0", "Protein": "0", "Total Carbohydrates": "0", "Total Fat": "0"}]);
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   // get the day of the week
   const date = new Date();
@@ -52,16 +54,6 @@ export default function HomeScreen({navigation}) {
   for (let i=0; i <= date.getDay(); i++) {
     barLabels.push(String(daysAbbrev[i]))
   }
-
-  const alertSuccess = () => {
-    const title = 'Success';
-    const message = 'Food successfully added to log.';
-    const emptyArrayButtons = [];
-    const alertOptions = {
-      cancelable: true,
-    };
-    Alert.alert(title, message, emptyArrayButtons, alertOptions);
-  };
 
   const ExerciseLevel = ({ label, color, percent, minutes, minutesTotal }) => {
     return (
@@ -196,7 +188,7 @@ export default function HomeScreen({navigation}) {
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
 
-      alertSuccess(); 
+    setModalVisible(true);
 
   }
 
@@ -243,6 +235,23 @@ export default function HomeScreen({navigation}) {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.content}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+            }}
+            onShow={() => {
+              setTimeout(() => {  setModalVisible(false); }, 500);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Check stroke={myColors.navy} width={90} height={90} />
+              <Text style={styles.modalText}>Food logged!</Text>
+            </View>
+          </View>
+        </Modal>
         <View style={styles.greetingsContainer}>
           <View>
             <Text style={styles.title}>Hello, {name}</Text>
@@ -261,7 +270,9 @@ export default function HomeScreen({navigation}) {
           </TouchableOpacity>
         </View>
         <View style={styles.contentContainer}>
-          <Text style={styles.chartLabel}>Activity This Week</Text>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.chartLabel}>Activity This Week</Text>           
+          </View>
           <View style={styles.chartContainer}>
             <ProgressChart        // ring chart
               data={ringData}
@@ -273,12 +284,14 @@ export default function HomeScreen({navigation}) {
               hideLegend={true}
             />
             <View style={{width: windowWidth*.35}}>
-              <ExerciseLevel label={"Low"} color={'#303E55'} percent={(100 * ringData.data[2]).toFixed(2)} minutes={userInfo.low} minutesTotal={210} />
-              <ExerciseLevel label={"Mid"}  color={'#4E5A6D'} percent={(100*ringData.data[1]).toFixed(2)}  minutes={userInfo.mid} minutesTotal={115} />
-              <ExerciseLevel label={"High"} color={'#6C7686'} percent={(100*ringData.data[0]).toFixed(2)}  minutes={userInfo.high} minutesTotal={75} />            
+              <ExerciseLevel label={"Low"} color={myColors.navy} percent={(100 * ringData.data[2]).toFixed(2)} minutes={userInfo.low} minutesTotal={210} />
+              <ExerciseLevel label={"Mid"}  color={myColors.mediumBlue} percent={(100*ringData.data[1]).toFixed(2)}  minutes={userInfo.mid} minutesTotal={115} />
+              <ExerciseLevel label={"High"} color={myColors.lightBlue} percent={(100*ringData.data[0]).toFixed(2)}  minutes={userInfo.high} minutesTotal={75} />            
             </View>
           </View>
-          <Text style={styles.chartLabel}>Burned Calories</Text>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.chartLabel}>Burned Calories</Text>           
+          </View>
           <View style={styles.chartContainer}>
             <BarChart             // calorie bar chart
               data={barData}
@@ -296,27 +309,35 @@ export default function HomeScreen({navigation}) {
               }}
             />
           </View>
-          <Text style={styles.chartLabel}>Suggested Foods</Text>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.chartLabel}>Food Suggestions</Text>           
+          </View>
           <View style={styles.scrollContainer}>
             <ScrollView>
               {recommendedFoods.map((food) => {
                 return (
-                  <CustomRecFoodButton
+                  <CustomRecommendedFoodButton
                     key={food.id}
                     label={food["Food Item"]}
                     diningHall={food["Dining Hall"]}
-                    date={food["Date"]}
+                    month={months[parseInt((food["Date"]).split('/')[0]) - 1]}
+                    day={parseInt((food["Date"]).split('/')[1])}
                     calories={food["Calories"]}
                     carbs={food["Total Carbohydrates"]}
                     protein={food["Protein"]}
                     fat={food["Total Fat"]}
+                    meal={food["Meal"]}
                     infoOnPress={() => { }}
                     addOnPress={() => logFood(food)}
                   />);
                 })}
             </ScrollView>
+          </View> 
+          <View style={{ marginBottom: 100, }}>
+            <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
+            <CustomButtonArrow label={'View Workout Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Workoutlog', params: { token: token } } })}/> 
           </View>
-        </View>        
+        </View>  
       </ScrollView>
 
     </SafeAreaView>
@@ -374,7 +395,7 @@ const styles = StyleSheet.create({
     backgroundColor: myColors.white,
     width: windowWidth*0.8 + 24,
     padding: 12,
-    marginBottom: 100,
+    marginBottom:20,
     borderRadius: 10,
     shadowColor: myColors.darkGrey,
     shadowOffset: {
@@ -386,11 +407,48 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   chartLabel: {
-      fontWeight: "500",
-      color: myColors.navy,
+      fontWeight: "400",
+      color: myColors.white,
       paddingVertical: 8,
-      fontSize: 18
-  }
+      fontSize: 16
+  },
+  subtitleContainer: {
+    backgroundColor: myColors.mediumBlue,
+    paddingHorizontal: 15,
+    marginBottom: 8,
+    marginTop:5,
+    borderRadius: 18,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    textAlign: 'center',
+    fontFamily: "System",
+    fontSize: 18,
+    fontWeight: "500",
+    color: myColors.navy,
+    paddingVertical: 10,
+    paddingHorizontal:12,
+  },
 });
 
 const barChartConfig = {
