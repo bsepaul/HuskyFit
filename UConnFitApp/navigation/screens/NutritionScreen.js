@@ -1,8 +1,8 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useCallback, useState } from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Image, Dimensions, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Image, Dimensions, FlatList, TextInput } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
-import { ChevronLeft } from "react-native-feather";
+import { ChevronLeft, Check, X } from "react-native-feather";
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -18,13 +18,13 @@ const NutritionScreen = ({ navigation }) => {
     const breakfastFoods = route.params.breakfastFoods;
     const lunchFoods = route.params.lunchFoods;
     const dinnerFoods = route.params.dinnerFoods;
-    // const allAllergens = [{ id: 0, allergen: "Soy" }, { id: 1, allergen: "Gluten" }];
 
     // get dining hall name from route and format it
     const diningHallName = route.params.dininghall.charAt(0).toUpperCase() + route.params.dininghall.slice(1)
 
     // Set state variables for condition of showing menus (hide menu if false, show if true)
     const [allFoods, setAllFoods] = React.useState([]);
+    const [foods, setFoods] = React.useState([]);
     const [selectedFoodID, setSelectedFoodID] = React.useState(route.params.food.id)
     // make a set height for nutrition facts
     const factHeight = 200;
@@ -172,6 +172,7 @@ const NutritionScreen = ({ navigation }) => {
             i += 1;
         }
         setAllFoods(allTempFoods);
+        setFoods(allTempFoods);
     }
 
     const getAllFoods = async () => {
@@ -199,6 +200,14 @@ const NutritionScreen = ({ navigation }) => {
         )
     }
 
+    const searchFood = (input) => {
+        let data = allFoods;
+        let searchData = data.filter((item) => {
+            return item["Food Item"].toLowerCase().includes(input.toLowerCase())
+        });
+        setFoods(searchData);
+    }
+
     return (
         <SafeAreaView style={styles.screen}>
             <View style={{flexDirection:'row', justifyContent: 'flex-start', alignContent:'center', paddingHorizontal:windowWidth*0.05}}>
@@ -209,8 +218,21 @@ const NutritionScreen = ({ navigation }) => {
                 </TouchableOpacity>
                 <Text style={styles.title}>{diningHallName}</Text>
             </View>
+            <View style={styles.filters}>
+                <TextInput
+                    style={{
+                        paddingVertical: 5,
+                    }}
+                    fontSize={14}
+                    placeholderTextColor={myColors.grey}
+                    autoCapitalize="none"
+                    placeholder='Search Food'
+                    onChangeText={(input)=>{searchFood(input)}}
+                >
+                </TextInput>
+            </View>
             <FlatList
-                data={allFoods}
+                data={foods}
                 renderItem={getNutrition}
                 style={{ flex: 1 }}
                 ListFooterComponent={backButton}
@@ -260,6 +282,15 @@ const styles = StyleSheet.create({
         fontWeight: "300",
         color: myColors.navy,
         paddingBottom: 6,
+    },
+    filters: {
+        marginHorizontal: windowWidth * 0.05,
+        padding: 10,
+        paddingBottom: 10,
+        marginBottom: 10,
+        borderWidth: 1,
+        borderColor: myColors.navy,
+        borderRadius: 12,
     },
     nutritionFact: {
         flexDirection: 'row',
