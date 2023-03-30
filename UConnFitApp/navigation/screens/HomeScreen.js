@@ -172,6 +172,7 @@ export default function HomeScreen({navigation}) {
       "Protein": food["Protein"],
       "Total fat": food["Total Fat"],
       "Dining hall": food["Dining Hall"],
+      "Meal": food["Meal"],
       "Date": convertDate(date.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0]),
     });
 

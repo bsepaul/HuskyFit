@@ -1,40 +1,57 @@
-import {View, Text, TouchableOpacity, Dimensions} from 'react-native'
+import {View, Text, TouchableOpacity, Dimensions, Image } from 'react-native'
 import React from 'react'
 import { myColors } from '../styles/ColorPalette'
-import { ThumbsUp, ThumbsDown } from "react-native-feather";
+import { Info, PlusCircle } from "react-native-feather";
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 
-export default function CustomFoodLogButton({ label, infoOnPress, addOnPress, inverse = false }) {
+export default function CustomFoodLogButton({ label, calories, carbs, protein, fat, meal, infoOnPress, addOnPress, inverse = false }) {
+    let icon = '';
+    if (meal === 'Breakfast') { icon = require('../icons/food/breakfast.png') }
+    else if (meal === 'Lunch') { icon = require('../icons/food/lunch.png') }
+    else if (meal === 'Dinner') { icon = require('../icons/food/dinner.png') }
+    else { icon = require('../icons/food/breakfast.png')}
     return (
         <View style={{
             flexDirection: 'row',
             justifyContent: 'space-between',
             alignItems: 'center',
-            backgroundColor: inverse ? myColors.navy : myColors.offWhite, 
-            borderColor: inverse ? myColors.navy : null,
-            borderWidth: inverse ? 5 : null,
-            paddingVertical: 5,
+            paddingVertical: 10,
+            borderRadius:10,
+            backgroundColor: myColors.offWhite,
             paddingHorizontal: 8,
-            width: windowWidth*0.9-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
-            borderRadius: 10,
+            width: (windowWidth*0.85)-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
             marginBottom: 8,
-            marginHorizontal: 8,
         }}>
-            <Text style={{
-                flex: 1,
-                flexWrap: 'wrap',
-                textAlign: 'left',
-                fontWeight: '300',
-                fontSize: 15,
-                color: inverse ? myColors.white : myColors.navy, 
-            }}>{label}</Text>
-            <View style={{
-                flexDirection: 'row',
-            }}>
-                 <TouchableOpacity style={{ padding: 4 }} onPress = {()=>{}} ><ThumbsUp stroke={myColors.navy} strokeWidth={1.4} width={22} height={22}/></TouchableOpacity>
-                 <TouchableOpacity style={{ padding: 4 }} onPress = {()=>{}}><ThumbsDown stroke={myColors.navy} strokeWidth={1.4} width={22} height={22}/></TouchableOpacity>
+            <View style={{flexDirection:'row', alignItems:'center'}}>
+                <Image
+                    source={icon}
+                    resizeMode='contain'
+                    style={{
+                        width: 24,
+                        height: 24,
+                        tintColor: inverse ? myColors.navy : myColors.navy,
+                        marginRight: 8,
+                    }}
+                />  
+                <View>
+                    <Text style={{
+                        flex: 1,
+                        flexWrap: 'wrap',
+                        textAlign: 'left',
+                        fontWeight: '600',
+                        fontSize: 14,
+                        color: inverse ? myColors.white : myColors.navy,
+                        paddingBottom: 3,
+                    }}>{label}</Text>
+                    <View style={{flexDirection: 'row'}}>
+                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: 12, width: windowWidth*0.17}}>{calories} Kcals</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: 12, width: windowWidth*0.18}}>{carbs} carbs</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: 12, width: windowWidth*0.20}}>{protein} protein</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: 12, width: windowWidth * 0.15 }}>{fat} fat</Text>
+                    </View>
+                </View>                
             </View>
         </View>
 

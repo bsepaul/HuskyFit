@@ -169,6 +169,7 @@ const MealScreen = ({ navigation }) => {
       "Protein": food["Protein"],
       "Total fat": food["Total Fat"],
       "Dining hall": food["Dining Hall"],
+      "Meal": food["Meal"],
       "Date": selectedDate,
     });
 

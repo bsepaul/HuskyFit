@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import { StyleSheet, Text, View, Image, SafeAreaView, Platform, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Dimensions, ScrollView, TouchableOpacity } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ProgressChart } from 'react-native-chart-kit';
 import React, { useState } from "react";
@@ -189,10 +189,13 @@ export default function Foodlog({navigation, label, inverse=false}) {
                     <CustomFoodLogButton
                       key={food.id}
                       label={food["Food item"]}
-                      infoOnPress={() => {}}
-                      addOnPress={() => {}}
-                    />); 
-                })}
+                      calories={food["Calories"]}
+                      carbs={food["Carbs"]}
+                      protein={food["Protein"]}
+                      fat={food["Total fat"]}
+                      meal={food["Meal"]}
+                    />);
+                  })}
               </ScrollView>
             </View>
           </View>
@@ -268,9 +271,10 @@ const styles = StyleSheet.create({
     elevation: 7,
   },
   list: {
+    alignItems: 'center',
     minHeight: 0,
     maxHeight: windowHeight*0.3,
-    width: windowWidth*0.9,
+    width: windowWidth*0.85,
     marginTop: 5,
     marginBottom: 10,
     paddingTop: 8,
