@@ -247,7 +247,7 @@ export default function HomeScreen({navigation}) {
           }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Check stroke={myColors.navy} width={90} height={90} />
+              <Check stroke={myColors.navy} width={70} height={70} />
               <Text style={styles.modalText}>Food logged!</Text>
             </View>
           </View>
@@ -429,6 +429,7 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: 'white',
     borderRadius: 20,
+    opacity: 0.92,
     padding: 35,
     alignItems: 'center',
     shadowColor: '#000',
@@ -443,11 +444,11 @@ const styles = StyleSheet.create({
   modalText: {
     textAlign: 'center',
     fontFamily: "System",
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "500",
     color: myColors.navy,
-    paddingVertical: 10,
-    paddingHorizontal:12,
+    paddingVertical: 8,
+    paddingHorizontal:8,
   },
 });
 

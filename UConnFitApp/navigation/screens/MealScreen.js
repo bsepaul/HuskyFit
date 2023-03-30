@@ -1,8 +1,8 @@
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, ScrollView, Dimensions, useEffect, Alert} from 'react-native';
+import { StyleSheet, View, Modal, SafeAreaView, TouchableOpacity, Text, ScrollView, Dimensions } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
-import { ChevronLeft } from "react-native-feather";
+import { ChevronLeft, Check } from "react-native-feather";
 import CustomButtonArrow from '../../assets/Components/CustomButtonArrow'; 
 import CustomFoodItemButton from '../../assets/Components/CustomFoodItemButton';
 
@@ -21,6 +21,7 @@ const MealScreen = ({ navigation }) => {
   const [showBreakfast, setBreakfast] = React.useState(false)
   const [showLunch, setLunch]         = React.useState(false)
   const [showDinner, setDinner] = React.useState(false)
+  const [modalVisible, setModalVisible] = React.useState(false);
   
   // get dates of yesterday, today and tomorrow
   var yesterday = new Date();
@@ -91,15 +92,6 @@ const MealScreen = ({ navigation }) => {
       setDinnerFoods(temp_foods);
     }
   }
-  const alertSuccess = () => {
-    const title = 'Success';
-    const message = 'Food successfully added to log.';
-    const emptyArrayButtons = [];
-    const alertOptions = {
-      cancelable: true,
-    };
-    Alert.alert(title, message, emptyArrayButtons, alertOptions);
-  };
 
   const getMeal = async (meal, date) => {
     // Make API call based on dining hall name and meal selected
@@ -124,7 +116,6 @@ const MealScreen = ({ navigation }) => {
         setFoods(json, meal); // set the food list based on the json data and the meal type
       })
       .catch(error => console.log('error', error)); 
-      //alertSuccess(); 
   };
 
   const showMeal = (meal) => {
@@ -194,7 +185,7 @@ const MealScreen = ({ navigation }) => {
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
 
-      alertSuccess(); 
+    setModalVisible(true);
 
   }
 
@@ -206,6 +197,23 @@ const MealScreen = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.content}>
+        <Modal
+          animationType="fade"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => {
+            setModalVisible(!modalVisible);
+            }}
+            onShow={() => {
+              setTimeout(() => {  setModalVisible(false); }, 500);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Check stroke={myColors.navy} width={70} height={70} />
+              <Text style={styles.modalText}>Food logged!</Text>
+            </View>
+          </View>
+        </Modal>
         <View style={{flexDirection:'row', justifyContent: 'flex-start', alignContent:'center', paddingRight:46}}>
             <TouchableOpacity
                 style={{ paddingHorizontal: 5 }}
@@ -272,7 +280,6 @@ const MealScreen = ({ navigation }) => {
                       infoOnPress={() => goToNutrition(food)}
                       addOnPress={() => logFood(food)}
                     />); 
-                    alertSuccess(); 
                 })}
               </ScrollView>
             </View> :
@@ -293,7 +300,6 @@ const MealScreen = ({ navigation }) => {
                       infoOnPress={() => goToNutrition(food)}
                       addOnPress={() => logFood(food)}
                     />);
-                    alertSuccess();
                 })}
               </ScrollView>
             </View> :
@@ -314,7 +320,6 @@ const MealScreen = ({ navigation }) => {
                       infoOnPress={() => goToNutrition(food)}
                       addOnPress={() => logFood(food)}
                     />);
-                    alertSuccess(); 
                 })}
               </ScrollView>
               </View> :
@@ -387,6 +392,37 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     borderRadius: 15,
     alignItems: 'center',
-  }
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    opacity: 0.92,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    textAlign: 'center',
+    fontFamily: "System",
+    fontSize: 16,
+    fontWeight: "500",
+    color: myColors.navy,
+    paddingVertical: 8,
+    paddingHorizontal:8,
+  },
 });
 export default MealScreen
