@@ -16,12 +16,14 @@ import {
 } from "react-native";
 import CustomButton from "../../assets/Components/CustomButton";
 import { myColors } from "../../assets/styles/ColorPalette";
-import {Dropdown} from 'react-native-element-dropdown';
+// import {Dropdown} from 'react-native-element-dropdown';
 import { MultiSelect } from 'react-native-element-dropdown';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
+
+// all data for dropdown selections
 const allDietaryRestrictionsData = [
     { label: 'Vegetarian', value: '1' },
     { label: 'Vegan', value: '2' },
@@ -30,9 +32,6 @@ const allDietaryRestrictionsData = [
     { label: 'Contains Nuts', value: '5' },
     { label: 'Less Sodium', value: '6' },
   ];
-
-
-  //Fish, Soybeans, Wheat, Gluten, Milk, Tree Nuts, Eggs, Sesame, Crustacean Shellfish
 const allAllergensData = [
     { label: 'Fish', value: '1' },
     { label: 'Soybeans', value: '2' },
@@ -44,8 +43,7 @@ const allAllergensData = [
     { label: 'Sesame', value: '8' },
     { label: 'Crustacean Shellfish', value: '9' },
   ];
-
-  const allDiningHallPreferenceData = [
+const allDiningHallPreferenceData = [
     { label: 'Buckley', value: '1' },
     { label: 'Gelfenbien', value: '2' },
     { label: 'McMahon', value: '3' },
@@ -56,8 +54,8 @@ const allAllergensData = [
     { label: 'Whitney', value: '8' },
   ]
 
-   // Alert code - response successfully added to database
-   const alertSuccess = () => {
+// alert code
+const alertSuccess = () => {
     const title = 'Success';
     const message = 'Response successfully logged.';
     const emptyArrayButtons = [];
@@ -66,9 +64,7 @@ const allAllergensData = [
     };
     Alert.alert(title, message, emptyArrayButtons, alertOptions);
   };
-  
-  // Alert code - error adding response to database
-  const alertFailure = () => {
+const alertFailure = () => {
     const title = 'Error';
     const message = 'Please make sure you enter your height and weight.';
     const emptyArrayButtons = [];
@@ -78,33 +74,48 @@ const allAllergensData = [
     Alert.alert(title, message, emptyArrayButtons, alertOptions);
   };
 
+// main code
 const Survey = ({ navigation }) => {
+  // initialize values to be sent to API
+
+  // height - string
   const [Height, setHeight] = useState("");
-  const [heightFt, setHeightFt] = useState(0);
+  // height (helper variables)
+  const [heightFt, setHeightFt] = useState(0);  
   const [heightIn, setHeightIn] = useState(0);
+  // weight - string
   const [Weight, setWeight] = useState("");
-  const [Allergens, setAllergens] = useState("");
+  // allergens - string array
+  const [Allergens, setAllergens] = useState('');
+  const [selectedAllergens, setSelectedAllergens] = React.useState([]);     // dropdown array
+  // dietary restrictions - string array
   const [DietaryRestrictions, setDietaryRestrictions] = useState('');
-  const [DiningHallPreference, setDiningHallPreference] = useState('')
+  const [selectedDietary, setSelectedDietary] = React.useState([]);         // dropdown array
+  // dining hall preferences - string array
+  const [DiningHallPreferences, setDiningHallPreferences] = useState('');
+  const [selectedDiningHalls, setSelectedDiningHalls] = React.useState([]); // dropdown array
 
-  const [selectedAllergens, setSelectedAllergens] = React.useState([]);
-  const [selectedRest, setSelectedRest] = React.useState([]);
+  [allergensLabels] = React.useState([]);
+  [dietaryLabels] = React.useState([]);
+  [diningHallsLabels] = React.useState([]);
 
-    // Get token from route
-    const route = useRoute();
-    const token = route.params.token;
+  // get token from route
+  const route = useRoute();
+  const token = route.params.token;
 
+  // code to render text for dropdown selection
   const renderDataItem = (item) => {
     return (
         <View style={styles.item}>
             <Text style={styles.selectedTextStyle}>{item.label}</Text>
         </View>
     );
-};
+  };
 
+  // handler functions (not needed?)
   const handleHeight = (text) => {
     setHeight(text);
-  };
+};
   const handleHeightFt = (text) => {
     setHeightFt(text);
   };
@@ -120,20 +131,32 @@ const Survey = ({ navigation }) => {
   const handleDietaryRestrictions = (text) => {
     setDietaryRestrictions(text);
   };
- 
   const [isFocus, setIsFocus] = useState(false); 
 
-  // placeholder variables for calculating user's height in inches, for call to API
-  // var heightFt, heightIn;
-
+  // survey handler function
   const handleSurvey = () => {
     (async () => {
+
+      // convert data into compatible formats
+      // convert all allergens to string arrays
+      for (var x = 0; x < selectedAllergens.length; x++) {
+        allergensLabels.push(allAllergensData[selectedAllergens[x]-1].label)
+      }
+      // convert all dietary restrictions to string arrays
+      for (var x = 0; x < selectedDietary.length; x++) {
+        dietaryLabels.push(allDietaryRestrictionsData[selectedDietary[x]-1].label)
+      }
+      // convert all dining halls to string arrays
+      for (var x = 0; x < selectedDiningHalls.length; x++) {
+        diningHallsLabels.push(allDiningHallPreferenceData[selectedDiningHalls[x]-1].label)
+      }
+      // data to be passed to API
       var raw = JSON.stringify({
         "Height": Height,
         "Weight": Weight,
-        "Allergens": Allergens,
-        "Dietary_Restrictions": DietaryRestrictions,
-        "Dining_Hall_Preference": DiningHallPreference
+        "Allergens" : selectedAllergens,
+        "Dietary_Restrictions": selectedDietary,
+        "Dining_Hall_Preferences": selectedDiningHalls
       });
 
       // Make sure user isn't leaving any required fields empty
@@ -160,6 +183,9 @@ const Survey = ({ navigation }) => {
       .then((result) => console.log(result))
       .catch(error => console.log('error', error));
       
+      console.log("Allergens set: ", allergensLabels)
+      console.log("Restrictions set: ", dietaryLabels)
+      console.log("Dining halls set: ", diningHallsLabels)
       alertSuccess();
 
       navigation.goBack()
@@ -240,6 +266,22 @@ const Survey = ({ navigation }) => {
                 searchPlaceholder="Search..."
                 onChange={selected => {
                   setSelectedAllergens(selected);
+                  // setAllergens(selected);
+                  // setallergensLabels(selected.label)
+                  // console.log(selectedAllergens)
+
+                  // deubugging
+                  // allergensLabels = []
+                  // // console.log("data check: ", allAllergensData[1])
+                  // for (var x = 0; x < selectedAllergens.length; x++) {
+                  //   // console.log(selectedAllergens[x])
+                  //   // setAllergensLabels(allAllergensData[item].label)
+                  //   allergensLabels.push(allAllergensData[selectedAllergens[x]-1].label)
+                  //   // console.log("- ", allergensLabels)
+                  // }
+                  // console.log(allergensLabels)
+                  // console.log(selectedAllergens[0])
+                  // console.log(allAllergensData[selectedAllergens[0]].label)
                 }}
                 
                 renderItem={renderDataItem}
@@ -261,14 +303,14 @@ const Survey = ({ navigation }) => {
                 labelField="label"
                 valueField="value"
                 placeholder="Dietary Restrictions"
-                value={selectedRest}
+                value={selectedDietary}
                 search
                 maxHeight={250}
                 searchPlaceholder="Search..."
                 onChange={item2 => {
-                    // setSelected(item);
-                    setSelectedRest(item2)
-                    setDietaryRestrictions(item2.label);
+                    setSelectedDietary(item2)
+                    // setDietaryLabels(item2.label)
+                    // setDietaryRestrictions(item2.label);
                 }}
                 
                 renderItem={renderDataItem}
@@ -283,7 +325,7 @@ const Survey = ({ navigation }) => {
             <StatusBar />
         </View>
 
-        <Dropdown
+        {/* <Dropdown
             style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
             placeholderStyle={styles.placeholderStyle}
             selectedTextStyle={styles.selectedTextStyle}
@@ -299,10 +341,40 @@ const Survey = ({ navigation }) => {
             onFocus={() => setIsFocus(true)}
             onBlur={() => setIsFocus(false)}
             onChange={item => {
-              setDiningHallPreference(item.label);
+              setDiningHallPreferences(item.label);
               setIsFocus(false);
             }}
-          />
+          /> */}
+            <MultiSelect
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                data={allDiningHallPreferenceData}
+                labelField="label"
+                valueField="value"
+                placeholder="Preferred Dining Halls"
+                value={selectedDiningHalls}
+                search
+                maxHeight={250}
+                searchPlaceholder="Search..."
+                onChange={hall => {
+                    // setSelected(item);
+                    setSelectedDiningHalls(hall)
+                    // setDiningHallsLabels(hall.label)
+                    // setDiningHallPreferences(hall.label);
+                }}
+                
+                renderItem={renderDataItem}
+                renderSelectedItem={(hall, unSelect) => (
+                    <TouchableOpacity onPress={() => unSelect && unSelect(hall)}>
+                        <View style={styles.selectedStyle}>
+                            <Text style={styles.selectedTextList}>{hall.label} </Text>
+                        </View>
+                    </TouchableOpacity>
+                )}
+            />
 
 
         <CustomButton label={"Submit"} onPress={handleSurvey} style={{width:windowWidth*.45}}/>
