@@ -22,7 +22,6 @@ import { MultiSelect } from 'react-native-element-dropdown';
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-
 // all data for dropdown selections
 const allDietaryRestrictionsData = [
     { label: 'Vegetarian', value: '1' },
@@ -86,13 +85,13 @@ const Survey = ({ navigation }) => {
   // weight - string
   const [Weight, setWeight] = useState("");
   // allergens - string array
-  const [Allergens, setAllergens] = useState('');
+  // const [Allergens, setAllergens] = useState('');
   const [selectedAllergens, setSelectedAllergens] = React.useState([]);     // dropdown array
   // dietary restrictions - string array
-  const [DietaryRestrictions, setDietaryRestrictions] = useState('');
+  // const [DietaryRestrictions, setDietaryRestrictions] = useState('');
   const [selectedDietary, setSelectedDietary] = React.useState([]);         // dropdown array
   // dining hall preferences - string array
-  const [DiningHallPreferences, setDiningHallPreferences] = useState('');
+  // const [DiningHallPreferences, setDiningHallPreferences] = useState('');
   const [selectedDiningHalls, setSelectedDiningHalls] = React.useState([]); // dropdown array
 
   [allergensLabels] = React.useState([]);
@@ -112,27 +111,6 @@ const Survey = ({ navigation }) => {
     );
   };
 
-  // handler functions (not needed?)
-  const handleHeight = (text) => {
-    setHeight(text);
-};
-  const handleHeightFt = (text) => {
-    setHeightFt(text);
-  };
-  const handleHeightIn = (text) => {
-    setHeightIn(text);
-  };
-  const handleWeight = (text) => {
-    setWeight(text);
-  };
-  const handleAllergies = (text) => {
-    setAllergies(text);
-  };
-  const handleDietaryRestrictions = (text) => {
-    setDietaryRestrictions(text);
-  };
-  const [isFocus, setIsFocus] = useState(false); 
-
   // survey handler function
   const handleSurvey = () => {
     (async () => {
@@ -150,6 +128,9 @@ const Survey = ({ navigation }) => {
       for (var x = 0; x < selectedDiningHalls.length; x++) {
         diningHallsLabels.push(allDiningHallPreferenceData[selectedDiningHalls[x]-1].label)
       }
+      // convert height data into format ft'in
+      setHeight(`${heightFt}'${heightIn}`)
+
       // data to be passed to API
       var raw = JSON.stringify({
         "Height": Height,
@@ -158,12 +139,16 @@ const Survey = ({ navigation }) => {
         "Dietary_Restrictions": dietaryLabels,
         "Dining_Hall_Preferences": diningHallsLabels
       });
+      // console.log(raw)
 
       // Make sure user isn't leaving any required fields empty
       if( !Height || !Weight) { 
-        alertFailure();
-        console.log("fail");
-        return; // Don't do API call if invalid data
+        setHeight(`${heightFt}'${heightIn}`)
+        if( !Height || !Weight) {
+          alertFailure();
+          console.log("fail");
+          return; // Don't do API call if invalid data
+        }
       }
 
       var requestOptions = {
@@ -182,10 +167,7 @@ const Survey = ({ navigation }) => {
       .then(response => response.text())
       .then((result) => console.log(result))
       .catch(error => console.log('error', error));
-      
-      // console.log("Allergens set: ", allergensLabels)
-      // console.log("Restrictions set: ", dietaryLabels)
-      // console.log("Dining halls set: ", diningHallsLabels)
+
       alertSuccess();
 
       navigation.goBack()
@@ -216,11 +198,9 @@ const Survey = ({ navigation }) => {
               placeholder="Height (ft)"
               placeholderTextColor={myColors.navy}
               autoCapitalize="none"
-              // onChangeText={(Height) => setHeight(Height)}
               onChangeText={(heightFt) => {
                 setHeightFt(heightFt);
-                setHeight((heightFt*12) + heightIn);
-                // console.log(heightFt, "ft");
+                setHeight(`${heightFt}'${heightIn}`)
               }}
             />
           </View>
@@ -231,10 +211,9 @@ const Survey = ({ navigation }) => {
               placeholder="(in)"
               placeholderTextColor={myColors.navy}
               autoCapitalize="none"
-              // onChangeText={(Height) => setHeight(Height)}
               onChangeText={(heightIn) => {
                 setHeightIn(heightIn);
-                setHeight(parseFloat((heightFt*12)) + parseFloat(heightIn));
+                setHeight(`${heightFt}'${heightIn}`)
               }}
               />
           </View>
@@ -266,22 +245,6 @@ const Survey = ({ navigation }) => {
                 searchPlaceholder="Search..."
                 onChange={selected => {
                   setSelectedAllergens(selected);
-                  // setAllergens(selected);
-                  // setallergensLabels(selected.label)
-                  // console.log(selectedAllergens)
-
-                  // deubugging
-                  // allergensLabels = []
-                  // // console.log("data check: ", allAllergensData[1])
-                  // for (var x = 0; x < selectedAllergens.length; x++) {
-                  //   // console.log(selectedAllergens[x])
-                  //   // setAllergensLabels(allAllergensData[item].label)
-                  //   allergensLabels.push(allAllergensData[selectedAllergens[x]-1].label)
-                  //   // console.log("- ", allergensLabels)
-                  // }
-                  // console.log(allergensLabels)
-                  // console.log(selectedAllergens[0])
-                  // console.log(allAllergensData[selectedAllergens[0]].label)
                 }}
                 
                 renderItem={renderDataItem}
@@ -309,8 +272,6 @@ const Survey = ({ navigation }) => {
                 searchPlaceholder="Search..."
                 onChange={item2 => {
                     setSelectedDietary(item2)
-                    // setDietaryLabels(item2.label)
-                    // setDietaryRestrictions(item2.label);
                 }}
                 
                 renderItem={renderDataItem}
@@ -360,10 +321,7 @@ const Survey = ({ navigation }) => {
                 maxHeight={250}
                 searchPlaceholder="Search..."
                 onChange={hall => {
-                    // setSelected(item);
                     setSelectedDiningHalls(hall)
-                    // setDiningHallsLabels(hall.label)
-                    // setDiningHallPreferences(hall.label);
                 }}
                 
                 renderItem={renderDataItem}
@@ -447,7 +405,7 @@ const styles = StyleSheet.create({
     height: 50,
     borderColor: myColors.grey,
     borderWidth: 0.5,
-    width: windowWidth * .45,
+    width: windowWidth * .46,
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 5,
