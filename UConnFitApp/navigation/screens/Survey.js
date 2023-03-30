@@ -154,9 +154,9 @@ const Survey = ({ navigation }) => {
       var raw = JSON.stringify({
         "Height": Height,
         "Weight": Weight,
-        "Allergens" : selectedAllergens,
-        "Dietary_Restrictions": selectedDietary,
-        "Dining_Hall_Preferences": selectedDiningHalls
+        "Allergens" : allergensLabels,
+        "Dietary_Restrictions": dietaryLabels,
+        "Dining_Hall_Preferences": diningHallsLabels
       });
 
       // Make sure user isn't leaving any required fields empty
@@ -183,9 +183,9 @@ const Survey = ({ navigation }) => {
       .then((result) => console.log(result))
       .catch(error => console.log('error', error));
       
-      console.log("Allergens set: ", allergensLabels)
-      console.log("Restrictions set: ", dietaryLabels)
-      console.log("Dining halls set: ", diningHallsLabels)
+      // console.log("Allergens set: ", allergensLabels)
+      // console.log("Restrictions set: ", dietaryLabels)
+      // console.log("Dining halls set: ", diningHallsLabels)
       alertSuccess();
 
       navigation.goBack()
