@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
         padding:10,
         borderRadius:5,
         backgroundColor: myColors.offWhite,
-        fontsize:18
+        fontSize:18
     },
     button:{
         height:55,
