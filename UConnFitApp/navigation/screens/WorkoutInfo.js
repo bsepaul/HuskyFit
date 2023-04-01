@@ -17,22 +17,6 @@ import {
 } from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
-const allWorkoutTypeData = [
-  { label: 'High Intensity Interval Training', value: '8' },
-  { label: 'Stair Stepper', value: '9' },
-  { label: 'Jump Rope', value: '10' },
-  { label: 'Core Training', value: '5.5' },
-  { label: 'Dance', value: '5' },
-  { label: 'Elliptical', value: '5' },
-  { label: 'Rower', value: '7' },
-  { label: 'Pilates', value: '3' },
-  { label: 'Basketball', value: '8' },
-  { label: 'Volleyball', value: '4' },
-  { label: 'Soccer', value: '9.5' },
-  { label: 'Badmitten', value: '5' },
-  { label: 'Raquetball', value: '8.6' },
-];
-
 const allWorkoutTypesInfo = [
   { label: 'High Intensity Interval Training', value: '8' },
   { label: 'Stair Stepper', value: '9' },
@@ -53,21 +37,6 @@ const allWorkoutTypesInfo = [
   { label: 'Yoga', value: '3' },
   { label: 'Swimming', value: '5.5' },
   { label: 'Biking', value: '8' },
-];
-
-const allTimeElapsedData = [
-  { label: '0-10 minutes', value: '1' },
-  { label: '10-20 minutes', value: '2' },
-  { label: '20-30 minutes', value: '3' },
-  { label: '30-40 minutes', value: '4' },
-  { label: '40-50 minutes', value: '5' },
-  { label: '50-60 minutes', value: '6' },
-  { label: '60-70 minutes', value: '7' },
-  { label: '70-80 minutes', value: '8' },
-  { label: '80-90 minutes', value: '9' },
-  { label: '90-100 minutes', value: '10' },
-  { label: '100-110 minutes', value: '11' },
-  { label: '110-120 minutes', value: '12' },
 ];
 
 const allWorkoutIntensityData = [
@@ -93,70 +62,52 @@ const WorkoutInfo = ({ navigation }) => {
   const [WorkoutIntensity, setWorkoutIntensity] = useState('');
   const [CaloriesBurned, setCaloriesBurned] = useState('');
   const [isFocus, setIsFocus] = useState(false);
-  const [weight, setWeight] = useState('');
   const [userWeight, setUserWeight] = useState('');
-  
-  
-  const handleCaloriesBurned = () => {
-    ( async () => {
-      raw = '';
-      var requestOptions = {
-        method: 'GET',
-        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
-              "Authorization": token},
-        body: raw,
-        redirect: 'follow'
-      };
-      
-      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info", requestOptions)
-        .then(response => response.text())
-        .then(result => {
-          if (result != '') {
-            let json = JSON.parse(result);
-            if (json.Weight != undefined) {
-              setWeight(json.Weight);
-              setUserWeight(true);
-            } else {
-              setUserWeight(false);
-            }
-          }
-        })
-        .catch(error => console.log('error', error));
 
-        let workoutTypeValue = null;
-        for (let i = 0; i < allWorkoutTypesInfo.length; i++) {
-          if (allWorkoutTypesInfo[i].label === WorkoutType) {
-            workoutTypeValue = allWorkoutTypesInfo[i].value;
-          }
-        }
+  const handleCaloriesBurned = async () => {
 
-        let weightInPounds = weight;
-        let metValue = workoutTypeValue;
-        if (WorkoutIntensity === 'Low') {
-          metValue -= 1;
-        } else if (WorkoutIntensity === 'High') {
-          metValue += 1;
-        }
+    let calories = 0;
 
-        let calories = metValue * 3.5 * weightInPounds * 0.45359237 * parseInt(TimeElapsed) / 200;
-        calories = Math.round(calories);
-        setCaloriesBurned(calories);
-    })();
-  };
-
-  useEffect(() => {
-    setCaloriesBurned(handleCaloriesBurned);
-},[TimeElapsed]);
-
-  // Alert code - workout successfully added to log
-  const alertSuccess = () => {
-    const title = 'Success';
-    const message = 'Exercise successfully added to log.';
-    const emptyArrayButtons = [];
-    const alertOptions = {
-      cancelable: true,
+    raw = '';
+    var requestOptions = {
+      method: 'GET',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+            "Authorization": token},
+      body: raw,
+      redirect: 'follow'
     };
-    Alert.alert(title, message, emptyArrayButtons, alertOptions);
+    
+    await fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info", requestOptions)
+      .then(response => response.text())
+      .then(result => {
+        if (result != '') {
+          let json = JSON.parse(result);
+          if (json.Weight != undefined) {
+            setUserWeight(true);
+            let metValue = null;
+            for (let i = 0; i < allWorkoutTypesInfo.length; i++) {
+              if (allWorkoutTypesInfo[i].label === WorkoutType) {
+                metValue = parseInt(allWorkoutTypesInfo[i].value);
+              }
+            }
+            if (WorkoutIntensity === 'Low') {
+              metValue -= 1;
+            } else if (WorkoutIntensity === 'High') {
+              metValue += 1;
+            }
+          
+            calories = (metValue * 3.5 * (json.Weight) * 0.45359237 * parseInt(TimeElapsed)) / 200;
+            calories = Math.round(calories);
+            // setCaloriesBurned(calories);
+          } else {
+            setUserWeight(false);
+          }
+        }
+      })
+      .catch(error => console.log('error', error));
+
+    return calories;
+    
   };
   
   // Alert code - error adding workout to log
@@ -170,41 +121,38 @@ const WorkoutInfo = ({ navigation }) => {
     Alert.alert(title, message, emptyArrayButtons, alertOptions);
   };
 
-  const addWorkout = () => {
-    (async () => {
-      // Add as many or as little attributes as you want!
-      var raw = JSON.stringify({
-              "WorkoutType": WorkoutType,
-              "TimeElapsed": TimeElapsed,
-              "CaloriesBurned": CaloriesBurned,
-              "WorkoutIntensity": WorkoutIntensity
-          });
-      // Make sure user isn't leaving any required fields empty
-      if( !WorkoutType || !TimeElapsed || !WorkoutIntensity ) { 
-        alertFailure();
-        console.log("fail");
-        return; // Don't do API call if invalid data
-      }
+  const addWorkout = async () => {
+    let calories = CaloriesBurned;
+    if (CaloriesBurned === '') {
+      console.log("No calories entered... computing them based on input.")
+      calories = await handleCaloriesBurned();
+    }
+    var raw = JSON.stringify({
+            "WorkoutType": WorkoutType,
+            "TimeElapsed": TimeElapsed,
+            "CaloriesBurned": calories,
+            "WorkoutIntensity": WorkoutIntensity
+        });
+    // Make sure user isn't leaving any required fields empty
+    if( !WorkoutType || !TimeElapsed || !WorkoutIntensity ) { 
+      alertFailure();
+      console.log("fail");
+      return; // Don't do API call if invalid data
+    }
 
-      var requestOptions = {
-        method: 'PUT',
-        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
-        "Content-Type": "application/json",
-        "Authorization": token},
-        body: raw,
-        redirect: 'follow'
-      };
+    var requestOptions = {
+      method: 'PUT',
+      headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+      "Content-Type": "application/json",
+      "Authorization": token},
+      body: raw,
+      redirect: 'follow'
+    };
 
-      fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
+    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
-
-      alertSuccess();
-      navigation.navigate('WorkoutScreen', {token: token});
-  })()
-  // alertSuccess();
-  // navigation.navigate('WorkoutScreen', {token: token});
   }
 
   return (
@@ -219,7 +167,7 @@ const WorkoutInfo = ({ navigation }) => {
             selectedTextStyle={styles.selectedTextStyle}
             inputSearchStyle={styles.inputSearchStyle}
             iconStyle={styles.iconStyle}
-            data={allWorkoutTypeData}
+            data={allWorkoutTypesInfo}
             search
             maxHeight={300}
             labelField="label"
@@ -261,7 +209,7 @@ const WorkoutInfo = ({ navigation }) => {
                 placeholderTextColor={myColors.darkGrey}
                 style={styles.input}
                 keyboardType='number-pad'
-                onChangeText={(time) => {setTimeElapsed(time); setCaloriesBurned(handleCaloriesBurned);}}
+                onChangeText={(time) => {setTimeElapsed(time);}}
               />
               <Text style={styles.units}>mins</Text>
             </View>
@@ -271,20 +219,18 @@ const WorkoutInfo = ({ navigation }) => {
                 placeholderTextColor={myColors.darkGrey}
                 style={styles.input}
                 keyboardType='number-pad'
-                value = {CaloriesBurned}
                 onChangeText={(value) => {setCaloriesBurned(value);}}
               >
               </TextInput>
               <Text style={styles.units}>Kcals</Text>
             </View>
           </View>
-          <CustomRecButton label={'Submit'} onPress={addWorkout} />
+          <CustomRecButton label={'Submit'} onPress={() => { addWorkout(); }} />
 
           <View
           style={{
             flexDirection: "row",
             justifyContent: "center",
-            // marginBottom: 30,
             marginTop: 20
           }}
         >
