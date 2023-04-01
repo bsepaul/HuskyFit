@@ -1,7 +1,8 @@
 import { useRoute } from '@react-navigation/native';
-import InputField from '../../assets/Components/InputField';
 import { myColors } from '../../assets/styles/ColorPalette';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import { Modal, SafeAreaView } from 'react-native';
+import { Check } from "react-native-feather";
 import CustomRecButton from '../../assets/Components/CustomRecButton';
 import fetch from 'node-fetch'
 import {
@@ -63,6 +64,7 @@ const WorkoutInfo = ({ navigation }) => {
   const [CaloriesBurned, setCaloriesBurned] = useState('');
   const [isFocus, setIsFocus] = useState(false);
   const [userWeight, setUserWeight] = useState('');
+  const [modalVisible, setModalVisible] = React.useState(false);
 
   const handleCaloriesBurned = async () => {
 
@@ -149,102 +151,123 @@ const WorkoutInfo = ({ navigation }) => {
       redirect: 'follow'
     };
 
-    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
+    await fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
       .catch(error => console.log('error', error));
+    
+    setModalVisible(true);
+    setTimeout(() => {  navigation.navigate('WorkoutScreen', { token: token }); }, 500);
+
   }
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <Text style={styles.title}>Enter {otherWorkout ? 'other' : workoutType.toLowerCase()} workout</Text>
-        <View style={{padding: 20, borderRadius: 15}}>
-          { otherWorkout ? <Dropdown
-            style={[styles.dropdown, isFocus && { borderColor: myColors.navy }]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={allWorkoutTypesInfo}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={'Select Workout Type'}
-            searchPlaceholder="Select One"
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={item => {
-              setWorkoutType(item.label);
-              setIsFocus(false);
-            }}
-          /> : <View></View> }
-          
-          <Dropdown
-            style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={allWorkoutIntensityData}
-            search
-            maxHeight={300}
-            labelField="label"
-            valueField="value"
-            placeholder={'Select Workout Intensity'}
-            searchPlaceholder="Search..."
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={item => {
-              setWorkoutIntensity(item.label);
-              setIsFocus(false);
-            }}
-          />
-          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'flex-start', marginBottom:10 }}>
-            <View style={styles.inputUnits}>
-              <TextInput
-                placeholder="Time Elapsed"
-                placeholderTextColor={myColors.darkGrey}
-                style={styles.input}
-                keyboardType='number-pad'
-                onChangeText={(time) => {setTimeElapsed(time);}}
-              />
-              <Text style={styles.units}>mins</Text>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={styles.container}>
+          <Modal
+            animationType="fade"
+            transparent={true}
+            visible={modalVisible}
+            onRequestClose={() => {
+              setModalVisible(!modalVisible);
+              }}
+              onShow={() => {
+                setTimeout(() => {  setModalVisible(false); }, 500);
+            }}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <Check stroke={myColors.navy} width={70} height={70} />
+                <Text style={styles.modalText}>Workout logged!</Text>
+              </View>
             </View>
-            <View style={styles.inputUnits}>
-              <TextInput
-                placeholder="Calories (Optional)"
-                placeholderTextColor={myColors.darkGrey}
-                style={styles.input}
-                keyboardType='number-pad'
-                onChangeText={(value) => {setCaloriesBurned(value);}}
-              >
-              </TextInput>
-              <Text style={styles.units}>Kcals</Text>
+          </Modal>  
+          <StatusBar barStyle="light-content" />
+          <Text style={styles.title}>Enter {otherWorkout ? 'other' : workoutType.toLowerCase()} workout</Text>
+          <View style={{padding: 20, borderRadius: 15}}>
+            { otherWorkout ? <Dropdown
+              style={[styles.dropdown, isFocus && { borderColor: myColors.navy }]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={allWorkoutTypesInfo}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={'Select Workout Type'}
+              searchPlaceholder="Select One"
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={item => {
+                setWorkoutType(item.label);
+                setIsFocus(false);
+              }}
+            /> : <View></View> }
+            
+            <Dropdown
+              style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={allWorkoutIntensityData}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder={'Select Workout Intensity'}
+              searchPlaceholder="Search..."
+              onFocus={() => setIsFocus(true)}
+              onBlur={() => setIsFocus(false)}
+              onChange={item => {
+                setWorkoutIntensity(item.label);
+                setIsFocus(false);
+              }}
+            />
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'flex-start', marginBottom:10 }}>
+              <View style={styles.inputUnits}>
+                <TextInput
+                  placeholder="Time Elapsed"
+                  placeholderTextColor={myColors.darkGrey}
+                  style={styles.input}
+                  keyboardType='number-pad'
+                  onChangeText={(time) => {setTimeElapsed(time);}}
+                />
+                <Text style={styles.units}>mins</Text>
+              </View>
+              <View style={styles.inputUnits}>
+                <TextInput
+                  placeholder="Calories (Optional)"
+                  placeholderTextColor={myColors.darkGrey}
+                  style={styles.input}
+                  keyboardType='number-pad'
+                  onChangeText={(value) => {setCaloriesBurned(value);}}
+                >
+                </TextInput>
+                <Text style={styles.units}>Kcals</Text>
+              </View>
             </View>
-          </View>
-          <CustomRecButton label={'Submit'} onPress={() => { addWorkout(); }} />
+            <CustomRecButton label={'Submit'} onPress={() => { addWorkout(); }} />
 
-          <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            marginTop: 20
-          }}
-        >
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={{ color: myColors.navy, fontWeight: "700" }}>
-              {" "}
-              Back{" "}
-            </Text>
-          </TouchableOpacity>
-          </View>
+            <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              marginTop: 20
+            }}
+          >
+            <TouchableOpacity onPress={() => navigation.goBack()}>
+              <Text style={{ color: myColors.navy, fontWeight: "700" }}>
+                {" "}
+                Back{" "}
+              </Text>
+            </TouchableOpacity>
+            </View>
 
+          </View>
         </View>
-      </View>
-    </TouchableWithoutFeedback>
+      </TouchableWithoutFeedback>
   );
 };
 
@@ -327,5 +350,36 @@ const styles = StyleSheet.create({
   inputSearchStyle: {
     height: 40,
     fontSize: 16,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    opacity: 0.92,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    textAlign: 'center',
+    fontFamily: "System",
+    fontSize: 16,
+    fontWeight: "500",
+    color: myColors.navy,
+    paddingVertical: 8,
+    paddingHorizontal:8,
   },
 });
