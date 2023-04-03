@@ -14,9 +14,12 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
-  TouchableOpacity
+  Dimensions
 } from 'react-native';
-import {Dropdown} from 'react-native-element-dropdown';
+import { Dropdown } from 'react-native-element-dropdown';
+
+const windowWidth = Dimensions.get('window').width;
+
 
 const allWorkoutTypesInfo = [
   { label: 'High Intensity Interval Training', value: '8' },
@@ -183,7 +186,7 @@ const WorkoutInfo = ({ navigation }) => {
           </Modal>  
           <StatusBar barStyle="light-content" />
           <Text style={styles.title}>Enter {otherWorkout ? 'other' : workoutType.toLowerCase()} workout</Text>
-          <View style={{padding: 20, borderRadius: 15}}>
+          <View style={{width:windowWidth*0.7}}>
             { otherWorkout ? <Dropdown
               style={[styles.dropdown, isFocus && { borderColor: myColors.navy }]}
               placeholderStyle={styles.placeholderStyle}
@@ -248,24 +251,9 @@ const WorkoutInfo = ({ navigation }) => {
                 <Text style={styles.units}>Kcals</Text>
               </View>
             </View>
-            <CustomRecButton label={'Submit'} onPress={() => { addWorkout(); }} />
-
-            <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              marginTop: 20
-            }}
-          >
-            <TouchableOpacity onPress={() => navigation.goBack()}>
-              <Text style={{ color: myColors.navy, fontWeight: "700" }}>
-                {" "}
-                Back{" "}
-              </Text>
-            </TouchableOpacity>
-            </View>
-
           </View>
+          <CustomRecButton label={'Submit'} onPress={() => { addWorkout(); }} />
+          <CustomRecButton label={'Back'} inverse={true} onPress={() => navigation.goBack()} />
         </View>
       </TouchableWithoutFeedback>
   );
@@ -276,10 +264,9 @@ export default WorkoutInfo;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
+    padding: 30,
     justifyContent: 'center',
-    alignContent: 'center',
-    scroll: true,
+    alignItems:'center',
   },
   dropdown: {
     height: 50,
@@ -294,11 +281,11 @@ const styles = StyleSheet.create({
     marginRight: 5,
   },
   title: {
-    paddingHorizontal: 20,
     fontFamily: 'System',
     fontSize: 30,
     fontWeight: '600',
     color: myColors.navy,
+    paddingBottom:15,
   },
   input: {
     height: 34,
@@ -315,8 +302,7 @@ const styles = StyleSheet.create({
     borderColor: myColors.grey,
     borderWidth: 0.5,
     borderRadius: 8,
-    paddingLeft: 6,
-    paddingRight:6,
+    paddingHorizontal: 6,
     marginBottom: 10,
     marginRight: 10,
   },

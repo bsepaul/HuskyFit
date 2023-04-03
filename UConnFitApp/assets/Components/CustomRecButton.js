@@ -8,31 +8,24 @@ const windowWidth = Dimensions.get('window').width;
 export default function CustomRecButton({ label, onPress, inverse = false }) {
 
     return (
-        <View>
-            <TouchableOpacity 
-                onPress={ onPress }
-                style={{
-                    flexDirection: 'center',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    backgroundColor: inverse ? myColors.offWhite : myColors.navy, 
-                    borderColor: inverse ? myColors.navy : null,
-                    borderWidth: inverse ? 1 : null,
-                    padding: 20,
-                    borderRadius: 25,
-                    marginHorizontal: windowWidth*0.15,
+        <TouchableOpacity 
+            onPress={ onPress }
+            style={{
+                backgroundColor: inverse ? null : myColors.navy, 
+                paddingVertical: 15,
+                paddingHorizontal: 35,
+                borderRadius: 15,
+                marginVertical:6,
+            }}>
+            <Text 
+                style= {{
+                    textAlign: 'center', 
+                    fontWeight: '500', 
+                    fontSize: 15, 
+                    color: inverse ? myColors.navy : myColors.white,
                 }}>
-                <Text 
-                    style= {{
-                        textAlign: 'center', 
-                        fontWeight: '500', 
-                        fontSize: 15, 
-                        color: inverse ? myColors.navy : myColors.white,
-                    }}>
-                    {label}
-                </Text>
-            </TouchableOpacity>
-        </View>
-
+                {label}
+            </Text>
+        </TouchableOpacity>
     )
 }
