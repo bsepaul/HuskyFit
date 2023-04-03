@@ -21,7 +21,7 @@
     "package.json": "^0.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-native": "0.71.4",
+    "react-native": "0.71.6",
     "react-native-chart-kit": "^6.12.0",
     "react-native-element-dropdown": "^2.7.1",
     "react-native-event-listeners": "^1.0.7",

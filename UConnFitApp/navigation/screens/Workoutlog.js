@@ -27,7 +27,7 @@ const WorkoutLog = ({ navigation }) => {
           marginVertical: 8,
           marginRight: 10,
           width: 60,
-          height: 70,
+          height: 68,
           paddingVertical: 10,
           borderRadius: 15,
           alignItems: 'center', }}>
@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
   },
   subtitle: {
     fontFamily: "System",
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: "500",
     color: myColors.navy,
     marginBottom: 5,
@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
     backgroundColor: myColors.white,
     padding: 12,
     width: windowWidth * 0.66,
-    height: 70,
+    height: 68,
     marginVertical: 8,
     borderRadius: 15,
     shadowColor: myColors.grey,
