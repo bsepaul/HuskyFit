@@ -97,7 +97,7 @@ const NutritionScreen = ({ navigation }) => {
 
     // formatting the nutrition facts
     const getNutrition = useCallback(({item}) => (
-        <View key={item["id"]} style={{ width:windowWidth, height:factHeight, borderBottomWidth:1, borderBottomColor:myColors.lightGrey, paddingHorizontal:windowWidth*0.05, paddingBottom: 15, backgroundColor:(item["id"] === selectedFoodID ? myColors.lightGrey : null)}}>
+        <View key={item["id"]} style={{ width:windowWidth, height:factHeight, borderBottomWidth:1, borderBottomColor:myColors.veryLightGrey, paddingHorizontal:windowWidth*0.05, paddingBottom: 15, backgroundColor:(item["id"] === selectedFoodID ? myColors.veryLightGrey : null)}}>
             <Text style={styles.foodTitle}>{item["Food Item"]}</Text>
             {(item["Allergens"] === "") ?
                 <View>
