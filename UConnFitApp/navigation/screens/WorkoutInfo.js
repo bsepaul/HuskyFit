@@ -85,29 +85,35 @@ const WorkoutInfo = ({ navigation }) => {
     await fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info", requestOptions)
       .then(response => response.text())
       .then(result => {
+        console.log(result);
+        let weight = 150;
+        // If the user has not filled out the survey, this will return ''
         if (result != '') {
           let json = JSON.parse(result);
+          // If the user has filled out the survey but not entered their weight, json.Weight will be undefined
           if (json.Weight != undefined) {
             setUserWeight(true);
-            let metValue = null;
-            for (let i = 0; i < allWorkoutTypesInfo.length; i++) {
-              if (allWorkoutTypesInfo[i].label === WorkoutType) {
-                metValue = parseInt(allWorkoutTypesInfo[i].value);
-              }
-            }
-            if (WorkoutIntensity === 'Low') {
-              metValue -= 1;
-            } else if (WorkoutIntensity === 'High') {
-              metValue += 1;
-            }
-          
-            calories = (metValue * 3.5 * (json.Weight) * 0.45359237 * parseInt(TimeElapsed)) / 200;
-            calories = Math.round(calories);
-            // setCaloriesBurned(calories);
+            weight = json.Weight; // Set the actual weight of the user
           } else {
             setUserWeight(false);
           }
         }
+
+        // Calculate the calories based on average college student weight or their custom weight
+        let metValue = null;
+        for (let i = 0; i < allWorkoutTypesInfo.length; i++) {
+          if (allWorkoutTypesInfo[i].label === WorkoutType) {
+            metValue = parseInt(allWorkoutTypesInfo[i].value);
+          }
+        }
+        if (WorkoutIntensity === 'Low') {
+          metValue -= 1;
+        } else if (WorkoutIntensity === 'High') {
+          metValue += 1;
+        }
+      
+        calories = (metValue * 3.5 * (weight) * 0.45359237 * parseInt(TimeElapsed)) / 200;
+        calories = Math.round(calories);
       })
       .catch(error => console.log('error', error));
 
