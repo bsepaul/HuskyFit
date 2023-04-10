@@ -1,13 +1,16 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Linking, SafeAreaView, Dimensions }  from 'react-native'
+import { View, Text, StyleSheet, TextInput, Linking, SafeAreaView, Dimensions }  from 'react-native'
 import React, {useState} from "react"
-import Constants from 'expo-constants'
-import theme from '../config/theme'
+import { useRoute } from '@react-navigation/native';
 import CustomRecButton from '../../assets/Components/CustomRecButton'
 import { myColors } from '../../assets/styles/ColorPalette'
 
 const windowWidth = Dimensions.get('window').width;
 
-const BmiCalculator = ({navigation}) => {
+const BmiCalculator = ({ navigation }) => {
+    
+    const route = useRoute();
+    const token = route.params.token;
+
     const [weight, setWeight] = useState('')
     const [heightFt, setHeightFt] = useState(0);  
     const [heightIn, setHeightIn] = useState(0);
@@ -93,7 +96,7 @@ const BmiCalculator = ({navigation}) => {
                     <Text style={styles.result}>{bmi}</Text>
                     <Text style={styles.result}>{description}</Text>
                 </View>
-                <CustomRecButton label={"Back"} inverse={true} onPress={() => navigation.goBack()}/>
+                <CustomRecButton label={"Back"} inverse={true} onPress={() => navigation.navigate('UserProfile', {token:token})}/>
             </View>            
         </SafeAreaView>
 
