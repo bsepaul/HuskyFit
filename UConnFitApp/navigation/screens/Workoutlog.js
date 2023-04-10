@@ -26,8 +26,8 @@ const WorkoutLog = ({ navigation }) => {
           backgroundColor: color,
           marginVertical: 8,
           marginRight: 10,
-          width: 60,
-          height: 68,
+          paddingHorizontal: 10,
+          justifyContent:'center',
           paddingVertical: 10,
           borderRadius: 15,
           alignItems: 'center', }}>
@@ -36,7 +36,7 @@ const WorkoutLog = ({ navigation }) => {
         </View>
         <View style={styles.workout}>
           <Text style={styles.subtitle}>{ workout }</Text>
-          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
+          <View style={{flexDirection:'row', justifyContent:'space-around'}}>
             <View style={styles.stat}>
               <Clock stroke={myColors.darkGrey} strokeWidth={1.5} width={16} height={16} />
               <Text style={styles.statText}>{min} min</Text>
@@ -205,9 +205,9 @@ const styles = StyleSheet.create({
 	},
   workout: {
     backgroundColor: myColors.white,
+    justifyContent:'center',
     padding: 12,
     width: windowWidth * 0.66,
-    height: 68,
     marginVertical: 8,
     borderRadius: 15,
     shadowColor: myColors.grey,
@@ -222,7 +222,6 @@ const styles = StyleSheet.create({
   stat: {
     flexDirection: 'row',
     alignItems: 'center',
-    width: windowWidth * 0.20,
   },
   month: {
     fontFamily: 'System',
@@ -242,7 +241,7 @@ const styles = StyleSheet.create({
   list: {
     minHeight: 0,
     maxHeight: windowHeight*0.26,
-    width: windowWidth*0.9,
+    width: windowWidth*0.95,
     marginTop: 5,
     marginBottom: 10,
     paddingTop: 8,

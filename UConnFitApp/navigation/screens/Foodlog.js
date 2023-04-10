@@ -206,7 +206,7 @@ export default function Foodlog({navigation, label, inverse=false}) {
         }
         <View style={{ alignItems: 'center' }}>
           <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', params: { screen: 'DiningHalls', params: { token: token } } })}>
-            <View style={{flexDirection:'row', paddingTop:10}}>
+            <View style={{flexDirection:'row', paddingTop:2}}>
               <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
               <Text style={styles.text}>View Menus</Text>
             </View>
@@ -246,8 +246,8 @@ const styles = StyleSheet.create({
   subtitleContainer: {
     backgroundColor: myColors.mediumBlue,
     paddingHorizontal: 15,
-    marginBottom: 8,
-    marginTop:5,
+    marginBottom: 6,
+    marginTop:4,
     borderRadius: 18,
   },
   contentContainer: {

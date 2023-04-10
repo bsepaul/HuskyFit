@@ -184,9 +184,11 @@ const WorkoutInfo = ({ navigation }) => {
               </View>
             </View>
           </Modal>  
-          <StatusBar barStyle="light-content" />
-          <Text style={styles.title}>Enter {otherWorkout ? 'other' : workoutType.toLowerCase()} workout</Text>
-          <View style={{width:windowWidth*0.7}}>
+        <StatusBar barStyle="light-content" />
+        <View style={{width:windowWidth*0.8}}>
+          <Text style={styles.title}>Enter {otherWorkout ? 'other' : workoutType.toLowerCase()} workout</Text>          
+        </View>
+          <View style={{width:windowWidth*0.8}}>
             { otherWorkout ? <Dropdown
               style={[styles.dropdown, isFocus && { borderColor: myColors.navy }]}
               placeholderStyle={styles.placeholderStyle}
@@ -209,7 +211,7 @@ const WorkoutInfo = ({ navigation }) => {
             /> : <View></View> }
             
             <Dropdown
-              style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
+              style={[styles.dropdown, isFocus && {borderColor: myColors.navy, backgroundColor:myColors.white}]}
               placeholderStyle={styles.placeholderStyle}
               selectedTextStyle={styles.selectedTextStyle}
               inputSearchStyle={styles.inputSearchStyle}
@@ -229,7 +231,7 @@ const WorkoutInfo = ({ navigation }) => {
               }}
             />
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'flex-start', marginBottom:10 }}>
-              <View style={styles.inputUnits}>
+            <View style={[styles.inputBox, { width: windowWidth*0.35, marginRight: windowWidth * 0.02 }]}>
                 <TextInput
                   placeholder="Time Elapsed"
                   placeholderTextColor={myColors.darkGrey}
@@ -239,7 +241,7 @@ const WorkoutInfo = ({ navigation }) => {
                 />
                 <Text style={styles.units}>mins</Text>
               </View>
-              <View style={styles.inputUnits}>
+              <View style={[styles.inputBox, { width: windowWidth*0.43 }]}>
                 <TextInput
                   placeholder="Calories (Optional)"
                   placeholderTextColor={myColors.darkGrey}
@@ -295,16 +297,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 6,
     fontSize:12,
   },
-  inputUnits: {
+  inputBox: {
     flexDirection: 'row',
     alignItems: 'center',
     height: 34,
-    borderColor: myColors.grey,
-    borderWidth: 0.5,
+    borderBottomColor: myColors.grey,
+    borderBottomWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 6,
     marginBottom: 10,
-    marginRight: 10,
   },
   units: {
     fontFamily: 'System',
