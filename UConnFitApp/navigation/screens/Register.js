@@ -130,7 +130,7 @@ const Register = ({ navigation }) => {
     }
 
     // Make sure password has one capital letter, one lowercase, one symbol, and one number
-    if (!containsUppercase(password) || !containsLowercase(password) || !containsSpecialChars(password) || !containsNumbers(password)) {
+    if (!containsUppercase(password) || !containsLowercase(password) || !containsSpecialChars(password) || !containsNumbers(password) || (password.length < 8)) {
       setPasswordModalVisible(true);
         console.log("fail");
         return; // Don't do API call if invalid data
@@ -169,10 +169,9 @@ const Register = ({ navigation }) => {
       .then((result) => {
         // Do stuff here
         var json = JSON.parse(result);
-        console.log(json)
-        // var message = json.message
-        // console.log(message) // "User registration succesful"
-        // navigation.navigate("Login");
+        var message = json.message
+        console.log(message) // "User registration succesful"
+        navigation.navigate("Login");
       })
       .catch(error => console.log('error', error));
   };
@@ -209,6 +208,7 @@ const Register = ({ navigation }) => {
           <View style={styles.modalView}>
             <View style={{alignItems: 'flex-start'}}>
               <Text style={styles.modalText}>Password must contain:</Text>
+              <Text style={styles.modalText}>{'\u2022'} 8+ characters</Text>
               <Text style={styles.modalText}>{'\u2022'} Uppercase letter</Text>
               <Text style={styles.modalText}>{'\u2022'} Lowercase letter</Text>
               <Text style={styles.modalText}>{'\u2022'} Special character</Text>
