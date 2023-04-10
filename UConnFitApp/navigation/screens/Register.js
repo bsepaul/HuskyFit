@@ -107,6 +107,49 @@ const Register = ({ navigation }) => {
     const specialChars = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     return specialChars.test(str);
   }
+  
+  const handleLogin = () => {
+    // Calling API here
+    var raw = JSON.stringify({
+      email: email,
+      password: password,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: {
+        "x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+        "Content-Type": "application/json",
+      },
+      body: raw,
+      redirect: "follow",
+    };
+    
+    fetch(
+      "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/auth/login",
+      requestOptions
+    )
+      .then(response => response.text())
+      .then((result) => {
+        // Do stuff here
+        var json = JSON.parse(result);
+        var message = json.message // "message": "Success"
+        var token = json.token     // "token": "..."
+      
+        console.log(message)
+        console.log()
+        console.log(token)
+
+        if ((message != "Invalid input") && (message != "User does not exist.") && (message != "Incorrect username or password.")) {
+          navigation.navigate('Tabs', { screen: 'Profile', initial: false, params: { screen: 'Survey', initial: false, params: { token: token } } });
+        }
+        else {
+          alertFailure();
+        }
+        
+      })
+      .catch(error => console.log('error', error));
+  };
 
   const handleRegister = async () => {
     console.log("Registering...")
@@ -171,7 +214,7 @@ const Register = ({ navigation }) => {
         var json = JSON.parse(result);
         var message = json.message
         console.log(message) // "User registration succesful"
-        navigation.navigate("Login");
+        handleLogin();
       })
       .catch(error => console.log('error', error));
   };
