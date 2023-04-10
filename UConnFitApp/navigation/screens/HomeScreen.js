@@ -209,10 +209,17 @@ export default function HomeScreen({navigation}) {
     .then((result) => {
       if (result != '') {
         const json = JSON.parse(result);
-        for (let i = 0; i < json.length; i++) {
-          json[i].id = i;
+        // Filter out repeated foods
+        const recFoods = json.filter(
+          (thing, index, self) =>
+            index ===
+            self.findIndex((t) => t["Food Item"] === thing["Food Item"] && t["Date"] === thing["Date"] && t["Dining Hall"] === thing["Dining Hall"])
+        );
+        // GIve unique ID to each element in list
+        for (let i = 0; i < recFoods.length; i++) {
+          recFoods[i].id = i;
         }
-        setRecommendedFoods(json);
+        setRecommendedFoods(recFoods); 
       }
     })
     .catch(error => console.log('error', error));
