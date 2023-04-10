@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   TextInput,
   TouchableOpacity,
-  Image,
   ScrollView,
   StatusBar,
   StyleSheet,
@@ -15,9 +14,9 @@ import {
   Dimensions
 } from "react-native";
 import { myColors } from "../../assets/styles/ColorPalette";
-// import {Dropdown} from 'react-native-element-dropdown';
 import { MultiSelect } from 'react-native-element-dropdown';
 import CustomRecButton from "../../assets/Components/CustomRecButton";
+import { X } from "react-native-feather";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -239,9 +238,10 @@ const Survey = ({ navigation }) => {
                   renderItem={renderDataItem}
                   renderSelectedItem={(selected, unSelect) => (
                       <TouchableOpacity onPress={() => unSelect && unSelect(selected)}>
-                          <View style={styles.selectedStyle}>
-                              <Text style={styles.selectedTextList}>{selected.label}</Text>
-                          </View>
+                        <View style={styles.selectedStyle}>
+                          <X stroke={myColors.navy} strokeWidth={1.4} width={14} height={14}/>
+                          <Text style={styles.selectedTextList}>{selected.label}</Text>
+                        </View>
                       </TouchableOpacity>
                   )}
               />
@@ -266,9 +266,10 @@ const Survey = ({ navigation }) => {
                   renderItem={renderDataItem}
                   renderSelectedItem={(item2, unSelect) => (
                       <TouchableOpacity onPress={() => unSelect && unSelect(item2)}>
-                          <View style={styles.selectedStyle}>
-                              <Text style={styles.selectedTextList}>{item2.label} </Text>
-                          </View>
+                      <View style={styles.selectedStyle}>
+                        <X stroke={myColors.navy} strokeWidth={1.4} width={14} height={14}/>
+                        <Text style={styles.selectedTextList}>{item2.label} </Text>
+                      </View>
                       </TouchableOpacity>
                   )}
               />
@@ -295,9 +296,10 @@ const Survey = ({ navigation }) => {
               renderItem={renderDataItem}
               renderSelectedItem={(hall, unSelect) => (
                   <TouchableOpacity onPress={() => unSelect && unSelect(hall)}>
-                      <View style={styles.selectedStyle}>
-                          <Text style={styles.selectedTextList}>{hall.label} </Text>
-                      </View>
+                  <View style={styles.selectedStyle}>
+                    <X stroke={myColors.navy} strokeWidth={1.4} width={14} height={14}/>
+                    <Text style={styles.selectedTextList}>{hall.label} </Text>
+                  </View>
                   </TouchableOpacity>
               )}
           />
@@ -312,6 +314,8 @@ const Survey = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  item: {
+  },
   content: {
     width: windowWidth*0.6,
   },
@@ -366,6 +370,7 @@ const styles = StyleSheet.create({
     color: myColors.navy,
   },
   selectedTextStyle: {
+    color: myColors.navy,
     fontFamily: "System",
     fontSize: 16,
     paddingVertical: 6,
@@ -374,12 +379,17 @@ const styles = StyleSheet.create({
   selectedTextList: {
     fontFamily: "System",
     fontSize: 14,
-    paddingVertical: 3,
-    paddingRight: 3,
+    color:myColors.navy,
   },
   selectedStyle: {
+    flexDirection: 'row',
+    alignItems:'center',
+    backgroundColor:myColors.veryLightGrey,
     paddingVertical: 5,
-    paddingHorizontal: 3,
+    paddingHorizontal: 8,
+    marginHorizontal:3,
+    marginVertical:3,
+    borderRadius:12,
   },
   iconStyle: {
     width: 20,
