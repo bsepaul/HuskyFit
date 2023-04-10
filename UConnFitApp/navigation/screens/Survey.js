@@ -14,10 +14,10 @@ import {
   Alert,
   Dimensions
 } from "react-native";
-import CustomButton from "../../assets/Components/CustomButton";
 import { myColors } from "../../assets/styles/ColorPalette";
 // import {Dropdown} from 'react-native-element-dropdown';
 import { MultiSelect } from 'react-native-element-dropdown';
+import CustomRecButton from "../../assets/Components/CustomRecButton";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
@@ -174,182 +174,137 @@ const Survey = ({ navigation }) => {
     })();
   };
   return (
-    <SafeAreaView
-      style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
-    >
-      <ScrollView
-        showsVerticalScrollIndicator={false}
-        style={{ paddingHorizontal: 25 }}
-      >
-        <Text
-          style={styles.title}>
-          Personal Survey
-        </Text>
-        <View
-          style={{
-            flexDirection: "row",
-            marginBottom: 25,
-          }}
-        ></View>
+    <SafeAreaView style={{ flex: 1, justifyContent: "center", alignItems: "center" }} >
+      <ScrollView showsVerticalScrollIndicator={false}>
+        <View style={styles.content}>
+          <Text style={styles.title}>
+            Personal Survey
+          </Text>
 
-        <View style={styles.textFieldSmall}>
-          <View style={styles.textFieldFt}>
-            <TextInput
-              placeholder="Height (ft)"
-              placeholderTextColor={myColors.navy}
-              autoCapitalize="none"
-              onChangeText={(heightFt) => {
-                setHeightFt(heightFt);
-                setHeight(`${heightFt}'${heightIn}`)
-              }}
-            />
-          </View>
-          
-          <View style={styles.textFieldIn}>
-            <TextInput
-              marginLeft= {10}
-              placeholder="(in)"
-              placeholderTextColor={myColors.navy}
-              autoCapitalize="none"
-              onChangeText={(heightIn) => {
-                setHeightIn(heightIn);
-                setHeight(`${heightFt}'${heightIn}`)
-              }}
+          <View style={styles.textFieldSmall}>
+            <View style={styles.textFieldFt}>
+              <TextInput
+                placeholder="Height (ft)"
+                placeholderTextColor={myColors.darkGrey}
+                autoCapitalize="none"
+                onChangeText={(heightFt) => {
+                  setHeightFt(heightFt);
+                  setHeight(`${heightFt}'${heightIn}`)
+                }}
               />
+            </View>
+            
+            <View style={styles.textFieldIn}>
+              <TextInput
+                marginLeft= {10}
+                placeholder="(in)"
+                placeholderTextColor={myColors.darkGrey}
+                autoCapitalize="none"
+                onChangeText={(heightIn) => {
+                  setHeightIn(heightIn);
+                  setHeight(`${heightFt}'${heightIn}`)
+                }}
+                />
+            </View>
           </View>
-        </View>
 
-        <View style={styles.textField}>
-          <TextInput
-            placeholder="Weight (lbs)"
-            placeholderTextColor={myColors.navy}
-            autoCapitalize="none"
-            onChangeText={(Weight) => setWeight(Weight)}
+          <View style={styles.textField}>
+            <TextInput
+              placeholder="Weight (lbs)"
+              placeholderTextColor={myColors.darkGrey}
+              autoCapitalize="none"
+              onChangeText={(Weight) => setWeight(Weight)}
+            />
+          </View>
+
+          <View style={styles.container}>
+              <MultiSelect
+                  style={styles.dropdown}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  iconStyle={styles.iconStyle}
+                  data={allAllergensData}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Allergens"
+                  value={selectedAllergens}
+                  search
+                  maxHeight={250}
+                  searchPlaceholder="Search..."
+                  onChange={selected => {
+                    setSelectedAllergens(selected);
+                  }}
+                  
+                  renderItem={renderDataItem}
+                  renderSelectedItem={(selected, unSelect) => (
+                      <TouchableOpacity onPress={() => unSelect && unSelect(selected)}>
+                          <View style={styles.selectedStyle}>
+                              <Text style={styles.selectedTextList}>{selected.label}</Text>
+                          </View>
+                      </TouchableOpacity>
+                  )}
+              />
+              <MultiSelect
+                  style={styles.dropdown}
+                  placeholderStyle={styles.placeholderStyle}
+                  selectedTextStyle={styles.selectedTextStyle}
+                  inputSearchStyle={styles.inputSearchStyle}
+                  iconStyle={styles.iconStyle}
+                  data={allDietaryRestrictionsData}
+                  labelField="label"
+                  valueField="value"
+                  placeholder="Dietary Restrictions"
+                  value={selectedDietary}
+                  search
+                  maxHeight={250}
+                  searchPlaceholder="Search..."
+                  onChange={item2 => {
+                      setSelectedDietary(item2)
+                  }}
+                  
+                  renderItem={renderDataItem}
+                  renderSelectedItem={(item2, unSelect) => (
+                      <TouchableOpacity onPress={() => unSelect && unSelect(item2)}>
+                          <View style={styles.selectedStyle}>
+                              <Text style={styles.selectedTextList}>{item2.label} </Text>
+                          </View>
+                      </TouchableOpacity>
+                  )}
+              />
+              <StatusBar />
+          </View>
+          <MultiSelect
+              style={styles.dropdown}
+              placeholderStyle={styles.placeholderStyle}
+              selectedTextStyle={styles.selectedTextStyle}
+              inputSearchStyle={styles.inputSearchStyle}
+              iconStyle={styles.iconStyle}
+              data={allDiningHallPreferenceData}
+              labelField="label"
+              valueField="value"
+              placeholder="Preferred Dining Halls"
+              value={selectedDiningHalls}
+              search
+              maxHeight={250}
+              searchPlaceholder="Search..."
+              onChange={hall => {
+                  setSelectedDiningHalls(hall)
+              }}
+              
+              renderItem={renderDataItem}
+              renderSelectedItem={(hall, unSelect) => (
+                  <TouchableOpacity onPress={() => unSelect && unSelect(hall)}>
+                      <View style={styles.selectedStyle}>
+                          <Text style={styles.selectedTextList}>{hall.label} </Text>
+                      </View>
+                  </TouchableOpacity>
+              )}
           />
-        </View>
-
-        <View style={styles.container}>
-            <MultiSelect
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={allAllergensData}
-                labelField="label"
-                valueField="value"
-                placeholder="Allergens"
-                value={selectedAllergens}
-                search
-                maxHeight={250}
-                searchPlaceholder="Search..."
-                onChange={selected => {
-                  setSelectedAllergens(selected);
-                }}
-                
-                renderItem={renderDataItem}
-                renderSelectedItem={(selected, unSelect) => (
-                    <TouchableOpacity onPress={() => unSelect && unSelect(selected)}>
-                        <View style={styles.selectedStyle}>
-                            <Text style={styles.selectedTextList}>{selected.label}</Text>
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
-            <MultiSelect
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={allDietaryRestrictionsData}
-                labelField="label"
-                valueField="value"
-                placeholder="Dietary Restrictions"
-                value={selectedDietary}
-                search
-                maxHeight={250}
-                searchPlaceholder="Search..."
-                onChange={item2 => {
-                    setSelectedDietary(item2)
-                }}
-                
-                renderItem={renderDataItem}
-                renderSelectedItem={(item2, unSelect) => (
-                    <TouchableOpacity onPress={() => unSelect && unSelect(item2)}>
-                        <View style={styles.selectedStyle}>
-                            <Text style={styles.selectedTextList}>{item2.label} </Text>
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
-            <StatusBar />
-        </View>
-
-        {/* <Dropdown
-            style={[styles.dropdown, isFocus && {borderColor: myColors.navy}]}
-            placeholderStyle={styles.placeholderStyle}
-            selectedTextStyle={styles.selectedTextStyle}
-            inputSearchStyle={styles.inputSearchStyle}
-            iconStyle={styles.iconStyle}
-            data={allDiningHallPreferenceData}
-            search
-            maxHeight={250}
-            labelField="label"
-            valueField="value"
-            placeholder={'Preferred Dining Hall'}
-            searchPlaceholder="Search..."
-            onFocus={() => setIsFocus(true)}
-            onBlur={() => setIsFocus(false)}
-            onChange={item => {
-              setDiningHallPreferences(item.label);
-              setIsFocus(false);
-            }}
-          /> */}
-            <MultiSelect
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
-                iconStyle={styles.iconStyle}
-                data={allDiningHallPreferenceData}
-                labelField="label"
-                valueField="value"
-                placeholder="Preferred Dining Halls"
-                value={selectedDiningHalls}
-                search
-                maxHeight={250}
-                searchPlaceholder="Search..."
-                onChange={hall => {
-                    setSelectedDiningHalls(hall)
-                }}
-                
-                renderItem={renderDataItem}
-                renderSelectedItem={(hall, unSelect) => (
-                    <TouchableOpacity onPress={() => unSelect && unSelect(hall)}>
-                        <View style={styles.selectedStyle}>
-                            <Text style={styles.selectedTextList}>{hall.label} </Text>
-                        </View>
-                    </TouchableOpacity>
-                )}
-            />
-
-
-        <CustomButton label={"Submit"} onPress={handleSurvey} style={{width:windowWidth*.45}}/>
-
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            marginBottom: 30,
-          }}
-        >
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <Text style={{ color: myColors.navy, fontWeight: "700" }}>
-              {" "}
-              Back{" "}
-            </Text>
-          </TouchableOpacity>
+          <View style={{marginTop:20}}>
+            <CustomRecButton label={"Submit"} onPress={handleSurvey}/>  
+            <CustomRecButton label={"Back"} inverse={true} onPress={()=> navigation.goBack()}/>  
+          </View>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -357,41 +312,35 @@ const Survey = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  content: {
+    width: windowWidth*0.6,
+  },
   textField: {
     flexDirection: "row",
     borderBottomColor: myColors.grey,
     borderBottomWidth: 1,
     paddingBottom: 12,
     marginBottom: 25,
-    width: windowWidth * .45,
+    width: windowWidth * .6,
   },
   textFieldSmall: {
     flexDirection: "row",
-    // borderBottomColor: myColors.grey,
-    // borderBottomWidth: 1,
     paddingBottom: 12,
     marginBottom: 8,
-    width: windowWidth * .2,
   },
   textFieldFt: {
-    // flexDirection: "row",
     borderBottomColor: myColors.grey,
     borderBottomWidth: 1,
     paddingBottom: 12,
     marginLeft: 0,
-    // marginTop: 0,
-    // marginBottom: 25,
-    width: windowWidth * .2,
+    width: windowWidth * .25,
   },
   textFieldIn: {
-    // flexDirection: "row",
     borderBottomColor: myColors.grey,
     borderBottomWidth: 1,
     paddingBottom: 12,
-    marginLeft: 30,
-    // marginTop: 0,
-    // marginBottom: 25,
-    width: windowWidth * .2,
+    marginLeft: windowWidth * 0.1,
+    width: windowWidth * .25,
   },
   title: {
     fontFamily: "System",
@@ -399,18 +348,18 @@ const styles = StyleSheet.create({
     fontWeight: "500",
     color: myColors.navy,
     marginTop: 100,
-    marginBottom: 1
+    marginBottom: 25,
   },
   dropdown: {
     height: 50,
     borderColor: myColors.grey,
     borderWidth: 0.5,
-    width: windowWidth * .46,
+    width: windowWidth * .6,
     borderRadius: 8,
     paddingHorizontal: 8,
-    marginBottom: 5,
+    marginBottom: 2,
+    marginTop: 10,
     scroll: true,
-    // subItemBackground: myColors.darkGrey,
   },
   placeholderStyle: {
     fontSize: 16,
@@ -441,11 +390,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   container: {
-    // flex: 1,
     justifyContent: 'center',
     alignContent: 'center',
     width: windowWidth * .45,
-    // scroll: true,
   },
 });
 
