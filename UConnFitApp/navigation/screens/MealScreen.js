@@ -327,7 +327,7 @@ const MealScreen = ({ navigation }) => {
               <View></View>
             }
         </View>
-        <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
+        <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', initial: false, params: { screen: 'Foodlog', initial: false, params: { token: token } } })}/>
         <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
           <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
             <Text style={{ color:myColors.navy, fontWeight:'500', marginTop: 10}}>Back</Text>

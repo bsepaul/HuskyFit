@@ -85,7 +85,6 @@ const WorkoutLog = ({ navigation }) => {
       var raw = JSON.stringify({
           "Date": day // mm/dd/yyyy
       });
-
       var requestOptions = {
         method: 'POST',
         headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
@@ -149,7 +148,7 @@ const WorkoutLog = ({ navigation }) => {
           <View style={{height:100}} />
         </ScrollView>
         <View style={{alignItems: 'center', marginTop: -80,}}>
-          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Rec', params: { screen: 'WorkoutScreen', params: { token: token } } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Rec', initial: false, params: { screen: 'WorkoutScreen', initial: false, params: { token: token } } })}>
             <PlusCircle fill={myColors.navy} stroke={myColors.offWhite} strokeWidth={1.2} width={56} height={56}/>
           </TouchableOpacity>
         </View>

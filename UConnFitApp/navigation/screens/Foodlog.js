@@ -169,7 +169,7 @@ export default function Foodlog({navigation, label, inverse=false}) {
             <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
           </View>
           {userWeight ? <View></View> :
-            <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Survey', params: { token: token } } })}>
+            <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', initial: false, params: { screen: 'Survey', initial: false, params: { token: token } } })}>
               <View style={{ flexDirection: 'row', paddingBottom: 10}}>
                 <Text style={styles.text}>Take survey for improved accuracy</Text>
                 <ChevronRight stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
@@ -205,7 +205,7 @@ export default function Foodlog({navigation, label, inverse=false}) {
           </View>
         }
         <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', params: { screen: 'DiningHalls', params: { token: token } } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', initial: false, params: { screen: 'DiningHalls', initial: false, params: { token: token } } })}>
             <View style={{flexDirection:'row', paddingTop:2}}>
               <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
               <Text style={styles.text}>View Menus</Text>

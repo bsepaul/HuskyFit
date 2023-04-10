@@ -10,7 +10,7 @@ const RecScreen = () => {
   const token = route.params.token;
   return (
       <Stack.Navigator initialRouteName='WorkoutScreen'>
-        <Stack.Screen component = {WorkoutScreen} initialParams={{token:token}} name = "WorkoutScreen" options={{ headerShown:false }}/>
+        <Stack.Screen component = {WorkoutScreen} initialParams={{token:token}} name = "WorkoutScreen" options={{ headerShown:false, params: {token: token} }}/>
         <Stack.Screen component = {WorkoutInfo}   initialParams={{token:token}} name = "WorkoutInfo"   options={{ headerShown:false }}/>
       </Stack.Navigator>
   )
