@@ -26,7 +26,7 @@ const WorkoutLog = ({ navigation }) => {
           backgroundColor: color,
           marginVertical: 8,
           marginRight: 10,
-          paddingHorizontal: 10,
+          width:60,
           justifyContent:'center',
           paddingVertical: 10,
           borderRadius: 15,
