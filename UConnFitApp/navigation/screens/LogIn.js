@@ -61,7 +61,7 @@ const Login = ({ navigation }) => {
         // navigation.navigate("Tabs", {token: token});
         
         // If you want to test the login credentials or need the token for testing something, uncomment this
-        if ((message != "Invalid input") && (message != "User does not exist.")) {
+        if ((message != "Invalid input") && (message != "User does not exist.") && (message != "Incorrect username or password.")) {
          navigation.navigate("Tabs", {token: token});
         }
         else {
