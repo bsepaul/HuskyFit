@@ -111,9 +111,7 @@ const Survey = ({ navigation }) => {
   };
 
   // survey handler function
-  const handleSurvey = () => {
-    (async () => {
-
+  const handleSurvey = async () => {
       // convert data into compatible formats
       // convert all allergens to string arrays
       for (var x = 0; x < selectedAllergens.length; x++) {
@@ -138,7 +136,6 @@ const Survey = ({ navigation }) => {
         "Dietary_Restrictions": dietaryLabels,
         "Dining_Hall_Preferences": diningHallsLabels
       });
-      // console.log(raw)
 
       // Make sure user isn't leaving any required fields empty
       if( !Height || !Weight) { 
@@ -159,18 +156,16 @@ const Survey = ({ navigation }) => {
         redirect: 'follow',
       };
 
-      fetch(
+      await fetch(
         "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info",
         requestOptions
       )
-      .then(response => response.text())
-      .then((result) => console.log(result))
-      .catch(error => console.log('error', error));
+        .then(response => response.text())
+        .then((result) => console.log(result))
+        .catch(error => console.log('error', error));
 
       alertSuccess();
-
-      navigation.goBack()
-    })();
+      navigation.navigate('UserProfile', {token:token})
   };
   return (
     <SafeAreaView>
@@ -306,7 +301,7 @@ const Survey = ({ navigation }) => {
             />
             <View style={{marginTop:20}}>
               <CustomRecButton label={"Submit"} onPress={handleSurvey}/>  
-              <CustomRecButton label={"Back"} inverse={true} onPress={()=> navigation.goBack()}/>  
+              <CustomRecButton label={"Back"} inverse={true} onPress={()=> navigation.navigate('UserProfile', {token:token})}/>  
             </View>
           </View>
           <View style={{height:100}}></View>

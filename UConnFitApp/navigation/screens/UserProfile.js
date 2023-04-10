@@ -28,7 +28,7 @@ const UserProfile = ({ navigation }) => {
       body: raw,
       redirect: 'follow'
     };
-    fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/profile", requestOptions)
+    await fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/profile", requestOptions)
       .then(response => response.text())
       .then((result) => {
         var json = JSON.parse(result);

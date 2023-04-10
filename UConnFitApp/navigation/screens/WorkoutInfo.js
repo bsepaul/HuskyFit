@@ -85,7 +85,6 @@ const WorkoutInfo = ({ navigation }) => {
     await fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/user-info", requestOptions)
       .then(response => response.text())
       .then(result => {
-        console.log(result);
         let weight = 150;
         // If the user has not filled out the survey, this will return ''
         if (result != '') {
@@ -261,7 +260,7 @@ const WorkoutInfo = ({ navigation }) => {
             </View>
           </View>
           <CustomRecButton label={'Submit'} onPress={() => { addWorkout(); }} />
-          <CustomRecButton label={'Back'} inverse={true} onPress={() => navigation.goBack()} />
+          <CustomRecButton label={'Back'} inverse={true} onPress={() => navigation.navigate('WorkoutScreen', {token:token})} />
         </View>
       </TouchableWithoutFeedback>
   );
