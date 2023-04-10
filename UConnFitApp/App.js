@@ -5,6 +5,7 @@ import Tabs from './navigation/Tabs';
 import OnboardingScreen from './navigation/screens/OnboardingScreen';
 import Login from './navigation/screens/LogIn';
 import Register from './navigation/screens/Register';
+import RegisterSurvey from './navigation/screens/RegisterSurvey';
 import themeContext from './navigation/config/themeContext';
 import theme from './navigation/config/theme';
 import { EventRegister } from 'react-native-event-listeners';
@@ -30,6 +31,7 @@ export default function App() {
         <Stack.Screen component = {OnboardingScreen} name = "Begin" options={{headerShown:false}}/>
         <Stack.Screen component = {Login}            name = "Login" options={{ headerShown: false }} />
         <Stack.Screen component = {Register}         name = "Register" options={{headerShown: false}}/>
+        <Stack.Screen component = {RegisterSurvey}   name = "RegisterSurvey" options={{headerShown: false}}/>
         <Stack.Screen component = {Tabs}             name = "Tabs" options={{headerShown:false}}/>
       </Stack.Navigator>
       </NavigationContainer>
