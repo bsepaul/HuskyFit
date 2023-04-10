@@ -12,7 +12,7 @@ const NutritionScreen = ({ navigation }) => {
 
     // Get token from route
     const route = useRoute();
-    const token = route.params.token
+    const token = route.params.token;
 
     // collect all foods from route
     const breakfastFoods = route.params.breakfastFoods;

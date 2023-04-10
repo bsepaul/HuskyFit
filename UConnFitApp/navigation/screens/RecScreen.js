@@ -8,6 +8,7 @@ const Stack = createNativeStackNavigator();
 const RecScreen = () => {
   const route = useRoute();
   const token = route.params.token;
+
   return (
       <Stack.Navigator initialRouteName='WorkoutScreen'>
         <Stack.Screen component = {WorkoutScreen} initialParams={{token:token}} name = "WorkoutScreen" options={{ headerShown:false, params: {token: token} }}/>

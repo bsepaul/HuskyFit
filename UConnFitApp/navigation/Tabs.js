@@ -14,7 +14,7 @@ const Tabs = () => {
 
     // Get token from route
     const route = useRoute();
-    const token = route.params.token
+    const token = route.params.token;
 
     return(
         <Tab.Navigator

@@ -9,6 +9,7 @@ const Stack = createNativeStackNavigator();
 const DineScreen = () => {
   const route = useRoute();
   const token = route.params.token;
+
   return (
       <Stack.Navigator initialRouteName='DiningHalls' screenOptions={{headerShown: false}}>
         <Stack.Screen component = {DiningHalls}     initialParams={{token:token}} name = "DiningHalls" options={{headerShown:false, params: {token: token}}}/>

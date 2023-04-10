@@ -136,9 +136,9 @@ const Register = ({ navigation }) => {
         var message = json.message // "message": "Success"
         var token = json.token     // "token": "..."
       
-        console.log(message)
-        console.log()
-        console.log(token)
+        console.log(message);
+        console.log();
+        console.log(token);
 
         if ((message != "Invalid input") && (message != "User does not exist.") && (message != "Incorrect username or password.")) {
           navigation.navigate('RegisterSurvey', {token: token});

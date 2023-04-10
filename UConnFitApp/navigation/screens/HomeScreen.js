@@ -17,7 +17,7 @@ export default function HomeScreen({navigation}) {
   // Get token from route
   const route = useRoute();
   const token = route.params.token;
-  
+
   // Set variable to store the user's name once fetched from API
   const [name, setName] = React.useState('');
   const [weekDays, setWeekDays] = React.useState([]);
@@ -265,7 +265,7 @@ export default function HomeScreen({navigation}) {
             <Text style={styles.title}>Hello, {name}</Text>
             <Text style={{ fontSize: 20, paddingVertical: 0, color: myColors.navy }}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
           </View>
-          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', initial: false, params: { token: token } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { token: token } })}>
             <Image
               source={require('../../assets/img/husky.png')}
               resizeMode='contain'
@@ -342,8 +342,8 @@ export default function HomeScreen({navigation}) {
             </ScrollView>
           </View> 
           <View style={{ marginBottom: 100, }}>
-            <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', initial: false, params: { screen: 'Foodlog', initial: false, params: { token: token } } })}/>
-            <CustomButtonArrow label={'View Workout Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', initial: false, params: { screen: 'Workoutlog', initial: false, params: { token: token } } })}/> 
+            <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Foodlog', params: { token: token } } })}/>
+            <CustomButtonArrow label={'View Workout Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Workoutlog', params: { token: token } } })}/> 
           </View>
         </View>  
       </ScrollView>

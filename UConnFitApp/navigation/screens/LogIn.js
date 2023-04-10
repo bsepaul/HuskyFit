@@ -53,9 +53,9 @@ const Login = ({ navigation }) => {
         var message = json.message // "message": "Success"
         var token = json.token     // "token": "..."
       
-        console.log(message)
-        console.log()
-        console.log(token)
+        console.log(message);
+        console.log();
+        console.log(token);
 
         //If you want to bypass the login credentials, uncomment this
         // navigation.navigate("Tabs", {token: token});

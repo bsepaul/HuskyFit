@@ -1,9 +1,9 @@
 import { useRoute } from '@react-navigation/native';
-import React, { useState, useContext } from 'react';
-import { View, Text, StyleSheet, Button, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, ScrollView, SafeAreaView } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { Clock, BarChart2, Zap, PlusCircle } from "react-native-feather";
-// import themeContext from '../../config/themeContext';
+
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
@@ -148,7 +148,7 @@ const WorkoutLog = ({ navigation }) => {
           <View style={{height:100}} />
         </ScrollView>
         <View style={{alignItems: 'center', marginTop: -80,}}>
-          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Rec', initial: false, params: { screen: 'WorkoutScreen', initial: false, params: { token: token } } })}>
+          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Rec', params: { screen: 'WorkoutScreen', params: { token: token } } })}>
             <PlusCircle fill={myColors.navy} stroke={myColors.offWhite} strokeWidth={1.2} width={56} height={56}/>
           </TouchableOpacity>
         </View>
