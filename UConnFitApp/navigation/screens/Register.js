@@ -141,7 +141,7 @@ const Register = ({ navigation }) => {
         console.log(token)
 
         if ((message != "Invalid input") && (message != "User does not exist.") && (message != "Incorrect username or password.")) {
-          navigation.navigate('Tabs', { screen: 'Profile', initial: false, params: { screen: 'Survey', initial: false, params: { token: token } } });
+          navigation.navigate('RegisterSurvey', {token: token});
         }
         else {
           alertFailure();
@@ -151,7 +151,7 @@ const Register = ({ navigation }) => {
       .catch(error => console.log('error', error));
   };
 
-  const handleRegister = async () => {
+  const handleRegister = () => {
     console.log("Registering...")
 
 
@@ -181,11 +181,6 @@ const Register = ({ navigation }) => {
 
     let date = dob.toLocaleString('en-GB', { timeZone: 'America/New_York' }).split(',')[0];
     let dob_formatted = date.slice(3, 5) + '-' + date.slice(0, 2) + '-' + date.slice(6, 10);
-
-    console.log(fullName)
-    console.log(email)
-    console.log(password)
-    console.log(dob_formatted)
     
     var raw = JSON.stringify({
       name: fullName,
@@ -204,7 +199,7 @@ const Register = ({ navigation }) => {
       redirect: "follow",
     };
 
-    await fetch(
+    fetch(
       "https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/auth/signup",
       requestOptions
     )
@@ -328,7 +323,7 @@ const Register = ({ navigation }) => {
           }}
         >
           <Text style={{ color: myColors.navy }}> Already Registered? </Text>
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigation.navigate('Login')}>
             <Text style={{ color: myColors.navy, fontWeight: "700" }}>
               {" "}
               Login{" "}
