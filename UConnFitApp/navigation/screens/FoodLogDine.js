@@ -17,6 +17,14 @@ export default function FoodLogDine({navigation}) {
   // Get token from route
   const route = useRoute();
   const token = route.params.token;
+  const dininghall = route.params.dininghall;
+  let diningHallName = '';
+  let showMenuNav = true;
+  if (dininghall === false) {
+    showMenuNav = false;
+  } else {
+    diningHallName = route.params.dininghall.charAt(0).toUpperCase() + route.params.dininghall.slice(1)
+  }
 
   const [data, setData] = useState([]);
   const [protein, setProtein] = useState(0);
@@ -198,12 +206,22 @@ export default function FoodLogDine({navigation}) {
             </View>
           }
           <View style={{ alignItems: 'center' }}>
-            {/* <TouchableOpacity onPress={() => navigation.navigate('Dine', { screen: 'DiningHalls', params: { token: token } })}>
-              <View style={{flexDirection:'row', paddingTop:2}}>
+            {showMenuNav ?
+              <TouchableOpacity onPress={() => navigation.navigate('MealScreen', { token: token, dininghall: dininghall } )}>
+                <View style={{flexDirection:'row', paddingTop:10}}>
+                  <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
+                  <Text style={styles.text}>Back to {diningHallName} Menu</Text>
+                </View>
+              </TouchableOpacity>              
+              :
+              <View></View>
+            }
+            <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', { token: token } )}>
+              <View style={{flexDirection:'row', paddingTop:10}}>
                 <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
-                <Text style={styles.text}>View Menus</Text>
+                <Text style={styles.text}>View Dining Halls</Text>
               </View>
-            </TouchableOpacity> */}
+            </TouchableOpacity>
           </View>
         </View>     
         <View style={{height:110}}></View>
