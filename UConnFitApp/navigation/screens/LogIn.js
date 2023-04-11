@@ -69,7 +69,7 @@ const Login = ({ navigation }) => {
         }
         
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('Login error', error));
     })();
   };
   return (

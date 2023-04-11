@@ -114,7 +114,7 @@ const WorkoutInfo = ({ navigation }) => {
         calories = (metValue * 3.5 * (weight) * 0.45359237 * parseInt(TimeElapsed)) / 200;
         calories = Math.round(calories);
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('WorkoutInfo user-info error', error));
 
     return calories;
     
@@ -162,7 +162,7 @@ const WorkoutInfo = ({ navigation }) => {
     await fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/workout", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('WorkoutInfo workout error', error));
     
     setModalVisible(true);
     setTimeout(() => {  navigation.navigate('WorkoutScreen', { token: token }); }, 500);

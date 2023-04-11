@@ -115,7 +115,7 @@ const MealScreen = ({ navigation }) => {
         var json = JSON.parse(result);
         setFoods(json, meal); // set the food list based on the json data and the meal type
       })
-      .catch(error => console.log('error', error)); 
+      .catch(error => console.log('MealScreen meal error', error)); 
   };
 
   const showMeal = (meal) => {
@@ -184,7 +184,7 @@ const MealScreen = ({ navigation }) => {
     fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('MealScreen food-log error', error));
 
     setModalVisible(true);
 

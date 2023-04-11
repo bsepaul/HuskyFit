@@ -108,7 +108,7 @@ const WorkoutLog = ({ navigation }) => {
             }
           }
         })
-        .catch(error => console.log('error', error));
+        .catch(error => console.log('Workoutlog workout error', error));
     }
     setWorkouts(allWorkouts);
   };

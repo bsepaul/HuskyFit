@@ -148,7 +148,7 @@ const Register = ({ navigation }) => {
         }
         
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('Register login error', error));
   };
 
   const handleRegister = () => {
@@ -211,7 +211,7 @@ const Register = ({ navigation }) => {
         console.log(message) // "User registration succesful"
         handleLogin();
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('Register signup error', error));
   };
 
   return (

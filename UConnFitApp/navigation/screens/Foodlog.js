@@ -77,7 +77,7 @@ export default function Foodlog({navigation, label, inverse=false}) {
           setShowFood(false);
         }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('Foodlog food-log error', error));
     
     // Fetch the user's weight for macro calculations
     raw = '';
@@ -103,12 +103,12 @@ export default function Foodlog({navigation, label, inverse=false}) {
           }
         }
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('Foodlog user-info error', error));
     
   };
 
   const handlefood = async () => {
-    fetchFood();
+    await fetchFood();
   }
 
   // Automatically get food log for today from API on screen load

@@ -33,7 +33,7 @@ const UserProfile = ({ navigation }) => {
         setName(json.Name);
         setEmail(json.Email);
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('UserProfile profile error', error));
   }
 
   React.useEffect(() => {

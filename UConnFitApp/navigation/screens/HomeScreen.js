@@ -87,7 +87,7 @@ export default function HomeScreen({navigation}) {
         var json = JSON.parse(result);
         setName(json.Name.split(' ')[0])
       })
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('HomeScreen profile error', error));
   }
 
   // Get the list of dates of the week from Sunday to the current day
@@ -157,7 +157,7 @@ export default function HomeScreen({navigation}) {
             tempUserInfo.high += userInfoArr[3];
           }
         })
-        .catch(error => console.log('error', error));
+        .catch(error => console.log('HomeScreen workout error', error));
     }
     setUserInfo(tempUserInfo);
   }
@@ -186,7 +186,7 @@ export default function HomeScreen({navigation}) {
     fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
       .then(response => response.text())
       .then(result => console.log(result))
-      .catch(error => console.log('error', error));
+      .catch(error => console.log('HomeScreen food-log error', error));
 
     setModalVisible(true);
 
@@ -221,7 +221,7 @@ export default function HomeScreen({navigation}) {
         setRecommendedFoods(recFoods); 
       }
     })
-    .catch(error => console.log('error', error));
+    .catch(error => console.log('HomeScreen recommendation error', error));
   }
 
   const getAllUserInfo = async () => {

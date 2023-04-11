@@ -162,7 +162,7 @@ const RegisterSurvey = ({ navigation }) => {
       )
         .then(response => response.text())
         .then((result) => console.log(result))
-        .catch(error => console.log('error', error));
+        .catch(error => console.log('RegisterSurvey user-info error', error));
 
       alertSuccess();
       navigation.navigate('Login')
