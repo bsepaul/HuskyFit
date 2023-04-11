@@ -60,7 +60,7 @@ const UserProfile = ({ navigation }) => {
         <Text style={styles.email}>{email}</Text>
         <View style={styles.content}>
           <Text style={styles.subtitle}>View Logs</Text>
-          <CustomButtonArrow label={"Food Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Foodlog', {token:token})}/>
+          <CustomButtonArrow label={"Food Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('FoodLogProfile', {token:token})}/>
           <CustomButtonArrow label={"Workout Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Workoutlog', {token:token})}/>
           <Text style={styles.subtitle}>Personal Stats</Text>
           <CustomButtonArrow label={"Personal Survey"} arrow={"right"}  hasIcon={true} icon={require('../../assets/icons/survey.png')} onPress={() => navigation.navigate('Survey', { token: token })} />

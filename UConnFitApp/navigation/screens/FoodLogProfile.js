@@ -12,7 +12,7 @@ const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
 
-export default function Foodlog({navigation}) {
+export default function FoodLogProfile({navigation}) {
 
   // Get token from route
   const route = useRoute();
@@ -24,7 +24,6 @@ export default function Foodlog({navigation}) {
   const [fat, setFat] = useState(0);
   const [showFood, setShowFood] = useState(false);
   const [weight, setWeight] = useState(150);
-  const [userWeight, setUserWeight] = useState(true);
 
   // Get today's date for the API call
   let today = new Date();
@@ -77,7 +76,7 @@ export default function Foodlog({navigation}) {
           setShowFood(false);
         }
       })
-      .catch(error => console.log('Foodlog food-log error', error));
+      .catch(error => console.log('FoodLogProfile food-log error', error));
     
     // Fetch the user's weight for macro calculations
     raw = '';
@@ -97,13 +96,14 @@ export default function Foodlog({navigation}) {
           let json = JSON.parse(result);
           if (json.Weight != undefined) {
             setWeight(json.Weight);
-            setUserWeight(true);
           } else {
-            setUserWeight(false);
+            setWeight(150); // set weight to average weight of college student if weight was not entered during personal survey
           }
+        } else {
+          setWeight(150); // set weight to average weight of college student if personal survey was not completed
         }
       })
-      .catch(error => console.log('Foodlog user-info error', error));
+      .catch(error => console.log('FoodLogProfile user-info error', error));
     
   };
 
@@ -169,14 +169,6 @@ export default function Foodlog({navigation}) {
               <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
               <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
             </View>
-            {userWeight ? <View></View> :
-              <TouchableOpacity onPress={() => navigation.navigate('Profile', { screen: 'Survey', params: { token: token } })}>
-                <View style={{ flexDirection: 'row', paddingBottom: 10}}>
-                  <Text style={styles.text}>Take survey for improved accuracy</Text>
-                  <ChevronRight stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
-                </View>
-              </TouchableOpacity>
-            }
           </View>
           <View style={styles.subtitleContainer}>
             <Text style={styles.subtitle}>Food Logged</Text>           
@@ -206,10 +198,10 @@ export default function Foodlog({navigation}) {
             </View>
           }
           <View style={{ alignItems: 'center' }}>
-            <TouchableOpacity onPress={() => navigation.navigate('Dine', { screen: 'DiningHalls', params: { token: token } })}>
+            <TouchableOpacity onPress={() => navigation.navigate('UserProfile', { token: token })}>
               <View style={{flexDirection:'row', paddingTop:2}}>
                 <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
-                <Text style={styles.text}>View Menus</Text>
+                <Text style={styles.text}>Back</Text>
               </View>
             </TouchableOpacity>
           </View>
