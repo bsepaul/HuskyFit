@@ -15,7 +15,7 @@ import {
 } from "react-native";
 import { myColors } from "../../assets/styles/ColorPalette";
 import { MultiSelect } from 'react-native-element-dropdown';
-import CustomRecButton from "../../assets/Components/CustomRecButton";
+import CustomButton from "../../assets/Components/CustomButton";
 import { X } from "react-native-feather";
 
 const windowWidth = Dimensions.get('window').width;
@@ -300,8 +300,8 @@ const Survey = ({ navigation }) => {
                 )}
             />
             <View style={{marginTop:20}}>
-              <CustomRecButton label={"Submit"} onPress={handleSurvey}/>  
-              <CustomRecButton label={"Back"} inverse={true} onPress={()=> navigation.navigate('UserProfile', {token:token})}/>  
+              <CustomButton label={"Submit"} onPress={handleSurvey}/>  
+              <CustomButton label={"Back"} inverse={true} onPress={()=> navigation.navigate('UserProfile', {token:token})}/>  
             </View>
           </View>
           <View style={{height:100}}></View>

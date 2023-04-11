@@ -1,40 +1,14 @@
 import React from 'react'
 import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
+import CustomButtonArrow from '../../assets/Components/CustomButtonArrow';
 
-const OnboardingScreen = ({navigation}) => {
+const OnboardingScreen = ({ navigation }) => {
     return (
-        <SafeAreaView
-        style={{
-            flex: 1,
-            justifyContent: 'center',
-            alignItems: 'center',
-            backgroundColor: myColors.offWhite,
-        }}>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-        </View>
-        <TouchableOpacity
-        style={{backgroundColor: myColors.navy,
-        padding: 20,
-        width: '90%',
-        borderRadius: 10,
-        marginBottom: 50,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-    }}
-    onPress={() => navigation.navigate('Login')}>
-    <Text
-        style={{
-            color: myColors.offWhite,
-            fontSize: 18,
-            textAlign: 'center',
-            fontWeight: 'bold',
-            fontFamily: 'System',
-        }}>
-          Let's Begin  
-        </Text>
-    </TouchableOpacity>
-    </SafeAreaView>
+        <SafeAreaView style={{ flex: 1, justifyContent: 'flex-end', alignItems: 'center', }}>
+            <CustomButtonArrow label={'Let\'s Begin'} arrow={"right"} large={true} onPress={() => navigation.navigate('Login')} />
+            <View style={{height:30}} />
+        </SafeAreaView>
     );
 };
 export default OnboardingScreen;

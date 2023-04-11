@@ -3,7 +3,7 @@ import { myColors } from '../../assets/styles/ColorPalette';
 import React, { useState } from 'react';
 import { Modal } from 'react-native';
 import { Check } from "react-native-feather";
-import CustomRecButton from '../../assets/Components/CustomRecButton';
+import CustomButton from '../../assets/Components/CustomButton';
 import fetch from 'node-fetch'
 import {
   StatusBar,
@@ -259,8 +259,8 @@ const WorkoutInfo = ({ navigation }) => {
               </View>
             </View>
           </View>
-          <CustomRecButton label={'Submit'} onPress={() => { addWorkout(); }} />
-          <CustomRecButton label={'Back'} inverse={true} onPress={() => navigation.navigate('WorkoutScreen', {token:token})} />
+          <CustomButton label={'Submit'} onPress={() => { addWorkout(); }} />
+          <CustomButton label={'Back'} inverse={true} onPress={() => navigation.navigate('WorkoutScreen', { token: token })} />
         </View>
       </TouchableWithoutFeedback>
   );

@@ -5,7 +5,7 @@ import { ProgressChart } from 'react-native-chart-kit';
 import React, { useState } from "react";
 import fetch from 'node-fetch';
 import CustomFoodLogButton from '../../assets/Components/CustomFoodLogButton';
-import { Circle, ChevronLeft, ChevronRight } from "react-native-feather";
+import { Circle, ChevronLeft } from "react-native-feather";
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;

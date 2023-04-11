@@ -5,6 +5,7 @@ import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft, Check } from "react-native-feather";
 import CustomButtonArrow from '../../assets/Components/CustomButtonArrow'; 
 import CustomFoodItemButton from '../../assets/Components/CustomFoodItemButton';
+import CustomButton from '../../assets/Components/CustomButton';
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -328,10 +329,8 @@ const MealScreen = ({ navigation }) => {
             }
         </View>
         <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('FoodLogDine', { token: token, dininghall: route.params.dininghall })}/>
-        <View style={{flexDirection:'row', justifyContent:'center', marginBottom: 30}}>
-          <TouchableOpacity onPress={() => navigation.navigate('DiningHalls', {token: token})}>
-            <Text style={{ color:myColors.navy, fontWeight:'500', marginTop: 10}}>Back</Text>
-          </TouchableOpacity>
+        <View style={{ flexDirection: 'row', justifyContent: 'center', marginBottom: 30 }}>
+          <CustomButton label={'Back'} inverse = {true} onPress={() => navigation.navigate('DiningHalls', {token: token})}/>
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -357,6 +356,7 @@ const styles = StyleSheet.create({
     maxHeight: 250,
     width: windowWidth*0.75,
     marginTop: 5,
+    marginBottom:15,
     paddingTop: 8,
     backgroundColor: myColors.veryLightGrey,
     borderRadius: 12,
