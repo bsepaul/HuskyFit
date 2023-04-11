@@ -199,9 +199,9 @@ export default function FoodLogProfile({navigation}) {
           }
           <View style={{ alignItems: 'center' }}>
             <TouchableOpacity onPress={() => navigation.navigate('UserProfile', { token: token })}>
-              <View style={{flexDirection:'row', paddingTop:2}}>
+              <View style={{flexDirection:'row', paddingTop:10}}>
                 <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
-                <Text style={styles.text}>Back</Text>
+                <Text style={styles.text}>Back to Profile</Text>
               </View>
             </TouchableOpacity>
           </View>

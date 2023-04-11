@@ -340,10 +340,7 @@ export default function HomeScreen({navigation}) {
                 })}
             </ScrollView>
           </View> 
-          <View style={{ marginBottom: 100, }}>
-            <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Profile', { screen: 'Foodlog', params: { token: token } })}/>
-            <CustomButtonArrow label={'View Workout Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Profile', { screen: 'Workoutlog', params: { token: token } })}/> 
-          </View>
+          <View style={{ height: 100 }}></View>
         </View>  
       </ScrollView>
 
