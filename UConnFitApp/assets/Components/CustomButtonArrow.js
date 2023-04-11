@@ -7,7 +7,7 @@ import { ChevronRight, ChevronDown, ChevronUp } from "react-native-feather";
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 
-export default function CustomButtonArrow({ label, onPress, arrow, icon, hasIcon=false, inverse = false }) {
+export default function CustomButtonArrow({ label, onPress, arrow, icon, hasIcon=false, large=false, inverse = false }) {
     var chevronArrow = <Text></Text>;
     if (arrow === "down") {
         chevronArrow = <ChevronDown stroke={inverse ? myColors.navy : myColors.white} width={18} height={18} />
@@ -29,7 +29,7 @@ export default function CustomButtonArrow({ label, onPress, arrow, icon, hasIcon
                 borderColor: inverse ? myColors.navy : null,
                 borderWidth: inverse ? 1 : null,
                 padding: inverse ? 16 : 18,
-                width: windowWidth*.75,
+                width: large ? windowWidth*0.9 : windowWidth*.75,
                 borderRadius: 22,
                 marginTop:8,
                 marginBottom:8,
