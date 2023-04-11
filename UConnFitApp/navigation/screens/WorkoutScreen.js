@@ -30,7 +30,7 @@ const RecScreen = ({ navigation }) => {
       </View>
       <View style={{ alignItems: 'center' }}>
         <CustomButtonArrow label={'Select Other Workout'} arrow={"right"} onPress={() => navigation.navigate('WorkoutInfo', { token:token, workoutType: '' })}/>
-        <CustomButtonArrow label={'View Workout Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Profile', { screen: 'Workoutlog', params: { token: token } })}/>
+        <CustomButtonArrow label={'View Workout Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('WorkoutLogRec', { token: token  })}/>
       </View>
     </SafeAreaView>
         

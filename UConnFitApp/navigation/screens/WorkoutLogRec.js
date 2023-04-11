@@ -7,7 +7,7 @@ import { Clock, BarChart2, Zap, PlusCircle } from "react-native-feather";
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
 
-const WorkoutLog = ({ navigation }) => {
+const WorkoutLogRec = ({ navigation }) => {
 
   // Get token from route
   const route = useRoute();
@@ -108,7 +108,7 @@ const WorkoutLog = ({ navigation }) => {
             }
           }
         })
-        .catch(error => console.log('Workoutlog workout error', error));
+        .catch(error => console.log('WorkoutLogRec workout error', error));
     }
     setWorkouts(allWorkouts);
   };
@@ -263,5 +263,5 @@ const styles = StyleSheet.create({
 
   
 
-export default WorkoutLog;
+export default WorkoutLogRec;
 

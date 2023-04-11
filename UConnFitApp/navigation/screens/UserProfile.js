@@ -61,7 +61,7 @@ const UserProfile = ({ navigation }) => {
         <View style={styles.content}>
           <Text style={styles.subtitle}>View Logs</Text>
           <CustomButtonArrow label={"Food Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('FoodLogProfile', {token:token})}/>
-          <CustomButtonArrow label={"Workout Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('Workoutlog', {token:token})}/>
+          <CustomButtonArrow label={"Workout Log"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/rec.png')} onPress={() => navigation.navigate('WorkoutLogProfile', {token:token})}/>
           <Text style={styles.subtitle}>Personal Stats</Text>
           <CustomButtonArrow label={"Personal Survey"} arrow={"right"}  hasIcon={true} icon={require('../../assets/icons/survey.png')} onPress={() => navigation.navigate('Survey', { token: token })} />
           <CustomButtonArrow label={"BMI Calculator"} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/body.png')} onPress={() => navigation.navigate('BmiCalculator', {token:token})}/>
