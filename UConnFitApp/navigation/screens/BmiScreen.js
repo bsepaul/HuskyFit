@@ -1,7 +1,7 @@
 import { View, Text, StyleSheet, TextInput, Linking, SafeAreaView, Dimensions }  from 'react-native'
 import React, {useState} from "react"
 import { useRoute } from '@react-navigation/native';
-import CustomRecButton from '../../assets/Components/CustomRecButton'
+import CustomButton from '../../assets/Components/CustomButton';
 import { myColors } from '../../assets/styles/ColorPalette'
 
 const windowWidth = Dimensions.get('window').width;
@@ -86,17 +86,22 @@ const BmiCalculator = ({ navigation }) => {
                         onChangeText={(Weight) => setWeight(Weight)}
                     />
                 </View>
-                <CustomRecButton label={"Calculate"} onPress={calculateBmi}/>
+                <CustomButton label={"Calculate"} onPress={calculateBmi}/>
 
                 <View style={styles.textView}>
                     <Text style={styles.textinformation}>Please note that BMI calculated this way is not entirely accurate. For more detailed information, we recommend you <Text style={{color: 'blue'}} onPress={handlePress}>click here</Text> to learn more.</Text>
                 </View>
-
-                <View style={styles.resultView}>
-                    <Text style={styles.result}>{bmi}</Text>
-                    <Text style={styles.result}>{description}</Text>
-                </View>
-                <CustomRecButton label={"Back"} inverse={true} onPress={() => navigation.navigate('UserProfile', {token:token})}/>
+                {(isNaN(bmi) || (bmi <= 0.0001)) ?
+                    <View style={styles.resultView}>
+                        <Text style={styles.result}>Enter values for all fields above to calculate BMI</Text>
+                    </View>
+                    :
+                    <View style={styles.resultView}>
+                        <Text style={styles.result}>{bmi}</Text>
+                        <Text style={styles.result}>{description}</Text>
+                    </View>
+                }
+                <CustomButton label={"Back"} inverse={true} onPress={() => navigation.navigate('UserProfile', {token:token})}/>
             </View>            
         </SafeAreaView>
 
@@ -167,14 +172,16 @@ const styles = StyleSheet.create({
         fontWeight: '400',
         color: myColors.white
     },
-    resultView:{
-        margin:30,
+    resultView: {
+        margin: 30,
         alignItems:'center'
     },
-    result:{
+    result: {
+        textAlign: 'center',
         fontSize:30,
-        color:'#1d3352',
-        fontWeight:'bold'
+        color:myColors.navy,
+        fontWeight: 'bold',
+        alignItems:'center',
     },
     textView:{
         width:windowWidth*0.7,
