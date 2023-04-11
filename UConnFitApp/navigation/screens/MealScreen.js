@@ -197,7 +197,7 @@ const MealScreen = ({ navigation }) => {
 
   return (
     <SafeAreaView>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         <Modal
           animationType="fade"
           transparent={true}
@@ -272,7 +272,7 @@ const MealScreen = ({ navigation }) => {
         <View>
           {showBreakfast && !isWeekend ?
             <View style={styles.list}>
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false} >
                 {breakfastFoods.map((food) => {
                   return (
                     <CustomFoodItemButton
@@ -292,7 +292,7 @@ const MealScreen = ({ navigation }) => {
         <View>
           {showLunch ?
             <View style={styles.list}>
-              <ScrollView>
+              <ScrollView showsVerticalScrollIndicator={false} >
                 {lunchFoods.map((food) => {
                   return (
                     <CustomFoodItemButton
@@ -312,7 +312,7 @@ const MealScreen = ({ navigation }) => {
           <View>
             {showDinner ?
               <View style={styles.list}>
-                <ScrollView>
+                <ScrollView showsVerticalScrollIndicator={false} >
                 {dinnerFoods.map((food) => {
                   return (
                     <CustomFoodItemButton

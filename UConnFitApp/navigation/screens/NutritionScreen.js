@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Image, Dimensions, FlatList, TextInput } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft, Check, X } from "react-native-feather";

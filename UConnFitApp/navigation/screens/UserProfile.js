@@ -1,8 +1,6 @@
 import { useRoute } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image, SafeAreaView, Platform, Dimensions} from 'react-native';
+import { StyleSheet, Text, View, Image, SafeAreaView, Dimensions} from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
-import CustomButton from "../../assets/Components/CustomButton";
 import CustomButtonArrow from "../../assets/Components/CustomButtonArrow";
 import React from 'react';
 

@@ -1,7 +1,7 @@
 import { useRoute } from '@react-navigation/native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import React, { useState } from 'react';
-import { Modal, SafeAreaView } from 'react-native';
+import { Modal } from 'react-native';
 import { Check } from "react-native-feather";
 import CustomRecButton from '../../assets/Components/CustomRecButton';
 import fetch from 'node-fetch'

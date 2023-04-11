@@ -1,5 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import { Text, View, SafeAreaView, ScrollView, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { Text, View, SafeAreaView, ScrollView, StyleSheet, Dimensions } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import CustomButtonArrow from '../../assets/Components/CustomButtonArrow'; 
 import React from 'react'
@@ -21,7 +21,7 @@ const DiningHalls = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.screen}>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         <Text style={styles.title}>{'Dining Halls'}</Text>
         {isWeekend ? <View></View> : <CustomButtonArrow label={'Buckley'} arrow={"right"} onPress={() => navigation.navigate('MealScreen', { dininghall: 'buckley' })} />}
         <CustomButtonArrow label={'Gelfenbien'} arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'gelfenbien' })}/>

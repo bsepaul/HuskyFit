@@ -1,6 +1,5 @@
 import { useRoute } from '@react-navigation/native';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert, SafeAreaView, Modal, Pressable, Dimensions, ScrollView, Image, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, SafeAreaView, Modal, Dimensions, ScrollView, Image, TouchableOpacity } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ProgressChart, BarChart } from 'react-native-chart-kit';
 import React from 'react';
@@ -242,7 +241,7 @@ export default function HomeScreen({navigation}) {
       
   return (
     <SafeAreaView>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.content}>
         <Modal
           animationType="fade"
           transparent={true}
@@ -321,7 +320,7 @@ export default function HomeScreen({navigation}) {
             <Text style={styles.chartLabel}>Food Suggestions</Text>           
           </View>
           <View style={styles.scrollContainer}>
-            <ScrollView>
+            <ScrollView showsVerticalScrollIndicator={false}>
               {recommendedFoods.map((food) => {
                 return (
                   <CustomRecommendedFoodButton
@@ -421,7 +420,7 @@ const styles = StyleSheet.create({
       fontSize: 16
   },
   subtitleContainer: {
-    backgroundColor: myColors.mediumBlue,
+    backgroundColor: myColors.navy,
     paddingHorizontal: 15,
     marginBottom: 8,
     marginTop:5,

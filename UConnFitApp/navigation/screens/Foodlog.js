@@ -140,79 +140,82 @@ export default function Foodlog({navigation, label, inverse=false}) {
 
   return (
     <SafeAreaView>
-      <View style={styles.contentContainer}>
-        <Text style={styles.title}>Food Log</Text>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.subtitle}>Macronutrient Targets</Text>           
-        </View>
-        <View style={styles.chartContainer}>
-          <ProgressChart        // ring chart
-            data={{
-              labels: ['Fats', 'Protein', 'Carbs'],
-              data: [Math.min(1, (fat / (weight * 0.4))), Math.min(1, (protein / (weight * 1.0))), Math.min(1, (carbs / (weight*1.4)))]
-            }}
-            width={windowWidth * .45}
-            height={200}
-            strokeWidth={15}    // ring thickness, should decrease with more rings
-            radius={30}         // default 32
-            chartConfig={{
-              backgroundGradientFrom: myColors.white,
-              backgroundGradientTo: myColors.white,
-              decimalPlaces: 3,
-              color: (opacity = 1) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
-            }}
-            hideLegend= {true}
-          />
-          <View style={{width:windowWidth*0.35}}>
-            <Macro label={"Carbs"} color={'#303E55'} macroGrams={carbs} coefficient={1.4} />
-            <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
-            <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
+      <ScrollView showsVerticalScrollIndicator={false} >
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>Food Log</Text>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.subtitle}>Macronutrient Targets</Text>           
           </View>
-          {userWeight ? <View></View> :
-            <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Survey', params: { token: token } } })}>
-              <View style={{ flexDirection: 'row', paddingBottom: 10}}>
-                <Text style={styles.text}>Take survey for improved accuracy</Text>
-                <ChevronRight stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
+          <View style={styles.chartContainer}>
+            <ProgressChart        // ring chart
+              data={{
+                labels: ['Fats', 'Protein', 'Carbs'],
+                data: [Math.min(1, (fat / (weight * 0.4))), Math.min(1, (protein / (weight * 1.0))), Math.min(1, (carbs / (weight*1.4)))]
+              }}
+              width={windowWidth * .45}
+              height={200}
+              strokeWidth={15}    // ring thickness, should decrease with more rings
+              radius={30}         // default 32
+              chartConfig={{
+                backgroundGradientFrom: myColors.white,
+                backgroundGradientTo: myColors.white,
+                decimalPlaces: 3,
+                color: (opacity = 1) => `rgba(13, 34, 63, ${opacity})`, // can't change individual ring colors
+              }}
+              hideLegend= {true}
+            />
+            <View style={{width:windowWidth*0.35}}>
+              <Macro label={"Carbs"} color={'#303E55'} macroGrams={carbs} coefficient={1.4} />
+              <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
+              <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
+            </View>
+            {userWeight ? <View></View> :
+              <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Profile', params: { screen: 'Survey', params: { token: token } } })}>
+                <View style={{ flexDirection: 'row', paddingBottom: 10}}>
+                  <Text style={styles.text}>Take survey for improved accuracy</Text>
+                  <ChevronRight stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
+                </View>
+              </TouchableOpacity>
+            }
+          </View>
+          <View style={styles.subtitleContainer}>
+            <Text style={styles.subtitle}>Food Logged</Text>           
+          </View>
+          {showFood ? 
+            <View style={{ alignItems: 'center' }}>
+              <View style={styles.list}>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                  {data.map((food) => {
+                    return (
+                      <CustomFoodLogButton
+                        key={food.id}
+                        label={food["Food item"]}
+                        calories={food["Calories"]}
+                        carbs={food["Carbs"]}
+                        protein={food["Protein"]}
+                        fat={food["Total fat"]}
+                        meal={food["Meal"]}
+                      />);
+                    })}
+                </ScrollView>
+              </View>
+            </View>
+            :
+            <View>
+              <Text style={styles.text}>No food logged yet today!</Text>
+            </View>
+          }
+          <View style={{ alignItems: 'center' }}>
+            <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', params: { screen: 'DiningHalls', params: { token: token } } })}>
+              <View style={{flexDirection:'row', paddingTop:2}}>
+                <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
+                <Text style={styles.text}>View Menus</Text>
               </View>
             </TouchableOpacity>
-          }
-        </View>
-        <View style={styles.subtitleContainer}>
-          <Text style={styles.subtitle}>Food Logged</Text>           
-        </View>
-        {showFood ? 
-          <View style={{ alignItems: 'center' }}>
-            <View style={styles.list}>
-              <ScrollView>
-                {data.map((food) => {
-                  return (
-                    <CustomFoodLogButton
-                      key={food.id}
-                      label={food["Food item"]}
-                      calories={food["Calories"]}
-                      carbs={food["Carbs"]}
-                      protein={food["Protein"]}
-                      fat={food["Total fat"]}
-                      meal={food["Meal"]}
-                    />);
-                  })}
-              </ScrollView>
-            </View>
           </View>
-          :
-          <View>
-            <Text style={styles.text}>No food logged yet today!</Text>
-          </View>
-        }
-        <View style={{ alignItems: 'center' }}>
-          <TouchableOpacity onPress={() => navigation.navigate('Tabs', { screen: 'Dine', params: { screen: 'DiningHalls', params: { token: token } } })}>
-            <View style={{flexDirection:'row', paddingTop:2}}>
-              <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={18} height={18} />
-              <Text style={styles.text}>View Menus</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
-      </View>
+        </View>     
+        <View style={{height:110}}></View>
+      </ScrollView>
     </SafeAreaView>
   )
 }
@@ -225,7 +228,7 @@ const styles = StyleSheet.create({
   title: {
     fontFamily: "System",
     fontSize: 30,
-    fontWeight: "600",
+    fontWeight: "500",
     color: myColors.navy,
     marginBottom: 10,
     marginTop: 20,
@@ -244,7 +247,7 @@ const styles = StyleSheet.create({
     marginVertical: 5,
   },
   subtitleContainer: {
-    backgroundColor: myColors.mediumBlue,
+    backgroundColor: myColors.navy,
     paddingHorizontal: 15,
     marginBottom: 6,
     marginTop:4,
@@ -259,6 +262,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: myColors.white,
     padding: 12,
+    marginTop: 5,
     marginBottom: 15,
     borderRadius: 12,
     shadowColor: myColors.darkGrey,

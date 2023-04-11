@@ -132,7 +132,7 @@ const WorkoutLog = ({ navigation }) => {
         <View style={styles.titleContainer}>
           <Text style={styles.title}>Workouts</Text>        
         </View>
-        <ScrollView style={styles.scroll}>
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
           {workouts.map((workout) => {
             return (
               <Stats
