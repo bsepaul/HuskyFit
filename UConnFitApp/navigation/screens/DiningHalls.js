@@ -31,9 +31,9 @@ const DiningHalls = ({ navigation }) => {
         <CustomButtonArrow label={'Putnam'}     arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'putnam' })} />
         <CustomButtonArrow label={'South'}      arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'south' })}/>
         <CustomButtonArrow label={'Whitney'}    arrow={"right"} onPress={() => navigation.navigate('MealScreen', { token: token, dininghall : 'whitney' })}/>
-        <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('Profile', { screen: 'Foodlog', params: { token: token } })}/>
+        <CustomButtonArrow label={'View Food Log'} inverse={true} arrow={"right"} hasIcon={true} icon={require('../../assets/icons/dine.png')} onPress={() => navigation.navigate('FoodLogDine', { token: token })}/>
       </ScrollView>
-    </SafeAreaView>       
+    </SafeAreaView>
 );
 };
 
