@@ -1,8 +1,8 @@
 import { useRoute } from '@react-navigation/native';
 import React, { useCallback } from 'react';
-import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Image, Dimensions, FlatList, TextInput } from 'react-native';
+import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Image, Dimensions, FlatList, TextInput, Modal } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
-import { ChevronLeft, Check, X } from "react-native-feather";
+import { ChevronLeft, Check, PlusCircle } from "react-native-feather";
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
@@ -18,6 +18,7 @@ const NutritionScreen = ({ navigation }) => {
     const breakfastFoods = route.params.breakfastFoods;
     const lunchFoods = route.params.lunchFoods;
     const dinnerFoods = route.params.dinnerFoods;
+    const date = route.params.date;
 
     // get dining hall name from route and format it
     const diningHallName = route.params.dininghall.charAt(0).toUpperCase() + route.params.dininghall.slice(1)
@@ -26,8 +27,7 @@ const NutritionScreen = ({ navigation }) => {
     const [allFoods, setAllFoods] = React.useState([]);
     const [foods, setFoods] = React.useState([]);
     const [selectedFoodID, setSelectedFoodID] = React.useState(route.params.food.id)
-    // make a set height for nutrition facts
-    const factHeight = 200;
+    const [modalVisible, setModalVisible] = React.useState(false);
 
     const allergens = (allergenString, index) => {
         const allergenList = allergenString.split(", ")
@@ -95,20 +95,52 @@ const NutritionScreen = ({ navigation }) => {
         return icon;
     }
 
+    const logFood = (food) => {
+        // Add as many or as little attributes as you want!
+        var raw = JSON.stringify({
+        "Food item": food["Food Item"],
+        "Calories": food["Calories"],
+        "Carbs": food["Total Carbohydrates"],
+        "Protein": food["Protein"],
+        "Total fat": food["Total Fat"],
+        "Dining hall": food["Dining Hall"],
+        "Meal": food["Meal"],
+        "Date": date,
+        });
+
+        var requestOptions = {
+        method: 'PUT',
+        headers: {"x-api-key": "baKUvaQPWW2ktAmIofzBz6TkTUmnVcQzX5qlPfEj",
+                    "Authorization": token},
+        body: raw,
+        redirect: 'follow'
+        };
+
+        fetch("https://ap782aln95.execute-api.us-east-1.amazonaws.com/dev/food-log", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('HomeScreen food-log error', error));
+
+        setModalVisible(true);
+
+    }
+
     // formatting the nutrition facts
     const getNutrition = useCallback(({item}) => (
-        <View key={item["id"]} style={{ width:windowWidth, height:factHeight, borderBottomWidth:1, borderBottomColor:myColors.veryLightGrey, paddingHorizontal:windowWidth*0.05, paddingBottom: 15, backgroundColor:(item["id"] === selectedFoodID ? myColors.veryLightGrey : null)}}>
-            <Text style={styles.foodTitle}>{item["Food Item"]}</Text>
+        <View key={item["id"]} style={{ width:windowWidth, borderBottomWidth:1, borderBottomColor:myColors.veryLightGrey, paddingHorizontal:windowWidth*0.05, paddingBottom: 15 }}>
+            <View style={{flexDirection:'row', alignItems:'center', paddingTop:12, paddingBottom:5}}>
+                <Text style={styles.foodTitle}>{item["Food Item"]}</Text>
+                <TouchableOpacity style={{ paddingLeft: 5 }} onPress={() => logFood(item)} ><PlusCircle stroke={myColors.navy} strokeWidth={1.8} width={20} height={20}/></TouchableOpacity>                
+            </View>
             {(item["Allergens"] === "") ?
-                <View>
-                    <Text style={styles.subTitle}>Allergen Free</Text>
-                </View> :
+                <View></View> :
                 <View style={styles.allergens}>
                     <FlatList
                         data={allergens(item["Allergens"], item["id"])}
                         renderItem={allergenRender}
                         keyExtractor={item => item["id"]}
                         horizontal={true}
+                        showsHorizontalScrollIndicator={false}
                     />                    
                 </View>
             }
@@ -179,17 +211,6 @@ const NutritionScreen = ({ navigation }) => {
         await getFoods();
     }
 
-    React.useEffect(() => {
-        const foods = navigation.addListener('focus', () => {
-            getAllFoods();
-        });
-        return foods;
-    }, [navigation]);
-
-    const getItemLayout = (data, index) => (
-        { length: factHeight, offset: factHeight*index, index }
-    )
-
     const backButton = () => {
         return (
             <View style={{flexDirection:'row', justifyContent:'center', marginTop:10, marginBottom: 100}}>
@@ -208,8 +229,33 @@ const NutritionScreen = ({ navigation }) => {
         setFoods(searchData);
     }
 
+    React.useEffect(() => {
+        const foods = navigation.addListener('focus', () => {
+            getAllFoods();
+        });
+        return foods;
+    }, [navigation]);
+
+
     return (
         <SafeAreaView style={styles.screen}>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(!modalVisible);
+                    }}
+                    onShow={() => {
+                    setTimeout(() => {  setModalVisible(false); }, 500);
+                }}>
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                    <Check stroke={myColors.navy} width={70} height={70} />
+                    <Text style={styles.modalText}>Food logged!</Text>
+                    </View>
+                </View>
+            </Modal>
             <View style={{flexDirection:'row', justifyContent: 'flex-start', alignContent:'center', paddingHorizontal:windowWidth*0.05}}>
                 <TouchableOpacity
                     style={{ paddingHorizontal: 5 }}
@@ -236,10 +282,8 @@ const NutritionScreen = ({ navigation }) => {
                 renderItem={getNutrition}
                 style={{ flex: 1 }}
                 ListFooterComponent={backButton}
-                keyExtractor={item => item.id}
-                extraData={selectedFoodID}
-                getItemLayout={getItemLayout}
-                // initialScrollIndex={selectedFoodID}
+                keyExtractor={item => item.id.toString()}
+                showsVerticalScrollIndicator={false}
             />
         </SafeAreaView>
     );
@@ -273,8 +317,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "500",
         color: myColors.navy,
-        paddingTop: 10,
-        paddingBottom: 3,
     },
     subTitle: {
         fontFamily: "System",
@@ -305,6 +347,37 @@ const styles = StyleSheet.create({
     },
     allergens: {
         height: 30,
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 22,
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: 'white',
+        borderRadius: 20,
+        opacity: 0.92,
+        padding: 35,
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: {
+        width: 0,
+        height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5,
+    },
+    modalText: {
+        textAlign: 'center',
+        fontFamily: "System",
+        fontSize: 16,
+        fontWeight: "500",
+        color: myColors.navy,
+        paddingVertical: 8,
+        paddingHorizontal:8,
     },
 });
 export default NutritionScreen

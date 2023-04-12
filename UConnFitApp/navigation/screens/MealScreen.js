@@ -132,7 +132,7 @@ const MealScreen = ({ navigation }) => {
   }
 
   const goToNutrition = (food) => {
-    navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName })
+    navigation.navigate('NutritionScreen', { token: token, food: food, breakfastFoods: breakfastFoods, lunchFoods: lunchFoods, dinnerFoods: dinnerFoods, dininghall: diningHallName, date: selectedDate })
   }
 
   const updateFood = (selection, date) => {
