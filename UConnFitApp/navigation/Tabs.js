@@ -1,12 +1,15 @@
 import { useRoute } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, SafeAreaView, Dimensions} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screens/HomeScreen';
 import DineScreen from './screens/DineScreen';
 import RecScreen from './screens/RecScreen';
 import ProfileScreen from './screens/ProfileScreen';
 import { myColors } from '../assets/styles/ColorPalette';
+
+const windowWidth = Dimensions.get('window').width;
+const iPad = windowWidth > 500;
 
 const Tab = createBottomTabNavigator();
 
@@ -23,10 +26,11 @@ const Tabs = () => {
                 headerShown: false,
                 tabBarShowLabel: false,
                 tabBarStyle: {
+                    width: iPad ? 650 : windowWidth*0.9,
                     position: 'absolute',
                     bottom: 25,
-                    left: 20, 
-                    right: 20, 
+                    left: iPad ? (windowWidth - 650)/2 : windowWidth * 0.05,
+                    right: iPad ? (windowWidth - 650)/2 : windowWidth * 0.05,
                     elevation: 5, 
                     backgroundColor: myColors.white, 
                     borderRadius: 45, 
@@ -40,7 +44,7 @@ const Tabs = () => {
                 initialParams={{token: token}}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                        <SafeAreaView style={{flex:1, alignItems: 'center', justifyContent: 'center', top: iPad ? 5 : 18}}>
                             <Image
                                 source={require('../assets/icons/rec.png')}
                                 resizeMode='contain'
@@ -66,7 +70,7 @@ const Tabs = () => {
                 initialParams={{token: token}}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                        <SafeAreaView style={{flex:1, alignItems: 'center', justifyContent: 'center', top: iPad ? 5 : 18}}>
                             <Image
                                 source={require('../assets/icons/dine.png')}
                                 resizeMode='contain'
@@ -92,7 +96,7 @@ const Tabs = () => {
                 initialParams={{token: token}}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                        <SafeAreaView style={{flex: 1, alignItems: 'center', justifyContent: 'center', top: iPad ? 5 : 18}}>
                             <Image
                                 source={require('../assets/icons/home.png')}
                                 resizeMode='contain'
@@ -118,7 +122,7 @@ const Tabs = () => {
                 initialParams={{token: token}}
                 options={{
                     tabBarIcon: ({focused}) => (
-                        <SafeAreaView style={{alignItems: 'center', justifyContent: 'center', top: 18}}>
+                        <SafeAreaView style={{flex: 1, alignItems: 'center', justifyContent: 'center', top: iPad ? 5 : 18}}>
                             <Image
                                 source={require('../assets/icons/user.png')}
                                 resizeMode='contain'
