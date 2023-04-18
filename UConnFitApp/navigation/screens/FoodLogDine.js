@@ -160,7 +160,7 @@ export default function FoodLogDine({navigation}) {
                 labels: ['Fats', 'Protein', 'Carbs'],
                 data: [Math.min(1, (fat / (weight * 0.4))), Math.min(1, (protein / (weight * 1.0))), Math.min(1, (carbs / (weight*1.4)))]
               }}
-              width={iPad ? 300 : windowWidth * .45}
+              width={iPad ? 200 : windowWidth * .45}
               height={200}
               strokeWidth={15}    // ring thickness, should decrease with more rings
               radius={30}         // default 32
@@ -172,7 +172,7 @@ export default function FoodLogDine({navigation}) {
               }}
               hideLegend= {true}
             />
-            <View style={{width:windowWidth*0.35}}>
+            <View style={{width: iPad ? 200 : windowWidth*0.35}}>
               <Macro label={"Carbs"} color={'#303E55'} macroGrams={carbs} coefficient={1.4} />
               <Macro label={"Protein"} color={'#4E5A6D'} macroGrams={protein} coefficient={1.0} />
               <Macro label={"Fat"} color={'#6C7686'} macroGrams={fat} coefficient={0.4} />
@@ -268,6 +268,8 @@ const styles = StyleSheet.create({
   },
   chartContainer: {
     alignItems: 'center',
+    width: iPad ? 500 : null,
+    justifyContent: 'space-around',
     flexDirection: 'row',
     backgroundColor: myColors.white,
     padding: 12,

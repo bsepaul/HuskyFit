@@ -47,10 +47,10 @@ export default function CustomFoodLogButton({ label, calories, carbs, protein, f
                         paddingBottom: iPad ? 6 : 3,
                     }}>{label}</Text>
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: iPad ? 14 : 12, width: iPad ? 130 : windowWidth*0.17}}>{calories} Kcals</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 130 : windowWidth*0.18}}>{carbs} carbs</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 130 : windowWidth*0.20}}>{protein} protein</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 130 : windowWidth * 0.15 }}>{fat} fat</Text>
+                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: iPad ? 14 : 12, width: iPad ? 110 : windowWidth*0.17}}>{calories} Kcals</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 110 : windowWidth*0.18}}>{carbs} carbs</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 110 : windowWidth*0.20}}>{protein} protein</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 110 : windowWidth * 0.15 }}>{fat} fat</Text>
                     </View>
                 </View>                
             </View>
