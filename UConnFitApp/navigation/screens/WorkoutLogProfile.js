@@ -6,6 +6,7 @@ import { Clock, BarChart2, Zap, PlusCircle } from "react-native-feather";
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const iPad = windowWidth > 500;
 
 const WorkoutLogProfile = ({ navigation }) => {
 
@@ -36,7 +37,7 @@ const WorkoutLogProfile = ({ navigation }) => {
         </View>
         <View style={styles.workout}>
           <Text style={styles.subtitle}>{ workout }</Text>
-          <View style={{flexDirection:'row', justifyContent:'space-around'}}>
+          <View style={{flexDirection:'row', justifyContent:'space-between'}}>
             <View style={styles.stat}>
               <Clock stroke={myColors.darkGrey} strokeWidth={1.5} width={16} height={16} />
               <Text style={styles.statText}>{min} min</Text>
@@ -206,7 +207,8 @@ const styles = StyleSheet.create({
     backgroundColor: myColors.white,
     justifyContent:'center',
     padding: 12,
-    width: windowWidth * 0.66,
+    paddingRight:20,
+    width: iPad ? 375 : windowWidth * 0.66,
     marginVertical: 8,
     borderRadius: 15,
     shadowColor: myColors.grey,
