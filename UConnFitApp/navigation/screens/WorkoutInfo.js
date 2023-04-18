@@ -19,7 +19,7 @@ import {
 import { Dropdown } from 'react-native-element-dropdown';
 
 const windowWidth = Dimensions.get('window').width;
-
+const iPad = windowWidth > 500;
 
 const allWorkoutTypesInfo = [
   { label: 'High Intensity Interval Training', value: '8' },
@@ -190,10 +190,10 @@ const WorkoutInfo = ({ navigation }) => {
             </View>
           </Modal>  
         <StatusBar barStyle="light-content" />
-        <View style={{width:windowWidth*0.8}}>
+        <View style={{width: iPad ? 500 : windowWidth*0.8}}>
           <Text style={styles.title}>Enter {otherWorkout ? 'other' : workoutType.toLowerCase()} workout</Text>          
         </View>
-          <View style={{width:windowWidth*0.8}}>
+          <View style={{width: iPad ? 500 : windowWidth*0.8}}>
             { otherWorkout ? <Dropdown
               style={[styles.dropdown, isFocus && { borderColor: myColors.navy }]}
               placeholderStyle={styles.placeholderStyle}
@@ -236,7 +236,7 @@ const WorkoutInfo = ({ navigation }) => {
               }}
             />
             <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent:'flex-start', marginBottom:10 }}>
-            <View style={[styles.inputBox, { width: windowWidth*0.35, marginRight: windowWidth * 0.02 }]}>
+            <View style={[styles.inputBox, { width: iPad ? 240 : windowWidth*0.35, marginRight: iPad ? 20 : windowWidth * 0.02 }]}>
                 <TextInput
                   placeholder="Time Elapsed"
                   placeholderTextColor={myColors.darkGrey}
@@ -246,7 +246,7 @@ const WorkoutInfo = ({ navigation }) => {
                 />
                 <Text style={styles.units}>mins</Text>
               </View>
-              <View style={[styles.inputBox, { width: windowWidth*0.43 }]}>
+              <View style={[styles.inputBox, { width: iPad ? 240 : windowWidth*0.43 }]}>
                 <TextInput
                   placeholder="Calories (Optional)"
                   placeholderTextColor={myColors.darkGrey}
