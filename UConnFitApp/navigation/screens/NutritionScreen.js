@@ -3,10 +3,12 @@ import React, { useCallback } from 'react';
 import { StyleSheet, View, SafeAreaView, TouchableOpacity, Text, Image, Dimensions, FlatList, TextInput, Modal } from 'react-native';
 import { myColors } from '../../assets/styles/ColorPalette';
 import { ChevronLeft, Check, PlusCircle } from "react-native-feather";
+import CustomButton from '../../assets/Components/CustomButton';
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const iPad = windowWidth > 500;
 
 const NutritionScreen = ({ navigation }) => {
 
@@ -45,16 +47,16 @@ const NutritionScreen = ({ navigation }) => {
             marginRight: 5,
             paddingHorizontal: 10,
             paddingVertical: 4,
-            borderRadius: 13,
-            height: 26,
+            borderRadius: iPad ? 16 : 13,
+            height: iPad ? 30 : 26,
             flexDirection: 'row',
             alignItems:'center',
         }}>
             <Image
                 source={getIcon(item.allergen)}
                 style={{
-                    width: 12,
-                    height: 12,
+                    width: iPad ? 18 : 12,
+                    height: iPad ? 18 : 12,
                     tintColor: myColors.white,
                     marginRight: 3,
                 }}
@@ -62,7 +64,7 @@ const NutritionScreen = ({ navigation }) => {
             <Text style={{
                 color: myColors.white,
                 fontFamily: 'System',
-                fontSize: 14,
+                fontSize: iPad ? 16 : 14,
             }}>{item.allergen}</Text>
         </View>
     ), []);
@@ -127,10 +129,10 @@ const NutritionScreen = ({ navigation }) => {
 
     // formatting the nutrition facts
     const getNutrition = useCallback(({item}) => (
-        <View key={item["id"]} style={{ width:windowWidth, borderBottomWidth:1, borderBottomColor:myColors.veryLightGrey, paddingHorizontal:windowWidth*0.05, paddingBottom: 15 }}>
+        <View key={item["id"]} style={{ width: iPad ? 500 : windowWidth*0.9, borderBottomWidth:1, borderBottomColor:myColors.veryLightGrey, paddingBottom: 15 }}>
             <View style={{flexDirection:'row', alignItems:'center', paddingTop:12, paddingBottom:5}}>
                 <Text style={styles.foodTitle}>{item["Food Item"]}</Text>
-                <TouchableOpacity style={{ paddingLeft: 5 }} onPress={() => logFood(item)} ><PlusCircle stroke={myColors.navy} strokeWidth={1.8} width={20} height={20}/></TouchableOpacity>                
+                <TouchableOpacity style={{ paddingLeft: 5 }} onPress={() => logFood(item)} ><PlusCircle stroke={myColors.navy} strokeWidth={1.8} width={iPad ? 24 : 20} height={iPad ? 24 : 20}/></TouchableOpacity>                
             </View>
             {(item["Allergens"] === "") ?
                 <View></View> :
@@ -213,10 +215,8 @@ const NutritionScreen = ({ navigation }) => {
 
     const backButton = () => {
         return (
-            <View style={{flexDirection:'row', justifyContent:'center', marginTop:10, marginBottom: 100}}>
-                <TouchableOpacity onPress={() => navigation.navigate('MealScreen', {token: token, dininghall: route.params.dininghall})}>
-                <Text style={{ color:myColors.navy, fontWeight:'700'}}>Back</Text>
-                </TouchableOpacity>
+            <View style={{flexDirection:'row', justifyContent:'center', marginTop:10, marginBottom: iPad ? 120 : 100}}>
+                <CustomButton label={'Back'} inverse={true} onPress={() => navigation.navigate('MealScreen', {token: token, dininghall: route.params.dininghall})} />     
             </View >
         )
     }
@@ -256,9 +256,9 @@ const NutritionScreen = ({ navigation }) => {
                     </View>
                 </View>
             </Modal>
-            <View style={{flexDirection:'row', justifyContent: 'flex-start', alignContent:'center', paddingHorizontal:windowWidth*0.05}}>
+            <View style={{flexDirection:'row', justifyContent: 'flex-start', alignContent:'center', paddingTop: iPad ? 15 : 0, paddingHorizontal: iPad ? ((windowWidth-500)/2) : windowWidth*0.05}}>
                 <TouchableOpacity
-                    style={{ paddingHorizontal: 5 }}
+                    style={{ paddingRight: 5, marginLeft:-10 }}
                     onPress={() => navigation.navigate('MealScreen', { token: token, dininghall: route.params.dininghall })} >
                     <ChevronLeft stroke={myColors.navy} strokeWidth={2} width={36} height={36} />
                 </TouchableOpacity>
@@ -267,7 +267,12 @@ const NutritionScreen = ({ navigation }) => {
             <View style={styles.filters}>
                 <TextInput
                     style={{
-                        paddingVertical: 5,
+                        width: iPad ? 500 : windowWidth * 0.9,
+                        padding: 15,
+                        marginBottom: 10,
+                        borderWidth: 1,
+                        borderColor: myColors.navy,
+                        borderRadius: 12,
                     }}
                     fontSize={14}
                     placeholderTextColor={myColors.grey}
@@ -277,14 +282,17 @@ const NutritionScreen = ({ navigation }) => {
                 >
                 </TextInput>
             </View>
-            <FlatList
-                data={foods}
-                renderItem={getNutrition}
-                style={{ flex: 1 }}
-                ListFooterComponent={backButton}
-                keyExtractor={item => item.id.toString()}
-                showsVerticalScrollIndicator={false}
-            />
+            <View style={{flex:1, alignItems:'center'}}>
+                <FlatList
+                    data={foods}
+                    renderItem={getNutrition}
+                    style={{ flex: 1 }}
+                    ListFooterComponent={backButton}
+                    keyExtractor={item => item.id.toString()}
+                    showsVerticalScrollIndicator={false}
+                />                
+            </View>
+
         </SafeAreaView>
     );
 };
@@ -314,7 +322,7 @@ const styles = StyleSheet.create({
     },
     foodTitle: {
         fontFamily: "System",
-        fontSize: 16,
+        fontSize: iPad ? 20 : 16,
         fontWeight: "500",
         color: myColors.navy,
     },
@@ -326,27 +334,21 @@ const styles = StyleSheet.create({
         paddingBottom: 6,
     },
     filters: {
-        marginHorizontal: windowWidth * 0.05,
-        padding: 10,
-        paddingBottom: 10,
-        marginBottom: 10,
-        borderWidth: 1,
-        borderColor: myColors.navy,
-        borderRadius: 12,
+        alignItems:'center',
     },
     nutritionFact: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: windowWidth*0.42,
+        width: iPad ? 220 : windowWidth*0.42,
     },
     nutritionText: {
         fontFamily: "System",
-        fontSize: 13,
+        fontSize: iPad ? 16 : 13,
         fontWeight: "300",
         color: myColors.darkGrey,
     },
     allergens: {
-        height: 30,
+        height: iPad ? 34 : 30,
     },
     centeredView: {
         flex: 1,
