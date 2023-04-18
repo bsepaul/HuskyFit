@@ -6,6 +6,7 @@ import CustomButtonArrow from '../../assets/Components/CustomButtonArrow';
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
+const iPad = windowWidth > 500;
 
 const RecScreen = ({ navigation }) => {
 
@@ -42,14 +43,14 @@ const styles = StyleSheet.create({
   buttonRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingHorizontal: windowWidth*0.15,
+    paddingHorizontal: iPad ? ((windowWidth-500)/2) : windowWidth*0.125,
   },
   title: {
     fontFamily: "System",
     fontSize: 30,
     fontWeight: "500",
     color: myColors.navy,
-    paddingHorizontal: windowWidth * 0.15,
+    paddingHorizontal: iPad ? ((windowWidth-500)/2) : windowWidth*0.125,
     paddingVertical: 15,
   }
 });
