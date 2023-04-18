@@ -291,7 +291,7 @@ export default function HomeScreen({navigation}) {
               chartConfig={ringConfig}
               hideLegend={true}
             />
-            <View style={{width: windowWidth*.35}}>
+            <View style={{width: iPad ? 200 : windowWidth*.35}}>
               <ExerciseLevel label={"Low"} color={myColors.navy} percent={(100 * ringData.data[2]).toFixed(2)} minutes={userInfo.low} minutesTotal={210} />
               <ExerciseLevel label={"Mid"}  color={myColors.mediumBlue} percent={(100*ringData.data[1]).toFixed(2)}  minutes={userInfo.mid} minutesTotal={115} />
               <ExerciseLevel label={"High"} color={myColors.lightBlue} percent={(100*ringData.data[0]).toFixed(2)}  minutes={userInfo.high} minutesTotal={75} />            
@@ -380,6 +380,8 @@ const styles = StyleSheet.create({
   chartContainer: {
     alignItems: 'center',
     flexDirection: 'row',
+    width: iPad ? 500 : null,
+    justifyContent: 'space-around',
     backgroundColor: myColors.white,
     padding: 12,
     marginBottom: 15,
