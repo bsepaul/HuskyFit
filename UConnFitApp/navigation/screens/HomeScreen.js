@@ -10,6 +10,7 @@ import CustomButtonArrow from '../../assets/Components/CustomButtonArrow';
 
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const iPad = windowWidth > 500;
 
 export default function HomeScreen({navigation}) {
 
@@ -262,7 +263,7 @@ export default function HomeScreen({navigation}) {
         <View style={styles.greetingsContainer}>
           <View>
             <Text style={styles.title}>Hello, {name}</Text>
-            <Text style={{ fontSize: 20, paddingVertical: 0, color: myColors.navy }}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
+            <Text style={{ fontSize: 20, color: myColors.navy }}>{currentWeekDay}, {currentMonth} {currentDate}</Text>
           </View>
           <TouchableOpacity onPress={() => navigation.navigate('Profile', { token: token })}>
             <Image
@@ -283,7 +284,7 @@ export default function HomeScreen({navigation}) {
           <View style={styles.chartContainer}>
             <ProgressChart        // ring chart
               data={ringData}
-              width={windowWidth*.45}
+              width={(iPad ? 300 : windowWidth * .45)}
               height={170}
               strokeWidth={12}    // ring thickness, should decrease with more rings
               radius={32}         // default 32
@@ -302,7 +303,7 @@ export default function HomeScreen({navigation}) {
           <View style={styles.chartContainer}>
             <BarChart             // calorie bar chart
               data={barData}
-              width={windowWidth*.8}
+              width={(iPad ? 580 : windowWidth * .8)}
               height={160}
               fromZero={true}               // let 0 always be bottom of chart
               withHorizontalLabels={false}  // show calorie labels on left side of chart
@@ -352,10 +353,9 @@ export default function HomeScreen({navigation}) {
 const styles = StyleSheet.create({
   content: {
     alignItems: 'center',
-    paddingHorizontal: windowWidth * 0.05,
   },
   greetingsContainer: {
-    width: windowWidth*0.9,
+    width: iPad ? 600 : windowWidth * 0.9,
     paddingVertical: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
     minHeight: 0,
     maxHeight: 400,
     backgroundColor: myColors.white,
-    width: windowWidth*0.8 + 24,
+    width: iPad ? 600 : windowWidth*0.8 + 24,
     padding: 12,
     marginBottom:20,
     borderRadius: 10,
