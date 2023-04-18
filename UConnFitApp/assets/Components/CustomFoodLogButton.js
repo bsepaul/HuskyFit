@@ -30,8 +30,8 @@ export default function CustomFoodLogButton({ label, calories, carbs, protein, f
                     source={icon}
                     resizeMode='contain'
                     style={{
-                        width: iPad ? 32 : 24,
-                        height: iPad ? 32 : 24,
+                        width: iPad ? 30 : 24,
+                        height: iPad ? 30 : 24,
                         tintColor: inverse ? myColors.navy : myColors.navy,
                         marginRight: 8,
                     }}
@@ -42,15 +42,15 @@ export default function CustomFoodLogButton({ label, calories, carbs, protein, f
                         flexWrap: 'wrap',
                         textAlign: 'left',
                         fontWeight: '600',
-                        fontSize: iPad ? 18 : 14,
+                        fontSize: iPad ? 16 : 14,
                         color: inverse ? myColors.white : myColors.navy,
-                        paddingBottom: iPad ? 6 : 3,
+                        paddingBottom: iPad ? 4 : 3,
                     }}>{label}</Text>
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: iPad ? 14 : 12, width: iPad ? 110 : windowWidth*0.17}}>{calories} Kcals</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 110 : windowWidth*0.18}}>{carbs} carbs</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 110 : windowWidth*0.20}}>{protein} protein</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 110 : windowWidth * 0.15 }}>{fat} fat</Text>
+                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: iPad ? 14 : 12, width: iPad ? 105 : windowWidth*0.17}}>{calories} Kcals</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 105 : windowWidth*0.18}}>{carbs} carbs</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 105 : windowWidth*0.20}}>{protein} protein</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 105 : windowWidth * 0.15 }}>{fat} fat</Text>
                     </View>
                 </View>                
             </View>
