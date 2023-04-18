@@ -284,7 +284,7 @@ export default function HomeScreen({navigation}) {
           <View style={styles.chartContainer}>
             <ProgressChart        // ring chart
               data={ringData}
-              width={(iPad ? 300 : windowWidth * .45)}
+              width={(iPad ? 200 : windowWidth * .45)}
               height={170}
               strokeWidth={12}    // ring thickness, should decrease with more rings
               radius={32}         // default 32
@@ -303,7 +303,7 @@ export default function HomeScreen({navigation}) {
           <View style={styles.chartContainer}>
             <BarChart             // calorie bar chart
               data={barData}
-              width={(iPad ? 580 : windowWidth * .8)}
+              width={(iPad ? 480 : windowWidth * .8)}
               height={160}
               fromZero={true}               // let 0 always be bottom of chart
               withHorizontalLabels={false}  // show calorie labels on left side of chart
@@ -355,7 +355,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   greetingsContainer: {
-    width: iPad ? 600 : windowWidth * 0.9,
+    width: iPad ? 500 : windowWidth * 0.9,
     paddingVertical: 30,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
     minHeight: 0,
     maxHeight: 400,
     backgroundColor: myColors.white,
-    width: iPad ? 600 : windowWidth*0.8 + 24,
+    width: iPad ? 500 : windowWidth*0.8 + 24,
     padding: 12,
     marginBottom:20,
     borderRadius: 10,

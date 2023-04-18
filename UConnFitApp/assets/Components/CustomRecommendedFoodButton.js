@@ -23,7 +23,7 @@ export default function CustomRecommendedFoodButton({ label, diningHall, month, 
             paddingBottom: 10,
             paddingTop: 4,
             paddingHorizontal: 8,
-            width: iPad ? 580 : windowWidth*0.8, // subtracting 16 for the 8 pixels of marginHorizontal on each side
+            width: iPad ? 480 : windowWidth*0.8, // subtracting 16 for the 8 pixels of marginHorizontal on each side
             marginBottom: 8,
         }}>
             <View style={{flexDirection:'row', alignItems:'center'}}>
@@ -51,10 +51,10 @@ export default function CustomRecommendedFoodButton({ label, diningHall, month, 
                         {diningHall} Dining Hall - {month} {day}
                     </Text>
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: 10, width: iPad ? 120 : windowWidth*0.15}}>{calories} Kcals</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: 10, width: iPad ? 120 : windowWidth*0.16}}>{carbs} carbs</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: 10, width: iPad ? 120 : windowWidth*0.18}}>{protein} protein</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: 10, width: iPad ? 120 : windowWidth * 0.13 }}>{fat} fat</Text>
+                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: 10, width: iPad ? 100 : windowWidth*0.15}}>{calories} Kcals</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: 10, width: iPad ? 100 : windowWidth*0.16}}>{carbs} carbs</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: 10, width: iPad ? 100 : windowWidth*0.18}}>{protein} protein</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: 10, width: iPad ? 100 : windowWidth * 0.13 }}>{fat} fat</Text>
                     </View>
                 </View>                
             </View>

@@ -287,7 +287,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     minHeight: 0,
     maxHeight: windowHeight*0.3,
-    width: iPad ? 600 : windowWidth*0.85,
+    width: iPad ? 500 : windowWidth*0.85,
     marginTop: 5,
     marginBottom: 10,
     paddingTop: 8,

@@ -22,7 +22,7 @@ export default function CustomFoodLogButton({ label, calories, carbs, protein, f
             borderRadius:10,
             backgroundColor: myColors.offWhite,
             paddingHorizontal: 8,
-            width: iPad ? 600-16 : (windowWidth*0.85)-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
+            width: iPad ? 500-16 : (windowWidth*0.85)-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
             marginBottom: 8,
         }}>
             <View style={{flexDirection:'row', alignItems:'center'}}>
