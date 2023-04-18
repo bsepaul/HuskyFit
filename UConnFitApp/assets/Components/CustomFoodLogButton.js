@@ -5,6 +5,7 @@ import { Info, PlusCircle } from "react-native-feather";
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
+const iPad = windowWidth > 500;
 
 export default function CustomFoodLogButton({ label, calories, carbs, protein, fat, meal, infoOnPress, addOnPress, inverse = false }) {
     let icon = '';
@@ -21,7 +22,7 @@ export default function CustomFoodLogButton({ label, calories, carbs, protein, f
             borderRadius:10,
             backgroundColor: myColors.offWhite,
             paddingHorizontal: 8,
-            width: (windowWidth*0.85)-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
+            width: iPad ? 600-16 : (windowWidth*0.85)-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
             marginBottom: 8,
         }}>
             <View style={{flexDirection:'row', alignItems:'center'}}>
@@ -29,8 +30,8 @@ export default function CustomFoodLogButton({ label, calories, carbs, protein, f
                     source={icon}
                     resizeMode='contain'
                     style={{
-                        width: 24,
-                        height: 24,
+                        width: iPad ? 32 : 24,
+                        height: iPad ? 32 : 24,
                         tintColor: inverse ? myColors.navy : myColors.navy,
                         marginRight: 8,
                     }}
@@ -41,15 +42,15 @@ export default function CustomFoodLogButton({ label, calories, carbs, protein, f
                         flexWrap: 'wrap',
                         textAlign: 'left',
                         fontWeight: '600',
-                        fontSize: 14,
+                        fontSize: iPad ? 18 : 14,
                         color: inverse ? myColors.white : myColors.navy,
-                        paddingBottom: 3,
+                        paddingBottom: iPad ? 6 : 3,
                     }}>{label}</Text>
                     <View style={{flexDirection: 'row'}}>
-                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: 12, width: windowWidth*0.17}}>{calories} Kcals</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: 12, width: windowWidth*0.18}}>{carbs} carbs</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: 12, width: windowWidth*0.20}}>{protein} protein</Text>
-                        <Text style={{color:myColors.darkGrey, fontSize: 12, width: windowWidth * 0.15 }}>{fat} fat</Text>
+                        <Text style={{color:myColors.darkGrey, fontWeight:'600', fontSize: iPad ? 14 : 12, width: iPad ? 130 : windowWidth*0.17}}>{calories} Kcals</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 130 : windowWidth*0.18}}>{carbs} carbs</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 130 : windowWidth*0.20}}>{protein} protein</Text>
+                        <Text style={{color:myColors.darkGrey, fontSize: iPad ? 14 : 12, width: iPad ? 130 : windowWidth * 0.15 }}>{fat} fat</Text>
                     </View>
                 </View>                
             </View>

@@ -10,7 +10,7 @@ import { Circle, ChevronLeft, ChevronRight } from "react-native-feather";
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
-
+const iPad = windowWidth > 500;
 
 export default function FoodLogProfile({navigation}) {
 
@@ -152,7 +152,7 @@ export default function FoodLogProfile({navigation}) {
                 labels: ['Fats', 'Protein', 'Carbs'],
                 data: [Math.min(1, (fat / (weight * 0.4))), Math.min(1, (protein / (weight * 1.0))), Math.min(1, (carbs / (weight*1.4)))]
               }}
-              width={windowWidth * .45}
+              width={iPad ? 300 : windowWidth * .45}
               height={200}
               strokeWidth={15}    // ring thickness, should decrease with more rings
               radius={30}         // default 32
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     minHeight: 0,
     maxHeight: windowHeight*0.3,
-    width: windowWidth*0.85,
+    width: iPad ? 600 : windowWidth*0.85,
     marginTop: 5,
     marginBottom: 10,
     paddingTop: 8,
