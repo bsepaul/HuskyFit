@@ -10,6 +10,7 @@ import CustomButton from '../../assets/Components/CustomButton';
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
 const windowHeight = Dimensions.get('window').height;
+const iPad = windowWidth > 500;
 
 const MealScreen = ({ navigation }) => {
 
@@ -354,7 +355,7 @@ const styles = StyleSheet.create({
   list: {
     minHeight: 0,
     maxHeight: 250,
-    width: windowWidth*0.75,
+    width: iPad ? 500 : windowWidth*0.75,
     marginTop: 5,
     marginBottom:15,
     paddingTop: 8,

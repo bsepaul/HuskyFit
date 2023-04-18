@@ -5,6 +5,7 @@ import { Info, PlusCircle } from "react-native-feather";
 
 // Get screen dimensions
 const windowWidth = Dimensions.get('window').width;
+const iPad = windowWidth > 500;
 
 export default function CustomFoodItemButton({ label, infoOnPress, addOnPress, inverse = false }) {
     return (
@@ -17,7 +18,7 @@ export default function CustomFoodItemButton({ label, infoOnPress, addOnPress, i
             borderWidth: inverse ? 5 : null,
             paddingVertical: 5,
             paddingHorizontal: 8,
-            width: windowWidth*0.75-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
+            width: iPad ? 500-16 : windowWidth*0.75-16, // subtracting 16 for the 8 pixels of marginHorizontal on each side
             borderRadius: 10,
             marginBottom: 8,
             marginHorizontal: 8,
