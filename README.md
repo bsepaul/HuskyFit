@@ -1,13 +1,13 @@
-# UConnFit
+# HuskyFit
 
-### Below are instructions on how to access, modify and test the application - for developers of UConnFit
+### Below are instructions on how to access, modify and test the application - for developers of HuskyFit
 
 # Git
 
 ## Clone the repository
 
-    git clone https://github.com/bsepaul/UConnFit.git
-    cd UConnFit
+    git clone https://github.com/bsepaul/HuskyFit.git
+    cd HuskyFit
 
 ## Setting up Git branch
 
@@ -65,7 +65,7 @@ iOS device - [iOS App Store](https://apps.apple.com/app/expo-go/id982107779)
 
 ## To run the project
 
-    cd UConnFitApp
+    cd HuskyFitApp
     npm start
 
 # Installations and initializations (macOS)
@@ -117,7 +117,7 @@ Install cocoapods
 
 ### 4. Type 'i' into terminal
 
-Make sure you are in 'UConnFitApp' folder and have run:
+Make sure you are in 'HuskyFitApp' folder and have run:
 
     npm start
 
@@ -165,7 +165,7 @@ Click the play button to open the device simulator
 
 ### 5. Run application on simulated device
 
-Back in terminal, in the UConnFit/UConnFitApp directory
+Back in terminal, in the HuskyFit/HuskyFitApp directory
 
     npm start
 
