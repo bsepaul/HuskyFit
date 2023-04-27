@@ -148,7 +148,7 @@ const WorkoutLogProfile = ({ navigation }) => {
           })}
           <View style={{height:100}} />
         </ScrollView>
-        <View style={{alignItems: 'center', marginTop: -80,}}>
+        <View style={{alignItems: 'center', marginTop: iPad ? -45 : -80,}}>
           <TouchableOpacity onPress={() => navigation.navigate('Rec', { screen: 'WorkoutScreen', params: { token: token } })}>
             <PlusCircle fill={myColors.navy} stroke={myColors.offWhite} strokeWidth={1.2} width={56} height={56}/>
           </TouchableOpacity>
